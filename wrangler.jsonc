@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "studyblog",
+  "compatibility_date": "2026-03-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "studyblog" }],
+  "images": { "binding": "IMAGES" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "studyblog-db",
+      "database_id": "24d7928d-40a6-472b-b187-b59a2a848dea",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+  // Added in Phase 2/3 once R2 scope is granted (see plan/06-deployment.md §1):
+  //  - r2_buckets: NEXT_INC_CACHE_R2_BUCKET (incremental cache) + MEDIA_BUCKET (uploads)
+  //  - d1_databases: NEXT_TAG_CACHE_D1 (can reuse the same DB)
+  //  - durable_objects: NEXT_CACHE_DO_QUEUE (time-based revalidation)
+  //  - vars/secrets: AUTH_URL, AUTH_TRUST_HOST, NEXT_PUBLIC_* (Phase 1 auth)
+  //  - routes: custom_domain at launch (Phase 4)
+}
