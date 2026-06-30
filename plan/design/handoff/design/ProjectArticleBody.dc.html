@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <!-- HEADER -->
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <nav style="display: flex; align-items: center; gap: 2px;">
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">A+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--brand); font-weight: 500; text-decoration: none; background: color-mix(in oklch, var(--brand) 10%, transparent);">Security+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Network+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Journey</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--brand); font-weight: 500; text-decoration: none; background: color-mix(in oklch, var(--brand) 10%, transparent);">Projects</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">About</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <button aria-label="Toggle theme" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line></svg></button>
+      </div>
+    </header>
+  </sc-if>
+  <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+    <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      </div>
+    </header>
+  </sc-if>
+
+  <div style="max-width: 1040px; margin: 0 auto; padding: 28px 20px 56px; display: flex; gap: 48px; align-items: flex-start;">
+
+    <!-- ARTICLE COLUMN -->
+    <article style="flex: 1 1 0; min-width: 0; max-width: 760px;">
+
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;"><a href="#" style="color: var(--muted-foreground); text-decoration: none;">Home</a> / <a href="#" style="color: var(--muted-foreground); text-decoration: none;">Projects</a> / <span style="color: var(--foreground);">Vulnerability Management</span></div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--brand); color: var(--brand);">project</span>
+        <span style="font-size: 12px; color: var(--muted-foreground);">Security+ · Security Operations</span>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">· Published Jun 25, 2026 · 14 min read</span>
+      </div>
+      <h1 style="font-size: 38px; line-height: 1.12; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; margin: 0 0 16px;">Vulnerability Management in My Home Lab: 47 Hosts, 12 Criticals → 3</h1>
+      <p style="font-size: 19px; line-height: 1.6; color: var(--muted-foreground); margin: 0 0 24px;">I built a credentialed-scan pipeline with OpenVAS, triaged by CVSS, actually remediated, and re-scanned. Here's the report — and what broke along the way.</p>
+
+      <!-- ===== AT-A-GLANCE CARD ===== -->
+      <section style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 32px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px;">
+          <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground);">At a glance</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: oklch(0.6 0.118 184.704);"><span style="width: 7px; height: 7px; border-radius: 999px; background: oklch(0.6 0.118 184.704);"></span>Shipped · 1 week</span>
+        </div>
+
+        <!-- KEY METRICS -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+          <sc-for list="{{ metrics }}" as="metric" hint-placeholder-count="3">
+            <div style="flex: 1 1 150px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); padding: 14px 16px;">
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 600; color: var(--brand); line-height: 1;">{{ metric.value }}</div>
+              <div style="font-size: 12px; color: var(--muted-foreground); margin-top: 6px;">{{ metric.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- META ROWS -->
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+          <sc-for list="{{ glance }}" as="g" hint-placeholder-count="3">
+            <div style="display: flex; gap: 14px; align-items: baseline;">
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); flex: 0 0 76px;">{{ g.k }}</span>
+              <span style="font-size: 14px; line-height: 1.5;">{{ g.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- REPO / DEMO -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; height: 38px; padding: 0 16px; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); text-decoration: none;" style-hover="opacity: 0.9"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 0 0-3.48 21.44c.55.1.75-.24.75-.53v-1.85c-3.06.67-3.71-1.47-3.71-1.47-.5-1.27-1.22-1.61-1.22-1.61-1-.68.07-.67.07-.67 1.1.08 1.69 1.13 1.69 1.13.98 1.69 2.58 1.2 3.21.92.1-.71.38-1.2.69-1.48-2.44-.28-5-1.22-5-5.43 0-1.2.43-2.18 1.13-2.95-.11-.28-.49-1.4.11-2.91 0 0 .92-.3 3 1.13a10.4 10.4 0 0 1 5.46 0c2.08-1.43 3-1.13 3-1.13.6 1.51.22 2.63.11 2.91.7.77 1.13 1.75 1.13 2.95 0 4.22-2.57 5.15-5.01 5.42.39.34.74 1 .74 2.03v3.01c0 .29.2.64.76.53A11 11 0 0 0 12 1Z"></path></svg>GitHub repo</a>
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; height: 38px; padding: 0 16px; border-radius: calc(var(--radius) - 2px); background: var(--secondary); color: var(--secondary-foreground); border: 1px solid var(--border); text-decoration: none;" style-hover="background: var(--accent)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>3-min demo video</a>
+        </div>
+      </section>
+
+      <!-- MOBILE INLINE TOC -->
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <details style="border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; margin: 0 0 20px;">
+          <summary style="font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--muted-foreground); cursor: pointer;">On this page</summary>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+            <sc-for list="{{ toc }}" as="t" hint-placeholder-count="5">
+              <a href="{{ t.href }}" style="font-size: 14px; color: var(--muted-foreground); text-decoration: none;">{{ t.label }}</a>
+            </sc-for>
+          </div>
+        </details>
+      </sc-if>
+
+      <!-- ===== PROSE ===== -->
+      <div>
+        <h2 id="goal" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 8px 0 14px;"><a href="#goal" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>The goal</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 20px;">I wanted a real vulnerability-management workflow — not a one-off scan, but the full loop: discover, scan with credentials, triage by severity, remediate, and prove it with a re-scan. The deliverable was a report I'd be comfortable handing an interviewer.</p>
+
+        <h2 id="setup" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#setup" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>Lab setup &amp; the scan</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 20px;">Greenbone/OpenVAS on a management VM, with Metasploitable and a Windows 10 eval box as deliberately-vulnerable targets, all on an isolated VirtualBox network. Credentialed scanning is the part people skip — and it's where the real findings live.</p>
+        <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 0 0 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">bash · scan + triage</span>
+            <button style="display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); background: transparent; border: none; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copy</button>
+          </div>
+          <pre style="margin: 0; padding: 16px; overflow-x: auto; background: var(--secondary); font-family: var(--font-mono); font-size: 13.5px; line-height: 1.8;"><code><span style="color: var(--muted-foreground);"># credentialed scan, full-and-fast against the lab subnet</span>
+<span style="color: var(--brand);">gvm-cli</span> socket --xml \
+  <span style="color: var(--foreground);">"&lt;create_task&gt;...&lt;config id='full-and-fast'/&gt;...&lt;/create_task&gt;"</span>
+
+<span style="color: var(--muted-foreground);"># triage: keep only CVSS &gt;= 9.0, group by host</span>
+<span style="color: var(--brand);">./triage.py</span> --min-cvss <span style="color: var(--foreground);">9.0</span> --group-by host results.xml</code></pre>
+        </div>
+
+        <h2 id="triage" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#triage" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>Triage &amp; results</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 20px;">First scan: 47 hosts, an ugly pile of findings. I triaged by CVSS, fixed the criticals and most highs, then re-scanned to prove the deltas instead of claiming them.</p>
+        <div style="overflow-x: auto; margin: 0 0 24px; border: 1px solid var(--border); border-radius: var(--radius);">
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <thead>
+              <tr style="background: var(--muted);">
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Severity</th>
+                <th style="text-align: right; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Before</th>
+                <th style="text-align: right; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">After</th>
+                <th style="text-align: right; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Closed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ triageRows }}" as="r" hint-placeholder-count="3">
+                <tr style="border-top: 1px solid var(--border);">
+                  <td style="padding: 10px 14px; font-weight: 500;">{{ r.sev }}</td>
+                  <td style="text-align: right; font-family: var(--font-mono); padding: 10px 14px;">{{ r.before }}</td>
+                  <td style="text-align: right; font-family: var(--font-mono); padding: 10px 14px;">{{ r.after }}</td>
+                  <td style="text-align: right; font-family: var(--font-mono); padding: 10px 14px; color: var(--brand);">{{ r.closed }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="broke" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#broke" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>What broke</h2>
+        <div style="display: flex; gap: 12px; align-items: flex-start; background: color-mix(in oklch, var(--brand) 7%, var(--card)); border: 1px solid color-mix(in oklch, var(--brand) 25%, var(--border)); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 24px;">
+          <span style="color: var(--brand); flex-shrink: 0; margin-top: 1px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>
+          <p style="font-size: 14.5px; line-height: 1.6; margin: 0;"><strong style="font-weight: 600;">Lesson:</strong> credentialed scans failed <em>silently</em> on 6 Windows hosts — WinRM wasn't enabled, so they came back looking clean. Always validate authentication succeeded before you trust a "no findings" result.</p>
+        </div>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 8px;">Once WinRM was fixed and re-scanned, those "clean" hosts surfaced four of the remaining criticals. Proof-of-work, including the full before/after report and the triage script, is in the repo.</p>
+      </div>
+
+      <!-- TAGS -->
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 32px 0 0; padding-top: 24px; border-top: 1px solid var(--border);">
+        <sc-for list="{{ tags }}" as="tag" hint-placeholder-count="3">
+          <a href="#" style="font-family: var(--font-mono); font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--secondary); color: var(--secondary-foreground); text-decoration: none;" style-hover="background: var(--accent); color: var(--brand)">#{{ tag }}</a>
+        </sc-for>
+      </div>
+
+      <!-- PREV / NEXT -->
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;">
+        <a href="#" style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: inherit;" style-hover="border-color: var(--brand)">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">← Previous project</span>
+          <span style="font-size: 15px; font-weight: 600; line-height: 1.3;">Building a Splunk SIEM Dashboard From Scratch</span>
+        </a>
+        <a href="#" style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; text-align: right; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: inherit;" style-hover="border-color: var(--brand)">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">Next project →</span>
+          <span style="font-size: 15px; font-weight: 600; line-height: 1.3;">Hardening a Windows 10 Box to the CIS Benchmark</span>
+        </a>
+      </div>
+
+      <!-- RELATED -->
+      <div style="margin-top: 40px;">
+        <h2 style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 14px;">Related write-ups</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <sc-for list="{{ related }}" as="p" hint-placeholder-count="3">
+            <a href="#" style="flex: 1 1 200px; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: inherit;" style-hover="border-color: var(--brand)">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ p.type }}</span>
+              </div>
+              <h3 style="font-size: 15px; font-weight: 600; line-height: 1.3; margin: 0 0 8px; text-wrap: balance;">{{ p.title }}</h3>
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-top: auto;">{{ p.meta }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- STICKY TOC (desktop) -->
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <aside style="flex: 0 0 200px; position: sticky; top: 84px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 12px;">On this page</div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--border);">
+          <sc-for list="{{ toc }}" as="t" hint-placeholder-count="5">
+            <a href="{{ t.href }}" style="{{ t.style }}">{{ t.label }}</a>
+          </sc-for>
+        </nav>
+        <a href="#" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; font-size: 13px; font-weight: 500; color: var(--brand); text-decoration: none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>View the repo</a>
+      </aside>
+    </sc-if>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="border-top: 1px solid var(--border); background: var(--card);">
+    <div style="max-width: 1040px; margin: 0 auto; padding: 24px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+      <div style="max-width: 48ch;">
+        <span style="font-family: var(--font-mono); font-weight: 600; font-size: 14px;">study<span style="color: var(--brand);">blog</span></span>
+        <p style="font-size: 13px; color: var(--muted-foreground); margin: 6px 0 0;">One person, documenting the road to A+, Network+ and Security+ in the open.</p>
+      </div>
+      <div style="display: flex; gap: 16px;">
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">GitHub</a>
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">LinkedIn</a>
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">RSS</a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1040, &quot;height&quot;: 1700}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const toc = [
+      { label: 'The goal', href: '#goal', active: true },
+      { label: 'Lab setup & the scan', href: '#setup', active: false },
+      { label: 'Triage & results', href: '#triage', active: false },
+      { label: 'What broke', href: '#broke', active: false },
+    ].map((t) => ({
+      ...t,
+      style: {
+        fontSize: '13px', lineHeight: 1.4, textDecoration: 'none', padding: '5px 0 5px 14px',
+        marginLeft: '-1px', borderLeft: '2px solid ' + (t.active ? 'var(--brand)' : 'transparent'),
+        color: t.active ? 'var(--brand)' : 'var(--muted-foreground)', fontWeight: t.active ? 500 : 400,
+      },
+    }));
+    const metrics = [
+      { value: '47', label: 'hosts scanned (credentialed)' },
+      { value: '12 → 3', label: 'criticals remediated' },
+      { value: '92%', label: 'of highs closed' },
+    ];
+    const glance = [
+      { k: 'Goal', v: 'Stand up a real vulnerability-management workflow and produce a professional report.' },
+      { k: 'Stack', v: 'OpenVAS / Greenbone · Metasploitable · Windows 10 eval · VirtualBox' },
+      { k: 'Duration', v: '1 week · Status: Shipped' },
+    ];
+    const triageRows = [
+      { sev: 'Critical', before: '12', after: '3', closed: '75%' },
+      { sev: 'High', before: '38', after: '3', closed: '92%' },
+      { sev: 'Medium', before: '64', after: '40', closed: '38%' },
+    ];
+    const tags = ['siem', 'incident-response', 'vulnerability-management'];
+    const related = [
+      { type: 'lab', title: 'Standing Up Splunk Free: My First SIEM Dashboard', meta: 'Jun 14 · 11 min' },
+      { type: 'concept', title: 'CVSS Scores: How to Actually Read Them', meta: 'Jun 11 · 6 min' },
+      { type: 'study-guide', title: 'Malware Types SY0-701 Will Ask About', meta: 'Jun 9 · 8 min' },
+    ];
+    return { m, desktop: !m, mobile: m, toc, metrics, glance, triageRows, tags, related };
+  }
+}
+</script>
+</body>
+</html>

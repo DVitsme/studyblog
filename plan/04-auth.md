@@ -30,14 +30,14 @@ Action — `proxy.ts` is only an optimistic redirect.
 |------|-------|---------|
 | `AUTH_SECRET` | **secret** | JWT signing (`npx auth secret` to generate) |
 | `AUTH_OWNER_EMAIL` | secret or `vars` | the one allowed login email |
-| `AUTH_OWNER_HASH` | **secret** | `scrypt$<salt>$<hash>` string (generated once locally) |
+| `AUTH_OWNER_HASH` | **secret** | `scrypt:<salt>:<hash>` string (base64url; generated once locally) |
 | `AUTH_URL` | `vars` | canonical origin (e.g. `https://studyblog.example.com`) |
 | `AUTH_TRUST_HOST` | `vars` = `"true"` | **required on Workers** (not auto-detected like Vercel/CF-Pages) |
 
 Set them:
 ```bash
 npx wrangler secret put AUTH_SECRET        # paste `npx auth secret` output
-npx wrangler secret put AUTH_OWNER_HASH    # paste the scrypt$... string (see §4)
+npx wrangler secret put AUTH_OWNER_HASH    # paste the scrypt:... string (see §4)
 npx wrangler secret put AUTH_OWNER_EMAIL   # or put in wrangler.jsonc "vars"
 # local dev: same keys in .dev.vars (gitignored)
 ```
@@ -95,6 +95,10 @@ export const { GET, POST } = handlers;       // do NOT set runtime = "edge"
 
 ## 4. Password hashing — `lib/auth/password.ts` (scrypt, Workers-safe)
 
+> Format is **`scrypt:<saltB64url>:<hashB64url>`** (colon delimiter + base64url — no `$`/`+`/`=`, so it
+> drops verbatim into `.dev.vars` and `wrangler secret put`). `lib/auth/password.ts` is canonical; if
+> this snippet drifts, the code wins.
+
 ```ts
 import { scryptSync, randomBytes, timingSafeEqual } from "node:crypto";
 
@@ -104,26 +108,33 @@ const KEYLEN = 32;
 export function hashPassword(password: string): string {
   const salt = randomBytes(16);
   const dk = scryptSync(password, salt, KEYLEN, PARAMS);
-  return `scrypt$${salt.toString("base64")}$${dk.toString("base64")}`;
+  return `scrypt:${salt.toString("base64url")}:${dk.toString("base64url")}`;
 }
 
 export function verifyPassword(password: string, stored: string): boolean {
-  const [scheme, saltB64, hashB64] = stored.split("$");
+  const [scheme, saltB64, hashB64] = stored.split(":");
   if (scheme !== "scrypt" || !saltB64 || !hashB64) return false;
-  const salt = Buffer.from(saltB64, "base64");
-  const expected = Buffer.from(hashB64, "base64");
-  const actual = scryptSync(password, salt, expected.length, PARAMS);
-  return actual.length === expected.length && timingSafeEqual(actual, expected);
+  const salt = Buffer.from(saltB64, "base64url");
+  const expected = Buffer.from(hashB64, "base64url");
+  if (expected.length !== KEYLEN) return false; // reject malformed/truncated hashes (fail closed)
+  const actual = scryptSync(password, salt, KEYLEN, PARAMS);
+  return timingSafeEqual(actual, expected);
 }
 ```
 
 **Generate the hash once** (locally, Node — keep `N=16384` so it matches the Worker):
 ```bash
-node -e "const{scryptSync,randomBytes}=require('node:crypto');const p=process.argv[1];const s=randomBytes(16);console.log('scrypt$'+s.toString('base64')+'$'+scryptSync(p,s,32,{N:16384,r:8,p:1}).toString('base64'))" 'YOUR-STRONG-PASSPHRASE'
+node -e "const{scryptSync,randomBytes}=require('node:crypto');const p=process.argv[1];const s=randomBytes(16);process.stdout.write('scrypt:'+s.toString('base64url')+':'+scryptSync(p,s,32,{N:16384,r:8,p:1}).toString('base64url'))" 'YOUR-STRONG-PASSPHRASE'
 ```
 Paste the output as `AUTH_OWNER_HASH`. Use a long passphrase (single-user; scrypt cost is fine).
 
-## 5. `proxy.ts` — optimistic redirect ONLY
+## 5. NO `proxy.ts` on OpenNext — gate in the layout (verified Phase 1)
+
+> **`@opennextjs/cloudflare` (through 1.20.1) does not support Next 16 Node middleware.** A `proxy.ts`
+> — even `export { auth as proxy }` — **breaks the Workers build** (`Node.js middleware is not
+> currently supported` / `async_hooks`). This project ships **no `proxy.ts`**; the §6 layout + DAL is
+> the authoritative boundary (Next's own docs call proxy "not for Authentication" anyway). The block
+> below is the pattern for **non-Workers targets only** — do not add it here.
 
 ```ts
 export { auth as proxy } from "@/auth";     // Auth.js v5 + Next 16 proxy convention

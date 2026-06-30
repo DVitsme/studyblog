@@ -2,7 +2,8 @@
 
 Defines *what* we build: information architecture, routes, features, content types, and the admin &
 reader experiences. Architecture/implementation is in `02-architecture.md`; the taxonomy data is in
-`05-content-taxonomy.md`.
+`05-content-taxonomy.md`. **Visual design is specified 1:1 in the design handoff**
+(`plan/design/handoff/design/DESIGN-HANDOFF.md` + per-screen specs/mockups).
 
 ---
 
@@ -14,7 +15,9 @@ reader experiences. Architecture/implementation is in `02-architecture.md`; the 
 /a-plus                        A+ hub (Core 1 + Core 2 domains, coverage, latest A+ posts)
 /network-plus                  Network+ hub
 /security-plus                 Security+ hub
-/journey                       Cert-agnostic: study system, weekly journals, exam-day logs, gear
+/journey                       Cert-agnostic: study system, weekly journals, exam-day logs
+/journey/practice-scores       Practice-exam score trend + attempts table (Phase 5, designed)
+/posts                         All posts — reverse-chron index, month-grouped (the "view all" target), gear
 /[section]/[category]          Domain archive (e.g. /security-plus/security-operations)
 /posts/[slug]                  A single post (canonical post URL)
 /types/[type]                  Format archive (e.g. /types/lab, /types/project)

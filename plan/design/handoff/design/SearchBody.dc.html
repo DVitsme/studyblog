@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <dc-import name="SiteHeader" active="" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;">Home / Search</div>
+    <h1 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 18px;">Search</h1>
+
+    <!-- SEARCH INPUT -->
+    <div style="display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 16px; border: 1px solid var(--input); border-radius: var(--radius); background: var(--background); margin-bottom: 20px; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px color-mix(in oklch, var(--brand) 35%, transparent);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground); flex-shrink: 0;"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input value="{{ query }}" placeholder="Search posts, tags, domains…" style="flex: 1; border: none; outline: none; background: transparent; font-family: var(--font-sans); font-size: 16px; color: var(--foreground); min-width: 0;">
+      <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: calc(var(--radius) - 4px); padding: 2px 6px; flex-shrink: 0;">esc</span>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+      <!-- FACETS -->
+      <aside style="flex: 0 0 224px; display: flex; flex-direction: column; gap: 20px;">
+        <sc-for list="{{ facetGroups }}" as="grp" hint-placeholder-count="3">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 10px;">{{ grp.label }}</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <sc-for list="{{ grp.options }}" as="opt" hint-placeholder-count="4">
+                <span style="{{ opt.style }}">{{ opt.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </aside>
+
+      <!-- RESULTS COLUMN -->
+      <div style="flex: 1 1 440px; min-width: 0;">
+
+        <!-- RESULTS -->
+        <sc-if value="{{ isResults }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border);">
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ countLabel }}</span>
+            <span style="font-size: 13px; color: var(--muted-foreground);">2 filters active</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+              <a href="#" style="display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; text-decoration: none; color: inherit; transition: border-color 0.15s;" style-hover="border-color: var(--brand)">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 7px; flex-wrap: wrap;">
+                  <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ r.type }}</span>
+                  <span style="font-size: 12px; color: var(--muted-foreground);">{{ r.crumb }}</span>
+                  <span style="margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ r.meta }}</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 600; line-height: 1.3; margin: 0 0 5px; text-wrap: balance;">{{ r.title }}</h3>
+                <p style="font-size: 13.5px; line-height: 1.55; color: var(--muted-foreground); margin: 0;">{{ r.snippet }}</p>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- EMPTY -->
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 52px 24px; border: 1px dashed var(--border); border-radius: var(--radius); background: var(--card);">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: var(--muted); color: var(--muted-foreground);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+            <div style="font-size: 16px; font-weight: 600;">No results for "zero-day exploits"</div>
+            <p style="font-size: 14px; color: var(--muted-foreground); max-width: 46ch; margin: 0;">Nothing matches that yet — it may be a domain I haven't written up. Try a broader term or clear the filters.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 6px;">
+              <span style="font-size: 12px; color: var(--muted-foreground);">Popular:</span>
+              <sc-for list="{{ popular }}" as="p" hint-placeholder-count="4">
+                <a href="#" style="font-family: var(--font-mono); font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--secondary); color: var(--secondary-foreground); text-decoration: none;" style-hover="background: var(--accent); color: var(--brand)">#{{ p }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- LOADING -->
+        <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border);">
+            <div style="width: 120px; height: 12px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite;"></div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="5">
+              <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px;">
+                <div style="width: 90px; height: 16px; border-radius: 999px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 10px;"></div>
+                <div style="width: 70%; height: 15px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 9px;"></div>
+                <div style="width: 100%; height: 12px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite;"></div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 900}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;state&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;results&quot;, &quot;empty&quot;, &quot;loading&quot;], &quot;default&quot;: &quot;results&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const state = this.props.state || 'results';
+
+    const chip = (on) => ({
+      fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500, padding: '3px 10px', borderRadius: '999px', cursor: 'pointer',
+      ...(on
+        ? { background: 'color-mix(in oklch, var(--brand) 12%, transparent)', color: 'var(--brand)', border: '1px solid color-mix(in oklch, var(--brand) 30%, var(--border))' }
+        : { background: 'var(--background)', color: 'var(--muted-foreground)', border: '1px solid var(--border)' }),
+    });
+    const facetGroups = [
+      { label: 'Section', options: [['A+', true], ['Security+', true], ['Network+', false]] },
+      { label: 'Type', options: [['concept', true], ['lab', false], ['project', false], ['journal', false], ['cram', false]] },
+      { label: 'Tag', options: [['subnetting', false], ['firewalls', false], ['siem', false], ['pki', false]] },
+    ].map((g) => ({ ...g, options: g.options.map(([label, on]) => ({ label, style: chip(on) })) }));
+
+    const results = [
+      { type: 'concept', crumb: 'A+ · Networking', meta: 'Jun 18', title: 'Subnetting Without Tears: How CIDR Finally Clicked', snippet: '…the mental model that made /26 and /27 stop being scary — find the block size, then count in jumps…' },
+      { type: 'concept', crumb: 'Security+ · General Security Concepts', meta: 'Jun 19', title: 'The CIA Triad, Explained With Things That Actually Broke', snippet: '…confidentiality, integrity, availability — anchored to real outages instead of textbook definitions…' },
+      { type: 'cram', crumb: 'A+ · Networking', meta: 'Jun 20', title: 'Ports & Protocols Cheat Sheet (A+ / Net+ / Sec+)', snippet: '…every port number CompTIA expects you to know, grouped so they actually stick, with mnemonics…' },
+      { type: 'concept', crumb: 'A+ · Networking', meta: 'Jun 17', title: 'DHCP, DNS & the Order Things Actually Happen', snippet: '…what really happens between plugging in and loading a page, in the sequence CompTIA tests…' },
+      { type: 'study-guide', crumb: 'Security+ · Threats & Mitigations', meta: 'Jun 9', title: 'Malware Types SY0-701 Will Ask About (With Mnemonics)', snippet: '…virus, worm, trojan, ransomware, rootkit — sorted by how they spread and what they do…' },
+    ];
+    return {
+      desktop: !m, mobile: m,
+      isResults: state === 'results', isEmpty: state === 'empty', isLoading: state === 'loading',
+      query: state === 'empty' ? 'zero-day exploits' : 'networking',
+      countLabel: '5 results · sorted by relevance',
+      facetGroups, results, skeletons: [0, 1, 2, 3, 4], popular: ['subnetting', 'firewalls', 'osi-model', 'cvss'],
+    };
+  }
+}
+</script>
+</body>
+</html>

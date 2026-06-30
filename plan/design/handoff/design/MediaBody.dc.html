@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: flex; width: 100%; min-height: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <dc-import name="AdminShell" active="media" hint-size="224px,100%"></dc-import>
+  </sc-if>
+
+  <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;">
+
+    <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+      <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+          <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px;">admin</span>
+        </div>
+        <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      </header>
+    </sc-if>
+
+    <!-- PAGE HEADER -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 24px 18px; border-bottom: 1px solid var(--border);">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 6px;">Admin / Media</div>
+        <h1 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Media</h1>
+      </div>
+      <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">12 images · 18.4 MB on R2</span>
+    </div>
+
+    <div style="padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 20px;">
+
+      <!-- DROPZONE -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 30px; border: 1.5px dashed var(--border); border-radius: var(--radius); background: var(--card); text-align: center;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: color-mix(in oklch, var(--brand) 10%, transparent); color: var(--brand);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></span>
+        <div style="font-size: 15px; font-weight: 500;">Drop images here, or <span style="color: var(--brand);">browse</span></div>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">PNG · JPG · WebP · up to 5 MB · stored on Cloudflare R2</div>
+      </div>
+
+      <!-- GRID -->
+      <div style="{{ gridStyle }}">
+        <sc-for list="{{ items }}" as="it" hint-placeholder-count="9">
+          <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card);">
+            <div style="position: relative; aspect-ratio: 4 / 3; {{ it.thumbBg }}">
+              <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0; background: color-mix(in oklch, var(--foreground) 38%, transparent); transition: opacity 0.15s;" style-hover="opacity: 1">
+                <button aria-label="Copy URL" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; border: none; border-radius: calc(var(--radius) - 4px); background: var(--background); color: var(--foreground); font-size: 12px; font-weight: 500; cursor: pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copy URL</button>
+                <button aria-label="Delete" style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: calc(var(--radius) - 4px); background: var(--background); color: var(--destructive); cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+              </div>
+            </div>
+            <div style="padding: 8px 10px;">
+              <div style="font-family: var(--font-mono); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ it.name }}</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); margin-top: 2px;">{{ it.dims }} · {{ it.size }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 720}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const bgs = [
+      'background: repeating-linear-gradient(135deg, var(--secondary) 0 10px, var(--muted) 10px 20px);',
+      'background: radial-gradient(circle at 30% 30%, color-mix(in oklch, var(--brand) 22%, var(--card)), var(--secondary));',
+      'background: repeating-linear-gradient(90deg, var(--secondary) 0 6px, var(--muted) 6px 12px);',
+      'background: linear-gradient(135deg, var(--muted), var(--secondary));',
+      'background: radial-gradient(circle at 70% 40%, color-mix(in oklch, var(--chart-2) 30%, var(--card)), var(--secondary));',
+      'background: repeating-linear-gradient(45deg, var(--secondary) 0 8px, var(--muted) 8px 16px);',
+    ];
+    const names = [
+      ['subnet-diagram.png', '1600×900', '210 KB'],
+      ['openvas-dashboard.png', '1920×1080', '340 KB'],
+      ['splunk-siem.png', '1600×900', '288 KB'],
+      ['raid-rebuild.jpg', '1600×1066', '410 KB'],
+      ['lab-topology.png', '1400×900', '176 KB'],
+      ['pfsense-rules.png', '1600×900', '254 KB'],
+      ['cidr-table.png', '1200×800', '98 KB'],
+      ['homelab-rack.jpg', '1600×1200', '512 KB'],
+      ['core1-score.png', '1080×720', '120 KB'],
+    ].map((n, i) => ({ name: n[0], dims: n[1], size: n[2], thumbBg: bgs[i % bgs.length] }));
+    return {
+      desktop: !m, mobile: m, items: names,
+      gridStyle: { display: 'grid', gap: '14px', gridTemplateColumns: m ? 'repeat(2, 1fr)' : 'repeat(auto-fill, minmax(190px, 1fr))' },
+    };
+  }
+}
+</script>
+</body>
+</html>

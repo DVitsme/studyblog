@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <dc-import name="SiteHeader" active="{{ activeNav }}" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <!-- BREADCRUMB -->
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;">{{ crumb }}</div>
+
+    <!-- ===== INTRO: DOMAIN ===== -->
+    <sc-if value="{{ isDomain }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-bottom: 28px;">
+        <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
+          <h1 style="font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Networking</h1>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">CompTIA A+ Core 1 · Domain 2.0</span>
+        </div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--muted-foreground); max-width: 70ch; margin: 0 0 16px;">Official objective: configure and troubleshoot networks — protocols and ports, IP addressing, wireless standards, and the common hardware that ties them together. Every post I've written against this domain lives here.</p>
+        <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--card);">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 999px; background: var(--brand); color: var(--brand-foreground);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+          <span style="font-size: 13px; font-weight: 500;">Covered</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">6 posts · 1 of 4 covered A+ domains</span>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== INTRO: TAG ===== -->
+    <sc-if value="{{ isTag }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-bottom: 28px;">
+        <h1 style="font-family: var(--font-mono); font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 10px; color: var(--brand);">#firewalls</h1>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--muted-foreground); max-width: 70ch; margin: 0 0 18px;">One concept, three certs. Firewalls start as a home-router checkbox in A+, become ACLs and zones in Network+, and turn into a security-architecture decision in Security+. Here's how my understanding of them deepened across the whole journey.</p>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+          <sc-for list="{{ progression }}" as="step" hint-placeholder-count="3">
+            <span style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--card);">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--brand);">{{ step.cert }}</span>
+              <span style="font-size: 13px; color: var(--muted-foreground);">{{ step.gist }}</span>
+            </span>
+            <span style="{{ step.arrowStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== INTRO: TYPE ===== -->
+    <sc-if value="{{ isType }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-bottom: 28px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+          <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; padding: 4px 12px; border-radius: calc(var(--radius) - 2px); border: 1px solid var(--brand); color: var(--brand);">lab</span>
+          <h1 style="font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Lab write-ups</h1>
+        </div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--muted-foreground); max-width: 70ch; margin: 0;">Hands-on builds — every lab here is something I actually stood up, broke, and documented. Reproducible steps, real configs, and screenshots, so you (and future me) can follow along.</p>
+      </div>
+    </sc-if>
+
+    <!-- RESULT COUNT + SORT -->
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ countLabel }}</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 12px; color: var(--muted-foreground);">Sort</span>
+        <div style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); font-size: 13px;">Newest<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground);"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <sc-if value="{{ isResults }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+        <sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
+          <a href="#" style="flex: 1 1 330px; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; transition: border-color 0.15s;" style-hover="border-color: var(--brand)">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ p.type }}</span>
+              <span style="font-size: 12px; color: var(--muted-foreground);">{{ p.crumb }}</span>
+            </div>
+            <h3 style="font-size: 17px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 8px; text-wrap: balance;">{{ p.title }}</h3>
+            <p style="font-size: 14px; line-height: 1.55; color: var(--muted-foreground); margin: 0 0 16px; flex: 1;">{{ p.excerpt }}</p>
+            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ p.meta }}</div>
+          </a>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- EMPTY -->
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 56px 24px; border: 1px dashed var(--border); border-radius: var(--radius); background: var(--card);">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: var(--muted); color: var(--muted-foreground);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span>
+        <div style="font-size: 16px; font-weight: 600;">No posts here yet</div>
+        <p style="font-size: 14px; color: var(--muted-foreground); max-width: 44ch; margin: 0;">This domain doesn't have a write-up yet — it's on the list. The coverage tracker stays honest until it does.</p>
+        <a href="#" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 14px; font-weight: 500; color: var(--brand); text-decoration: none;">Browse all posts<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+      </div>
+    </sc-if>
+
+    <!-- LOADING -->
+    <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+        <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="4">
+          <div style="flex: 1 1 330px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px;">
+            <div style="width: 72px; height: 18px; border-radius: 999px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 14px;"></div>
+            <div style="width: 90%; height: 16px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 10px;"></div>
+            <div style="width: 70%; height: 16px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 18px;"></div>
+            <div style="width: 100%; height: 12px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 8px;"></div>
+            <div style="width: 60%; height: 12px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite;"></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 1100}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;variant&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;domain&quot;, &quot;tag&quot;, &quot;type&quot;], &quot;default&quot;: &quot;domain&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;state&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;results&quot;, &quot;empty&quot;, &quot;loading&quot;], &quot;default&quot;: &quot;results&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const variant = this.props.variant || 'domain';
+    const state = this.props.state || 'results';
+
+    const data = {
+      domain: {
+        activeNav: 'a-plus',
+        crumb: 'Home / A+ / Networking',
+        count: 6,
+        posts: [
+          { type: 'concept', crumb: 'Networking', title: 'Subnetting Without Tears: How CIDR Finally Clicked', excerpt: "The mental model that made /26 and /27 stop being scary — and the 4-step method I use on every question.", meta: 'Jun 18 · 7 min' },
+          { type: 'cram', crumb: 'Networking', title: 'Ports & Protocols Cheat Sheet (A+ / Net+ / Sec+)', excerpt: 'Every port number CompTIA expects you to know, grouped so they actually stick.', meta: 'Updated Jun 20 · ref' },
+          { type: 'concept', crumb: 'Networking', title: 'DHCP, DNS & the Order Things Actually Happen', excerpt: 'What really happens between plugging in and loading a page — in the sequence CompTIA tests.', meta: 'Jun 17 · 8 min' },
+          { type: 'concept', crumb: 'Networking', title: 'Wi-Fi Standards Without the Alphabet Soup', excerpt: '802.11 a/b/g/n/ac/ax decoded by the two things that actually matter: band and speed.', meta: 'Jun 15 · 5 min' },
+          { type: 'concept', crumb: 'Networking', title: 'Cabling & Connectors: Cat5e to Fiber', excerpt: 'The cables and connectors on the exam, with the distances and speeds worth memorizing.', meta: 'Jun 10 · 6 min' },
+          { type: 'study-guide', crumb: 'Networking', title: 'The OSI Model, Layer by Layer (With Examples)', excerpt: 'Seven layers anchored to real protocols and devices so the mnemonic finally means something.', meta: 'Jun 6 · 9 min' },
+        ],
+      },
+      tag: {
+        activeNav: '',
+        crumb: 'Home / Tags / firewalls',
+        count: 4,
+        posts: [
+          { type: 'concept', crumb: 'A+ · Networking', title: 'Your Home Router Is a Firewall (and Other A+ Truths)', excerpt: 'Where firewalls first show up on the A+: SOHO routers, port forwarding, and the basic allow/deny idea.', meta: 'Jun 13 · 5 min' },
+          { type: 'concept', crumb: 'Network+ · Network Security', title: 'ACLs, Zones & Stateful Inspection (Net+ Firewalls)', excerpt: 'The Network+ jump: access control lists, DMZ/zones, and what "stateful" actually buys you.', meta: 'Jun 21 · 7 min' },
+          { type: 'study-guide', crumb: 'Security+ · Security Architecture', title: 'Next-Gen Firewalls, Segmentation & Zero Trust', excerpt: 'How Security+ reframes firewalls as an architecture decision — NGFW, microsegmentation, and trust boundaries.', meta: 'Jun 24 · 9 min' },
+          { type: 'lab', crumb: 'Security+ · Security Operations', title: 'Building a pfSense Firewall in the Home Lab', excerpt: 'Standing up pfSense, writing real rules, and watching the logs catch my own test traffic.', meta: 'Jun 8 · 12 min' },
+        ],
+      },
+      type: {
+        activeNav: '',
+        crumb: 'Home / Types / lab',
+        count: 5,
+        posts: [
+          { type: 'lab', crumb: 'Security+ · Security Operations', title: 'Standing Up Splunk Free: My First Real SIEM Dashboard', excerpt: 'Ingesting logs, writing correlation searches, and building a dashboard that would actually catch something.', meta: 'Jun 14 · 11 min' },
+          { type: 'lab', crumb: 'Security+ · Security Operations', title: 'Building a pfSense Firewall in the Home Lab', excerpt: 'Standing up pfSense, writing real rules, and watching the logs catch my own test traffic.', meta: 'Jun 8 · 12 min' },
+          { type: 'lab', crumb: 'A+ · Hardware', title: 'RAID 0/1/5/10 on a Spare Box, Explained by Breaking It', excerpt: 'Configuring each RAID level, then pulling a disk to see what survives. The fastest way to remember them.', meta: 'Jun 5 · 10 min' },
+          { type: 'lab', crumb: 'A+ · Virtualization & Cloud', title: 'A VirtualBox Lab You Can Rebuild in 20 Minutes', excerpt: 'My repeatable base lab — networking, snapshots, and the gotchas that cost me an evening.', meta: 'May 30 · 8 min' },
+          { type: 'lab', crumb: 'Security+ · Security Operations', title: 'Vulnerability Management in My Home Lab (Lab Notes)', excerpt: 'The hands-on half of the project write-up: the exact OpenVAS setup and scan config.', meta: 'Jun 25 · 14 min' },
+        ],
+      },
+    }[variant];
+
+    const progression = [
+      { cert: 'A+', gist: 'router basics', last: false },
+      { cert: 'Net+', gist: 'ACLs & zones', last: false },
+      { cert: 'Sec+', gist: 'architecture', last: true },
+    ].map((s) => ({ ...s, arrowStyle: { color: 'var(--muted-foreground)', display: s.last ? 'none' : 'inline-flex', alignItems: 'center' } }));
+
+    const skeletons = [0, 1, 2, 3];
+    const countLabel = data.count + (variant === 'tag' ? ' posts tagged firewalls' : variant === 'type' ? ' lab write-ups' : ' posts in this domain');
+
+    return {
+      desktop: !m, mobile: m,
+      isDomain: variant === 'domain', isTag: variant === 'tag', isType: variant === 'type',
+      isResults: state === 'results', isEmpty: state === 'empty', isLoading: state === 'loading',
+      activeNav: data.activeNav, crumb: data.crumb, posts: data.posts, countLabel, progression, skeletons,
+    };
+  }
+}
+</script>
+</body>
+</html>

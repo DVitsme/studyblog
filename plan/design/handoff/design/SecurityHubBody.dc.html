@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <!-- HEADER -->
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <nav style="display: flex; align-items: center; gap: 2px;">
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">A+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--brand); font-weight: 500; text-decoration: none; background: color-mix(in oklch, var(--brand) 10%, transparent);">Security+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Network+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Journey</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Projects</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">About</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <button aria-label="Toggle theme" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line></svg></button>
+      </div>
+    </header>
+  </sc-if>
+  <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+    <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      </div>
+    </header>
+  </sc-if>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <!-- INTRO -->
+    <section style="margin-bottom: 36px;">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 14px;"><a href="#" style="color: var(--muted-foreground); text-decoration: none;">Home</a> / <span style="color: var(--foreground);">Security+</span></div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap;">
+        <h1 style="font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">CompTIA Security+</h1>
+        <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--brand); color: var(--brand);">SY0-701</span>
+      </div>
+      <p style="font-size: 17px; line-height: 1.6; color: var(--muted-foreground); max-width: 68ch; margin: 0 0 22px;">The security-fundamentals cert — threats and mitigations, cryptography, architecture, operations, and governance. Everything I've documented so far, mapped to the five official SY0-701 domains.</p>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; max-width: 640px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+          <span style="font-size: 14px; font-weight: 600;">Overall coverage</span>
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 13px; color: var(--muted-foreground);">3 of 5 domains</span>
+            <span style="font-family: var(--font-mono); font-size: 18px; font-weight: 600; color: var(--brand);">60%</span>
+          </div>
+        </div>
+        <div style="position: relative; height: 8px; background: var(--muted); border-radius: 999px; overflow: hidden; margin-bottom: 12px;">
+          <div style="{{ secFillStyle }}"></div>
+        </div>
+        <p style="font-size: 13px; line-height: 1.5; color: var(--muted-foreground); margin: 0;">Furthest along here and on A+ (44%). Network+ is at 0% — I only just started it, and I'm documenting it from the very first post.</p>
+      </div>
+    </section>
+
+    <!-- MAIN + SIDEBAR -->
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+      <!-- MAIN COLUMN -->
+      <div style="flex: 1 1 460px; display: flex; flex-direction: column; gap: 36px;">
+
+        <!-- COVERAGE CHECKLIST -->
+        <section>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px;">
+            <h2 style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Domain coverage</h2>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">SY0-701 · 5 domains</span>
+          </div>
+          <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 20px;">
+            <sc-for list="{{ checklist }}" as="d" hint-placeholder-count="5">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border);">
+                <sc-if value="{{ d.done }}" hint-placeholder-val="{{ true }}">
+                  <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 999px; background: var(--brand); color: var(--brand-foreground); flex-shrink: 0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                </sc-if>
+                <sc-if value="{{ d.empty }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: inline-flex; width: 20px; height: 20px; border-radius: 999px; border: 1.5px solid var(--border); flex-shrink: 0;"></span>
+                </sc-if>
+                <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0;">
+                  <span style="{{ d.labelStyle }}">{{ d.domain }}</span>
+                  <span style="{{ d.subStyle }}">{{ d.sub }}</span>
+                </div>
+                <span style="margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); flex-shrink: 0;">{{ d.count }}</span>
+              </div>
+            </sc-for>
+            <div style="display: flex; align-items: center; gap: 8px; padding: 14px 0; color: var(--muted-foreground);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <span style="font-size: 13px;">Empty domains are exactly where I'm headed next — <span style="color: var(--foreground); font-weight: 500;">Security Architecture</span> is up first.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- LATEST SECURITY+ POSTS -->
+        <section>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px;">
+            <h2 style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Latest in Security+</h2>
+            <a href="#" style="display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 500; color: var(--brand); text-decoration: none;">All 10 posts<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <sc-for list="{{ posts }}" as="p" hint-placeholder-count="5">
+              <a href="#" style="display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; text-decoration: none; color: inherit; transition: border-color 0.15s;" style-hover="border-color: var(--brand)">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                  <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ p.type }}</span>
+                  <span style="font-size: 12px; color: var(--muted-foreground);">{{ p.crumb }}</span>
+                  <span style="margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ p.meta }}</span>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 6px; text-wrap: balance;">{{ p.title }}</h3>
+                <p style="font-size: 14px; line-height: 1.55; color: var(--muted-foreground); margin: 0;">{{ p.excerpt }}</p>
+              </a>
+            </sc-for>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <h2 style="font-size: 16px; font-weight: 600; margin: 0 0 4px;">Where I am across the certs</h2>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--muted-foreground); margin: 0 0 18px;">One honest snapshot. Security+ leads; Network+ is just beginning.</p>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <sc-for list="{{ crossCerts }}" as="c" hint-placeholder-count="3">
+              <div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+                  <span style="{{ c.nameStyle }}">{{ c.name }}</span>
+                  <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--brand);">{{ c.pctLabel }}</span>
+                </div>
+                <div style="position: relative; height: 6px; background: var(--muted); border-radius: 999px; overflow: hidden;">
+                  <div style="{{ c.fillStyle }}"></div>
+                </div>
+                <div style="{{ c.tagStyle }}">{{ c.tag }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <h2 style="font-size: 16px; font-weight: 600; margin: 0 0 10px;">Filter this cert</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted-foreground); background: var(--background);">{{ f }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="border-top: 1px solid var(--border); background: var(--card);">
+    <div style="max-width: 1080px; margin: 0 auto; padding: 24px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+      <div style="max-width: 48ch;">
+        <span style="font-family: var(--font-mono); font-weight: 600; font-size: 14px;">study<span style="color: var(--brand);">blog</span></span>
+        <p style="font-size: 13px; color: var(--muted-foreground); margin: 6px 0 0;">One person, documenting the road to A+, Network+ and Security+ in the open. Built and designed by the author.</p>
+      </div>
+      <div style="display: flex; gap: 16px;">
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">GitHub</a>
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">LinkedIn</a>
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">RSS</a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 1500}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const mkFill = (pct, h) => ({
+      position: 'absolute', left: 0, top: 0, height: '100%', width: pct + '%',
+      background: 'var(--brand)', borderRadius: '999px', transformOrigin: 'left',
+      animation: 'sbGrow 0.7s cubic-bezier(0.22,1,0.36,1) both',
+    });
+    const checklist = [
+      { domain: 'General Security Concepts', sub: 'CIA triad, crypto basics, zero trust', count: '3 posts', done: true },
+      { domain: 'Threats, Vulnerabilities & Mitigations', sub: 'Social engineering, malware, CVSS', count: '5 posts', done: true },
+      { domain: 'Security Operations', sub: 'SIEM, incident response, vuln mgmt', count: '2 posts', done: true },
+      { domain: 'Security Architecture', sub: 'Not started yet', count: '0 posts', done: false },
+      { domain: 'Security Program Management & Oversight', sub: 'Not started yet', count: '0 posts', done: false },
+    ].map((d) => ({
+      ...d,
+      empty: !d.done,
+      labelStyle: { fontSize: '14px', fontWeight: 500, color: d.done ? 'var(--foreground)' : 'var(--muted-foreground)' },
+      subStyle: { fontSize: '12px', color: 'var(--muted-foreground)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
+    }));
+    const posts = [
+      { type: 'project', crumb: 'Security Operations', title: 'Vulnerability Management in My Home Lab: 47 Hosts, 12 Criticals → 3', excerpt: "I built a credentialed-scan pipeline with OpenVAS, triaged by CVSS, actually remediated, and re-scanned. Here's the report — and what broke along the way.", meta: 'Jun 25 · 14 min' },
+      { type: 'concept', crumb: 'General Security Concepts', title: 'The CIA Triad, Explained With Things That Actually Broke', excerpt: 'Confidentiality, integrity, availability — but anchored to real outages and breaches instead of textbook definitions, so it finally sticks.', meta: 'Jun 19 · 6 min' },
+      { type: 'concept', crumb: 'Threats, Vulnerabilities & Mitigations', title: "Phishing's Whole Family: Vishing, Smishing, and Pretexting", excerpt: 'The social-engineering vocabulary SY0-701 expects, organized as a family tree with one memorable example of each.', meta: 'Jun 16 · 5 min' },
+      { type: 'lab', crumb: 'Security Operations', title: 'Standing Up Splunk Free: My First Real SIEM Dashboard', excerpt: 'Ingesting logs, writing a couple of correlation searches, and building a dashboard that would actually catch something. Screenshots and config included.', meta: 'Jun 14 · 11 min' },
+      { type: 'study-guide', crumb: 'Threats, Vulnerabilities & Mitigations', title: 'Malware Types SY0-701 Will Ask About (With Mnemonics)', excerpt: 'Virus, worm, trojan, ransomware, rootkit, logic bomb — sorted by how they spread and what they do, with the tricks I used to keep them straight.', meta: 'Jun 9 · 8 min' },
+    ];
+    const crossCerts = [
+      { name: 'CompTIA A+', pct: 44, tag: '4 of 9 domains' },
+      { name: 'CompTIA Security+', pct: 60, tag: 'You are here · 3 of 5', here: true },
+      { name: 'CompTIA Network+', pct: 0, tag: 'Just started · 0 of 5' },
+    ].map((c) => ({
+      ...c,
+      pctLabel: c.pct + '%',
+      nameStyle: { fontSize: '14px', fontWeight: c.here ? 600 : 500, color: c.here ? 'var(--foreground)' : 'var(--muted-foreground)' },
+      tagStyle: { fontSize: '11px', marginTop: '5px', color: c.here ? 'var(--brand)' : 'var(--muted-foreground)', fontWeight: c.here ? 500 : 400 },
+      fillStyle: mkFill(c.pct, 6),
+    }));
+    const filters = ['concept', 'lab', 'project', 'study-guide', 'practice-exam', 'cram'];
+    return { m, desktop: !m, mobile: m, checklist, posts, crossCerts, filters, secFillStyle: mkFill(60, 8) };
+  }
+}
+</script>
+</body>
+</html>

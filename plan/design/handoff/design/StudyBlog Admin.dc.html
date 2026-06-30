@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .sb-root {
+    --radius: 0.625rem;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --background: oklch(1 0 0); --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0); --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0); --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0); --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0); --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0); --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0); --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0); --input: oklch(0.922 0 0); --ring: oklch(0.708 0 0);
+    --brand: oklch(0.55 0.18 255); --brand-foreground: oklch(0.985 0 0);
+    --chart-1: oklch(0.646 0.222 41.116); --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392); --chart-4: oklch(0.828 0.189 84.429); --chart-5: oklch(0.769 0.188 70.08);
+  }
+  .sb-root.dark {
+    --background: oklch(0.145 0 0); --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0); --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0); --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0); --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0); --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0); --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0); --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%); --input: oklch(1 0 0 / 15%); --ring: oklch(0.556 0 0);
+    --brand: oklch(0.7 0.15 255); --brand-foreground: oklch(0.145 0 0);
+    --chart-1: oklch(0.488 0.243 264.376); --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08); --chart-4: oklch(0.627 0.265 303.9); --chart-5: oklch(0.645 0.246 16.439);
+  }
+  @keyframes sbGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes sbPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</helmet>
+
+<div class="sb-root {{ themeClass }}" style="background: var(--background); color: var(--foreground); font-family: var(--font-sans); min-height: 100vh; transition: background 0.2s ease, color 0.2s ease;">
+
+  <!-- ARTIFACT TOP BAR -->
+  <div style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 24px; background: color-mix(in oklch, var(--background) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <span style="font-size: 13px; color: var(--muted-foreground);">Admin · Stage 4</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+        <button onClick="{{ sLogin }}" style="{{ tLogin }}">Login</button>
+        <button onClick="{{ sDash }}" style="{{ tDash }}">Dashboard</button>
+        <button onClick="{{ sEditor }}" style="{{ tEditor }}">Editor</button>
+        <button onClick="{{ sPosts }}" style="{{ tPosts }}">Posts</button>
+        <button onClick="{{ sMedia }}" style="{{ tMedia }}">Media</button>
+      </div>
+      <!-- contextual state toggle -->
+      <sc-if value="{{ showLoginToggle }}" hint-placeholder-val="{{ false }}">
+        <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+          <button onClick="{{ stDefault }}" style="{{ tStateDefault }}">Default</button>
+          <button onClick="{{ stError }}" style="{{ tStateError }}">Error</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showEditorToggle }}" hint-placeholder-val="{{ false }}">
+        <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+          <button onClick="{{ stDraft }}" style="{{ tStateDraft }}">Draft</button>
+          <button onClick="{{ stPublished }}" style="{{ tStatePublished }}">Published</button>
+        </div>
+      </sc-if>
+      <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+        <button onClick="{{ setLight }}" style="{{ lightBtnStyle }}">Light</button>
+        <button onClick="{{ setDark }}" style="{{ darkBtnStyle }}">Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px;">
+
+    <!-- ===== LOGIN ===== -->
+    <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · route /login</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 360px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev/login</span>
+        </div>
+        <div style="min-height: 540px; display: flex;"><dc-import name="LoginBody" state="{{ stateProp }}" hint-size="100%,540px"></dc-import></div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · route /login</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background); min-height: 600px; display: flex;">
+          <dc-import name="LoginBody" state="{{ stateProp }}" hint-size="394px,600px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== DASHBOARD ===== -->
+    <sc-if value="{{ showDash }}" hint-placeholder-val="{{ true }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · route /admin</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 360px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev/admin</span>
+        </div>
+        <div style="display: flex;"><dc-import name="DashboardBody" mobile="{{ false }}" hint-size="100%,720px"></dc-import></div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · route /admin</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background); display: flex;">
+          <dc-import name="DashboardBody" mobile="{{ true }}" hint-size="394px,1100px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== EDITOR ===== -->
+    <sc-if value="{{ showEditor }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · route /admin/posts/[id]/edit</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 420px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev/admin/posts/subnetting/edit</span>
+        </div>
+        <div style="display: flex;"><dc-import name="PostEditorBody" mobile="{{ false }}" status="{{ stateProp }}" hint-size="100%,660px"></dc-import></div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · Write / Preview / Details tabs</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background); display: flex;">
+          <dc-import name="PostEditorBody" mobile="{{ true }}" status="{{ stateProp }}" hint-size="394px,760px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== POSTS LIST ===== -->
+    <sc-if value="{{ showPosts }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · route /admin/posts</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 360px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev/admin/posts</span>
+        </div>
+        <div style="display: flex;"><dc-import name="PostsListBody" mobile="{{ false }}" hint-size="100%,720px"></dc-import></div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · route /admin/posts</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background); display: flex;">
+          <dc-import name="PostsListBody" mobile="{{ true }}" hint-size="394px,900px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== MEDIA ===== -->
+    <sc-if value="{{ showMedia }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · route /admin/media</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 360px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev/admin/media</span>
+        </div>
+        <div style="display: flex;"><dc-import name="MediaBody" mobile="{{ false }}" hint-size="100%,720px"></dc-import></div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · route /admin/media</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background); display: flex;">
+          <dc-import name="MediaBody" mobile="{{ true }}" hint-size="394px,900px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { dark: false, screen: 'dashboard', loginState: 'default', editorState: 'draft' };
+  renderVals() {
+    const dark = this.state.dark;
+    const screen = this.state.screen;
+    const seg = (active) => ({
+      fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, padding: '6px 12px',
+      border: 'none', borderRadius: 'calc(var(--radius) - 4px)', cursor: 'pointer',
+      ...(active
+        ? { background: 'var(--background)', color: 'var(--foreground)', boxShadow: '0 1px 2px rgb(0 0 0 / 0.08)' }
+        : { background: 'transparent', color: 'var(--muted-foreground)' }),
+    });
+    const stateProp = screen === 'login' ? this.state.loginState : screen === 'editor' ? this.state.editorState : 'default';
+    return {
+      themeClass: dark ? 'dark' : '',
+      showLogin: screen === 'login', showDash: screen === 'dashboard', showEditor: screen === 'editor',
+      showPosts: screen === 'posts', showMedia: screen === 'media',
+      showLoginToggle: screen === 'login', showEditorToggle: screen === 'editor',
+      stateProp,
+      sLogin: () => this.setState({ screen: 'login' }), sDash: () => this.setState({ screen: 'dashboard' }),
+      sEditor: () => this.setState({ screen: 'editor' }), sPosts: () => this.setState({ screen: 'posts' }),
+      sMedia: () => this.setState({ screen: 'media' }),
+      tLogin: seg(screen === 'login'), tDash: seg(screen === 'dashboard'), tEditor: seg(screen === 'editor'),
+      tPosts: seg(screen === 'posts'), tMedia: seg(screen === 'media'),
+      stDefault: () => this.setState({ loginState: 'default' }), stError: () => this.setState({ loginState: 'error' }),
+      tStateDefault: seg(this.state.loginState === 'default'), tStateError: seg(this.state.loginState === 'error'),
+      stDraft: () => this.setState({ editorState: 'draft' }), stPublished: () => this.setState({ editorState: 'published' }),
+      tStateDraft: seg(this.state.editorState === 'draft'), tStatePublished: seg(this.state.editorState === 'published'),
+      setLight: () => this.setState({ dark: false }), setDark: () => this.setState({ dark: true }),
+      lightBtnStyle: seg(!dark), darkBtnStyle: seg(dark),
+    };
+  }
+}
+</script>
+</body>
+</html>

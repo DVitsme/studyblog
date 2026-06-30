@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <dc-import name="SiteHeader" active="about" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;">Home / About</div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+
+      <!-- STORY -->
+      <article style="flex: 1 1 440px; min-width: 0;">
+        <h1 style="font-size: 34px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; text-wrap: balance; margin: 0 0 18px;">From limited IT training to studying in the open.</h1>
+        <p style="font-size: 18px; line-height: 1.7; color: var(--muted-foreground); margin: 0 0 24px;">I didn't come up through a CS degree or a help-desk job. I started with curiosity, a stack of CompTIA objectives, and a decision to document the whole climb instead of waiting until I'd "made it."</p>
+
+        <h2 style="font-size: 21px; font-weight: 600; letter-spacing: -0.01em; margin: 32px 0 12px;">Why a public study log</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 18px;">Writing is how I actually learn — if I can explain subnetting clearly enough to publish, I understand it. Doing it in public adds accountability and, over time, builds the thing a career-changer needs most: visible, verifiable proof of work. Every post is something I learned; every project is something I built and can defend in an interview.</p>
+
+        <h2 style="font-size: 21px; font-weight: 600; letter-spacing: -0.01em; margin: 32px 0 12px;">The plan</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 18px;">Three certs, in order: <strong style="font-weight: 600;">A+</strong> for fundamentals, <strong style="font-weight: 600;">Network+</strong> for the wire, <strong style="font-weight: 600;">Security+</strong> for the career goal. Alongside the reading, a home lab where the concepts get real — scanners, SIEMs, firewalls, and the occasional thing I break and have to fix.</p>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 8px;">If you're on the same road, I hope the honest version — including the slow weeks — is more useful than a highlight reel.</p>
+      </article>
+
+      <!-- IDENTITY CARD -->
+      <aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 80px;">
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 18px;">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 999px; background: var(--secondary); font-family: var(--font-mono); font-size: 17px; font-weight: 600; color: var(--muted-foreground);">SB</span>
+            <div>
+              <div style="font-size: 16px; font-weight: 600;">The Author</div>
+              <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">studying · building · writing</div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground); font-size: 14px; font-weight: 500; text-decoration: none;" style-hover="border-color: var(--brand); color: var(--brand)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 0 0-3.48 21.44c.55.1.75-.24.75-.53v-1.85c-3.06.67-3.71-1.47-3.71-1.47-.5-1.27-1.22-1.61-1.22-1.61-1-.68.07-.67.07-.67 1.1.08 1.69 1.13 1.69 1.13.98 1.69 2.58 1.2 3.21.92.1-.71.38-1.2.69-1.48-2.44-.28-5-1.22-5-5.43 0-1.2.43-2.18 1.13-2.95-.11-.28-.49-1.4.11-2.91 0 0 .92-.3 3 1.13a10.4 10.4 0 0 1 5.46 0c2.08-1.43 3-1.13 3-1.13.6 1.51.22 2.63.11 2.91.7.77 1.13 1.75 1.13 2.95 0 4.22-2.57 5.15-5.01 5.42.39.34.74 1 .74 2.03v3.01c0 .29.2.64.76.53A11 11 0 0 0 12 1Z"></path></svg>
+              <span>GitHub</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: auto; color: var(--muted-foreground);"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+            <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground); font-size: 14px; font-weight: 500; text-decoration: none;" style-hover="border-color: var(--brand); color: var(--brand)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 17V10.41H6.16V17h2.18zM7.25 9.5a1.27 1.27 0 1 0 0-2.54 1.27 1.27 0 0 0 0 2.54zM18 17v-3.62c0-1.94-1.04-2.85-2.42-2.85-1.12 0-1.62.62-1.9 1.05v-.9h-2.18c.03.62 0 6.32 0 6.32h2.18v-3.53c0-.2.01-.39.07-.53.16-.39.51-.79 1.11-.79.79 0 1.1.6 1.1 1.47V17H18z"></path></svg>
+              <span>LinkedIn</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: auto; color: var(--muted-foreground);"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+            <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground); font-size: 14px; font-weight: 500; text-decoration: none;" style-hover="border-color: var(--brand); color: var(--brand)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>
+              <span>RSS feed</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: auto; color: var(--muted-foreground);"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+          </div>
+        </div>
+
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 14px;">Quick facts</div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+              <div style="display: flex; gap: 12px; align-items: baseline;">
+                <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted-foreground); flex: 0 0 84px;">{{ f.k }}</span>
+                <span style="font-size: 13px; line-height: 1.5;">{{ f.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 800}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const facts = [
+      { k: 'Currently', v: 'Studying A+ Core 1 · targeting the exam in 4 weeks' },
+      { k: 'Goal', v: 'A career in cybersecurity, earned in the open' },
+      { k: 'Tools', v: 'VirtualBox · OpenVAS · Splunk · pfSense · Wireshark' },
+      { k: 'Certs', v: 'A+ (in progress) · Network+ (started) · Security+ (planned)' },
+    ];
+    return { desktop: !m, mobile: m, facts };
+  }
+}
+</script>
+</body>
+</html>

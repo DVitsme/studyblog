@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .sb-root {
+    --radius: 0.625rem;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --brand: oklch(0.55 0.18 255);
+    --brand-foreground: oklch(0.985 0 0);
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+  }
+  .sb-root.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --brand: oklch(0.7 0.15 255);
+    --brand-foreground: oklch(0.145 0 0);
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+  }
+  @keyframes sbGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</helmet>
+
+<div class="sb-root {{ themeClass }}" style="background: var(--background); color: var(--foreground); font-family: var(--font-sans); min-height: 100vh; transition: background 0.2s ease, color 0.2s ease;">
+
+  <!-- ARTIFACT TOP BAR -->
+  <div style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; background: color-mix(in oklch, var(--background) 86%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+    <div style="display: flex; align-items: baseline; gap: 12px; min-width: 0;">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px; letter-spacing: -0.01em;">study<span style="color: var(--brand);">blog</span></span>
+      <span style="font-size: 13px; color: var(--muted-foreground);">Design Foundations · Stage 0</span>
+    </div>
+    <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+      <button onClick="{{ setLight }}" style="{{ lightBtnStyle }}">Light</button>
+      <button onClick="{{ setDark }}" style="{{ darkBtnStyle }}">Dark</button>
+    </div>
+  </div>
+
+  <div style="max-width: 1120px; margin: 0 auto; padding: 48px 24px 96px;">
+
+    <!-- HERO / INTRO -->
+    <header style="margin-bottom: 64px;">
+      <div style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px;">Foundations · v1</div>
+      <h1 style="font-size: 48px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; margin: 0 0 16px;">The visual language for a study journal that doubles as proof of work.</h1>
+      <p style="font-size: 18px; line-height: 1.6; color: var(--muted-foreground); max-width: 68ch; margin: 0;">A calm, content-first system — neutral surfaces, one confident tech-blue accent, Inter for reading and JetBrains&nbsp;Mono for the technical chrome. Every value below is the production OKLCH token; every component maps to a shadcn/ui "new-york" primitive. Toggle the theme — both modes are first-class.</p>
+    </header>
+
+    <!-- ============ STYLE TILE ============ -->
+    <section style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">01</span>
+        <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Style tile</h2>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+      </div>
+
+      <!-- COLOR -->
+      <div style="margin-bottom: 44px;">
+        <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin: 0 0 16px;">Color · semantic tokens</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
+          <sc-for list="{{ colorTokens }}" as="tok" hint-placeholder-count="8">
+            <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card);">
+              <div style="{{ tok.boxStyle }}"></div>
+              <div style="padding: 10px 12px;">
+                <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 500;">{{ tok.tw }}</div>
+                <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 3px;">{{ tok.use }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top: 16px;">
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 8px;">data-viz ramp · --chart-1…5 (+ --brand)</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <sc-for list="{{ charts }}" as="c" hint-placeholder-count="5">
+              <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
+                <div style="{{ c.boxStyle }}"></div>
+                <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">{{ c.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <!-- TYPE -->
+      <div style="margin-bottom: 44px;">
+        <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin: 0 0 16px;">Type · Inter + JetBrains Mono</h3>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--border);">
+            <span style="font-size: 48px; font-weight: 600; letter-spacing: -0.03em; line-height: 1;">Subnetting, finally clear</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">text-5xl · 600</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--border);">
+            <span style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;">Objectives coverage tracker</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">text-3xl · 600</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--border);">
+            <span style="font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Week 6: 14 hours in</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">text-xl · 600</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--border);">
+            <span style="font-size: 18px; line-height: 1.7; color: var(--foreground); max-width: 68ch;">Body copy sits at <strong style="font-weight: 600;">text-lg</strong> with relaxed leading and a ~68ch measure so long study posts stay effortless to read.</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">text-lg · 400</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--border);">
+            <span style="font-size: 14px; color: var(--muted-foreground);">Secondary / meta text — text-sm, muted-foreground.</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">text-sm · 400</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px;">
+            <span style="font-family: var(--font-mono); font-size: 13px;">Published Jun 18, 2026 · 7 min read</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">mono · meta chips</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPACING + ELEVATION -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        <div>
+          <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin: 0 0 16px;">Spacing rhythm · 4px base</h3>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ spacing }}" as="s" hint-placeholder-count="6">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); width: 56px;">{{ s.name }}</span>
+                <div style="{{ s.barStyle }}"></div>
+                <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">{{ s.px }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin: 0 0 16px;">Elevation &amp; border</h3>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;">
+              <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Flat + hairline (default)</div>
+              <div style="font-size: 13px; color: var(--muted-foreground);">border-border, no shadow. The developer-tool resting state for nearly every surface.</div>
+            </div>
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 4px 12px -2px rgb(0 0 0 / 0.08);">
+              <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Raised (use sparingly)</div>
+              <div style="font-size: 13px; color: var(--muted-foreground);">Reserved for popovers, dropdowns, dialogs, command palette — never resting cards.</div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div style="width: 48px; height: 32px; background: var(--secondary); border: 1px solid var(--border); border-radius: calc(var(--radius) - 4px);"></div>
+              <div style="width: 48px; height: 32px; background: var(--secondary); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);"></div>
+              <div style="width: 48px; height: 32px; background: var(--secondary); border: 1px solid var(--border); border-radius: var(--radius);"></div>
+              <div style="width: 48px; height: 32px; background: var(--secondary); border: 1px solid var(--border); border-radius: calc(var(--radius) + 4px);"></div>
+              <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">sm · md · lg · xl</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPONENT KIT ============ -->
+    <section style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">02</span>
+        <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Component kit</h2>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">shadcn/ui · new-york</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+        <!-- BUTTONS -->
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+            <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Button</h3>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">button</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px;">
+            <button style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; height: 36px; padding: 0 16px; border: none; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); cursor: pointer; transition: opacity 0.15s;" style-hover="opacity: 0.9" style-focus="outline: none; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);">Read the post</button>
+            <button style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; height: 36px; padding: 0 16px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--secondary); color: var(--secondary-foreground); cursor: pointer; transition: background 0.15s;" style-hover="background: var(--accent)" style-focus="outline: none; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);">Browse archive</button>
+            <button style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; height: 36px; padding: 0 12px; border: none; border-radius: calc(var(--radius) - 2px); background: transparent; color: var(--foreground); cursor: pointer; transition: background 0.15s;" style-hover="background: var(--accent)" style-focus="outline: none; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);">Skip</button>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); width: 64px;">states</span>
+            <button style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; height: 36px; padding: 0 16px; border: none; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); opacity: 0.9;">hover</button>
+            <button style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; height: 36px; padding: 0 16px; border: none; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);">focus</button>
+            <button disabled style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; height: 36px; padding: 0 16px; border: none; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); opacity: 0.5; pointer-events: none;">disabled</button>
+            <a href="#" style="font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: var(--brand); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Inline link
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- BADGES + TYPE CHIPS -->
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+            <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Badge &amp; type chips</h3>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">badge</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--primary); color: var(--primary-foreground);">default</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--secondary); color: var(--secondary-foreground);">secondary</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--foreground);">outline</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--brand); color: var(--brand-foreground);">brand</span>
+            <span style="font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--destructive); color: oklch(0.985 0 0);">destructive</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">post "type" chips — mono, outline</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <sc-for list="{{ postTypes }}" as="t" hint-placeholder-count="9">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.01em; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground); background: var(--background);">{{ t }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- TAG PILLS -->
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+            <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Tag pill</h3>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">tag-pill.tsx</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ tags }}" as="tag" hint-placeholder-count="8">
+              <a href="#" style="font-family: var(--font-mono); font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--secondary); color: var(--secondary-foreground); text-decoration: none; transition: background 0.15s;" style-hover="background: var(--accent); color: var(--brand);">#{{ tag }}</a>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- INPUTS -->
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+            <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Input · Select · Textarea</h3>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">input · select · textarea</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground);"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input placeholder="Search posts, tags, domains…" style="flex: 1; border: none; outline: none; background: transparent; font-family: var(--font-sans); font-size: 14px; color: var(--foreground); min-width: 0;" style-focus="outline: none;">
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 12px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); font-size: 14px; color: var(--foreground);">
+              <span>Section: CompTIA Security+</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground);"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <textarea placeholder="Excerpt…" rows="2" style="resize: none; padding: 8px 12px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); font-family: var(--font-sans); font-size: 14px; color: var(--foreground); outline: none;">I avoided subnetting for two weeks. Here's the mental model that made /26 and /27 stop being scary.</textarea>
+            <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--brand); border-radius: calc(var(--radius) - 2px); background: var(--background); box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);">
+              <span style="font-size: 14px; color: var(--foreground);">Focused input — brand ring</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TABS -->
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 20px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+          <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Tabs</h3>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">tabs</span>
+        </div>
+        <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border-radius: calc(var(--radius) - 2px);">
+          <button onClick="{{ setLatest }}" style="{{ tabLatestStyle }}">Latest</button>
+          <button onClick="{{ setLabs }}" style="{{ tabLabsStyle }}">Labs</button>
+          <button onClick="{{ setProjects }}" style="{{ tabProjectsStyle }}">Projects</button>
+        </div>
+        <div style="margin-top: 14px; font-size: 14px; color: var(--muted-foreground);">Showing: <span style="color: var(--foreground); font-weight: 500;">{{ tabLabel }}</span> — Radix-backed, brand active state, keyboard-navigable.</div>
+      </div>
+    </section>
+
+    <!-- ============ COMPOSITES ============ -->
+    <section style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">03</span>
+        <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Composite components</h2>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+      </div>
+
+      <!-- SITE HEADER -->
+      <div style="margin-bottom: 28px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">components/site/site-header.tsx — desktop</div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);">
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+          <nav style="display: flex; align-items: center; gap: 4px;">
+            <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">A+</a>
+            <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--brand); font-weight: 500; text-decoration: none; background: color-mix(in oklch, var(--brand) 10%, transparent);">Security+</a>
+            <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Network+</a>
+            <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Journey</a>
+            <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Projects</a>
+            <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">About</a>
+          </nav>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button aria-label="Toggle theme" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line></svg>
+            </button>
+          </div>
+        </div>
+        <!-- mobile header -->
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin: 14px 0 8px;">mobile — collapses to a sheet</div>
+        <div style="max-width: 390px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);">
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- POST CARDS -->
+      <div style="margin-bottom: 28px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">components/site/post-card.tsx</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">
+          <sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
+            <a href="#" style="display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; transition: border-color 0.15s;" style-hover="border-color: var(--brand)">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ p.type }}</span>
+                <span style="font-size: 12px; color: var(--muted-foreground);">{{ p.crumb }}</span>
+              </div>
+              <h4 style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 8px; text-wrap: balance;">{{ p.title }}</h4>
+              <p style="font-size: 14px; line-height: 1.55; color: var(--muted-foreground); margin: 0 0 16px; flex: 1;">{{ p.excerpt }}</p>
+              <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ p.meta }}</div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- PROJECT CARD + COVERAGE -->
+      <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-bottom: 8px;">
+
+        <!-- PROJECT CARD -->
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">components/site/project-card.tsx</div>
+          <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; height: calc(100% - 27px);">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--brand); color: var(--brand);">project</span>
+              <span style="font-size: 12px; color: var(--muted-foreground);">Security+ · Security Operations</span>
+              <span style="margin-left: auto; font-size: 12px; font-weight: 500; color: oklch(0.6 0.118 184.704);">● Shipped</span>
+            </div>
+            <h4 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; margin: 0 0 10px; text-wrap: balance;">Vulnerability Management in My Home Lab: 47 Hosts, 12 Criticals → 3</h4>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--muted-foreground); margin: 0 0 18px;">I built a credentialed-scan pipeline with OpenVAS, triaged by CVSS, actually remediated, and re-scanned. Here's the report — and what broke along the way.</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px;">
+              <div style="border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); padding: 10px 12px;">
+                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: var(--brand);">47</div>
+                <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px;">hosts scanned</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); padding: 10px 12px;">
+                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: var(--brand);">12 → 3</div>
+                <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px;">criticals remediated</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); padding: 10px 12px;">
+                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: var(--brand);">92%</div>
+                <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px;">of highs closed</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <a href="#" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); color: var(--foreground); text-decoration: none;" style-hover="background: var(--accent)">GitHub repo
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <a href="#" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); color: var(--foreground); text-decoration: none;" style-hover="background: var(--accent)">3-min demo
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- COVERAGE CHECKLIST -->
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">components/site/coverage-checklist.tsx</div>
+          <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; height: calc(100% - 27px);">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px;">
+              <h4 style="font-size: 16px; font-weight: 600; margin: 0;">Security+ coverage</h4>
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">SY0-701</span>
+            </div>
+            <div style="font-size: 13px; color: var(--muted-foreground); margin-bottom: 16px;">3 of 5 domains documented · 60%</div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <sc-for list="{{ secChecklist }}" as="d" hint-placeholder-count="5">
+                <div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                  <sc-if value="{{ d.done }}" hint-placeholder-val="{{ true }}">
+                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 999px; background: var(--brand); color: var(--brand-foreground); flex-shrink: 0;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                  </sc-if>
+                  <sc-if value="{{ d.empty }}" hint-placeholder-val="{{ false }}">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 999px; border: 1.5px solid var(--border); flex-shrink: 0;"></span>
+                  </sc-if>
+                  <span style="{{ d.labelStyle }}">{{ d.domain }}</span>
+                  <span style="margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); flex-shrink: 0;">{{ d.count }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITE FOOTER -->
+      <div style="margin-top: 28px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">components/site/site-footer.tsx</div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 20px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);">
+          <div style="max-width: 48ch;">
+            <span style="font-family: var(--font-mono); font-weight: 600; font-size: 14px;">study<span style="color: var(--brand);">blog</span></span>
+            <p style="font-size: 13px; color: var(--muted-foreground); margin: 6px 0 0;">One person, documenting the road to A+, Network+ and Security+ in the open. Built and designed by the author.</p>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">GitHub</a>
+            <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">LinkedIn</a>
+            <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">RSS</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ASSEMBLED FRAGMENT ============ -->
+    <section style="margin-bottom: 64px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">04</span>
+        <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Assembled · home progress snapshot</h2>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 8px;">coverage-bar.tsx × 3 — the signature dashboard, proving the kit holds together</div>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px;">
+        <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;">
+          <h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">The journey so far</h3>
+        </div>
+        <p style="font-size: 14px; color: var(--muted-foreground); margin: 0 0 24px;">Coverage = official exam domains with at least one published post ÷ total domains. Honest, not gamified.</p>
+        <div style="display: flex; flex-direction: column; gap: 22px;">
+          <sc-for list="{{ certs }}" as="c" hint-placeholder-count="3">
+            <div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: baseline; gap: 10px;">
+                  <span style="font-size: 16px; font-weight: 600;">{{ c.name }}</span>
+                  <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ c.exam }}</span>
+                </div>
+                <div style="display: flex; align-items: baseline; gap: 8px;">
+                  <span style="font-size: 13px; color: var(--muted-foreground);">{{ c.fraction }}</span>
+                  <span style="font-family: var(--font-mono); font-size: 16px; font-weight: 600; color: var(--brand);">{{ c.pctLabel }}</span>
+                </div>
+              </div>
+              <div style="position: relative; height: 8px; background: var(--muted); border-radius: 999px; overflow: hidden;">
+                <div style="{{ c.fillStyle }}"></div>
+              </div>
+              <div style="{{ c.noteStyle }}">{{ c.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DELIVERABLES POINTER ============ -->
+    <section>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">05</span>
+        <h2 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Handoff deliverables</h2>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;">
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--brand); margin-bottom: 10px;">Component-Library-Sheet-v1.md</div>
+          <h4 style="font-size: 16px; font-weight: 600; margin: 0 0 8px;">Component Library sheet (v1)</h4>
+          <p style="font-size: 14px; line-height: 1.6; color: var(--muted-foreground); margin: 0;">Every reusable component above — variants, props, the exact token/Tailwind classes, all states, shadcn primitive + target file path. Started now, extended each stage.</p>
+        </div>
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;">
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--brand); margin-bottom: 10px;">Handoff-Plan.md</div>
+          <h4 style="font-size: 16px; font-weight: 600; margin: 0 0 8px;">Design-to-development handoff plan</h4>
+          <p style="font-size: 14px; line-height: 1.6; color: var(--muted-foreground); margin: 0;">The per-screen Handoff Spec contract, token-only styling rule, shadcn/file mapping, and the light+dark / mobile+desktop commitment for every screen from Stage 1 on.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startDark&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Theme&quot;}, &quot;reduceMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { dark: undefined, tab: 'latest' };
+
+  renderVals() {
+    const dark = this.state.dark ?? this.props.startDark ?? false;
+    const reduce = this.props.reduceMotion ?? false;
+
+    const colorTokens = [
+      { tw: 'bg-background', name: 'background', use: 'page surface', light: 'oklch(1 0 0)' },
+      { tw: 'text-foreground', name: 'foreground', use: 'primary text' },
+      { tw: 'bg-card', name: 'card', use: 'card / panel' },
+      { tw: 'bg-muted', name: 'muted', use: 'subtle fills, tracks' },
+      { tw: 'text-muted-foreground', name: 'muted-foreground', use: 'meta, secondary' },
+      { tw: 'bg-primary', name: 'primary', use: 'primary buttons' },
+      { tw: 'bg-secondary', name: 'secondary', use: 'secondary buttons' },
+      { tw: 'border-border', name: 'border', use: 'hairline borders' },
+      { tw: 'bg-brand', name: 'brand', use: 'links · active · focus · bars' },
+      { tw: 'bg-destructive', name: 'destructive', use: 'errors only' },
+    ].map(t => ({ ...t, boxStyle: { height: '52px', background: 'var(--' + t.name + ')', borderBottom: '1px solid var(--border)' } }));
+
+    const charts = [1, 2, 3, 4, 5].map(n => ({
+      label: 'chart-' + n,
+      boxStyle: { width: '52px', height: '40px', borderRadius: 'calc(var(--radius) - 4px)', background: 'var(--chart-' + n + ')', border: '1px solid var(--border)' },
+    }));
+
+    const spacing = [
+      { name: 'space-1', px: '4px', w: 4 },
+      { name: 'space-2', px: '8px', w: 8 },
+      { name: 'space-4', px: '16px', w: 16 },
+      { name: 'space-6', px: '24px', w: 24 },
+      { name: 'space-12', px: '48px', w: 48 },
+      { name: 'space-24', px: '96px', w: 96 },
+    ].map(s => ({ ...s, barStyle: { height: '14px', width: s.w + 'px', background: 'var(--brand)', borderRadius: '2px' } }));
+
+    const postTypes = ['concept', 'cram', 'lab', 'troubleshooting', 'practice-exam', 'study-guide', 'journal', 'project', 'resources'];
+    const tags = ['subnetting', 'tcp-ip', 'firewalls', 'pki', 'malware', 'raid', 'siem', 'troubleshooting-methodology'];
+
+    const posts = [
+      { type: 'concept', crumb: 'A+ · Networking', title: 'Subnetting Without Tears: How CIDR Finally Clicked', excerpt: "I avoided subnetting for two weeks. Here's the mental model that made /26 and /27 stop being scary — and the 4-step method I now use on every practice question.", meta: 'Jun 18, 2026 · 7 min read' },
+      { type: 'journal', crumb: 'The Journey', title: 'Week 6: 14 Hours In, First Core 1 Practice Test at 81%', excerpt: "Hardware domain is solid, troubleshooting still shaky. Hours logged, wins, and the three things I'm fixing next week.", meta: 'Jun 22, 2026 · 3 min read' },
+      { type: 'troubleshooting', crumb: 'A+ · HW &amp; Network Troubleshooting', title: 'No POST, No Beep: Walking the A+ Methodology on a Dead PC', excerpt: "Applying CompTIA's 6-step troubleshooting theory to a build that wouldn't power on — step by step, including the dumb thing that turned out to be the cause.", meta: 'Jun 12, 2026 · 9 min read' },
+    ];
+
+    const secChecklist = [
+      { domain: 'General Security Concepts', count: '3 posts', done: true },
+      { domain: 'Threats, Vulnerabilities & Mitigations', count: '5 posts', done: true },
+      { domain: 'Security Operations', count: '2 posts', done: true },
+      { domain: 'Security Architecture', count: '0 posts', done: false },
+      { domain: 'Security Program Management & Oversight', count: '0 posts', done: false },
+    ].map(d => ({
+      ...d,
+      empty: !d.done,
+      labelStyle: { fontSize: '14px', color: d.done ? 'var(--foreground)' : 'var(--muted-foreground)' },
+    }));
+
+    const certs = [
+      { name: 'CompTIA A+', exam: '220-1201 / 220-1202', covered: 4, total: 9, pct: 44, note: '' },
+      { name: 'CompTIA Security+', exam: 'SY0-701', covered: 3, total: 5, pct: 60, note: '' },
+      { name: 'CompTIA Network+', exam: 'N10-009', covered: 0, total: 5, pct: 0, note: 'Just started — first posts landing soon.' },
+    ].map(c => ({
+      ...c,
+      fraction: c.covered + ' of ' + c.total + ' domains',
+      pctLabel: c.pct + '%',
+      fillStyle: {
+        position: 'absolute', left: 0, top: 0, height: '100%', width: c.pct + '%',
+        background: 'var(--brand)', borderRadius: '999px', transformOrigin: 'left',
+        ...(reduce ? {} : { animation: 'sbGrow 0.7s cubic-bezier(0.22,1,0.36,1) both' }),
+      },
+      noteStyle: c.note ? { fontSize: '12px', color: 'var(--muted-foreground)', marginTop: '6px' } : { display: 'none' },
+    }));
+
+    const segActive = { fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, padding: '6px 14px', border: 'none', borderRadius: 'calc(var(--radius) - 4px)', cursor: 'pointer', background: 'var(--background)', color: 'var(--foreground)', boxShadow: '0 1px 2px rgb(0 0 0 / 0.08)' };
+    const segIdle = { fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, padding: '6px 14px', border: 'none', borderRadius: 'calc(var(--radius) - 4px)', cursor: 'pointer', background: 'transparent', color: 'var(--muted-foreground)' };
+
+    const tab = this.state.tab;
+    const tabLabels = { latest: 'Latest posts', labs: 'Lab write-ups', projects: 'Project case studies' };
+
+    return {
+      themeClass: dark ? 'dark' : '',
+      setLight: () => this.setState({ dark: false }),
+      setDark: () => this.setState({ dark: true }),
+      lightBtnStyle: dark ? segIdle : segActive,
+      darkBtnStyle: dark ? segActive : segIdle,
+      colorTokens, charts, spacing, postTypes, tags, posts, secChecklist, certs,
+      setLatest: () => this.setState({ tab: 'latest' }),
+      setLabs: () => this.setState({ tab: 'labs' }),
+      setProjects: () => this.setState({ tab: 'projects' }),
+      tabLatestStyle: tab === 'latest' ? segActive : segIdle,
+      tabLabsStyle: tab === 'labs' ? segActive : segIdle,
+      tabProjectsStyle: tab === 'projects' ? segActive : segIdle,
+      tabLabel: tabLabels[tab],
+    };
+  }
+}
+</script>
+</body>
+</html>

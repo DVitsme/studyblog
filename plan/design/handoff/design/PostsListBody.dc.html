@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: flex; width: 100%; min-height: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <dc-import name="AdminShell" active="posts" hint-size="224px,100%"></dc-import>
+  </sc-if>
+
+  <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;">
+
+    <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+      <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+          <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px;">admin</span>
+        </div>
+        <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      </header>
+    </sc-if>
+
+    <!-- PAGE HEADER -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 24px 18px; border-bottom: 1px solid var(--border);">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 6px;">Admin / Posts</div>
+        <h1 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Posts</h1>
+      </div>
+      <a href="#" style="display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); font-size: 14px; font-weight: 500; text-decoration: none;" style-hover="opacity: 0.9"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>New post</a>
+    </div>
+
+    <div style="padding: 18px 24px 24px;">
+
+      <!-- FILTER BAR -->
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); flex: 1 1 200px; max-width: 280px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground);"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input placeholder="Search posts…" style="flex: 1; border: none; outline: none; background: transparent; font-family: var(--font-sans); font-size: 13px; color: var(--foreground); min-width: 0;">
+        </div>
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+          <div style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); font-size: 13px; color: var(--foreground);">{{ f }}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground);"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </sc-for>
+        <span style="margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ countLabel }}</span>
+      </div>
+
+      <!-- TABLE (desktop) -->
+      <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: var(--muted);">
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 16px;">Title</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 12px;">Status</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 12px;">Section</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 12px;">Type</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 12px;">Date</th>
+                <th style="width: 44px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+                <tr style="border-top: 1px solid var(--border);" style-hover="background: var(--accent)">
+                  <td style="padding: 11px 16px; font-size: 14px; font-weight: 500; max-width: 360px;"><span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</span></td>
+                  <td style="padding: 11px 12px;"><span style="{{ r.statusStyle }}">{{ r.status }}</span></td>
+                  <td style="padding: 11px 12px; font-size: 13px; color: var(--muted-foreground); white-space: nowrap;">{{ r.section }}</td>
+                  <td style="padding: 11px 12px;"><span style="font-family: var(--font-mono); font-size: 11px; padding: 2px 7px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ r.type }}</span></td>
+                  <td style="padding: 11px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">{{ r.date }}</td>
+                  <td style="padding: 11px 12px; text-align: right;"><button aria-label="Row actions" style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: none; border-radius: calc(var(--radius) - 4px); background: transparent; color: var(--muted-foreground); cursor: pointer;" style-hover="background: var(--background); color: var(--foreground)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="12" cy="19" r="1.6"></circle></svg></button></td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <!-- STACKED CARDS (mobile) -->
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="{{ r.statusStyle }}">{{ r.status }}</span>
+                <span style="font-family: var(--font-mono); font-size: 11px; padding: 2px 7px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ r.type }}</span>
+                <button aria-label="Row actions" style="margin-left: auto; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: none; background: transparent; color: var(--muted-foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="12" cy="19" r="1.6"></circle></svg></button>
+              </div>
+              <div style="font-size: 14px; font-weight: 500; line-height: 1.3; margin-bottom: 6px;">{{ r.title }}</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">{{ r.section }} · {{ r.date }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 720}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const pill = (kind) => kind === 'Published'
+      ? { display: 'inline-flex', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '3px 8px', borderRadius: '999px', background: 'color-mix(in oklch, var(--brand) 14%, transparent)', color: 'var(--brand)' }
+      : { display: 'inline-flex', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '3px 8px', borderRadius: '999px', background: 'var(--muted)', color: 'var(--muted-foreground)' };
+    const rows = [
+      { title: 'Next-Gen Firewalls, Segmentation & Zero Trust', status: 'Draft', section: 'Security+', type: 'study-guide', date: '— ' },
+      { title: 'Vulnerability Management in My Home Lab', status: 'Published', section: 'Security+', type: 'project', date: 'Jun 25' },
+      { title: 'Week 6: 14 Hours In, First Core 1 Test at 81%', status: 'Published', section: 'A+', type: 'journal', date: 'Jun 22' },
+      { title: 'Ports & Protocols Cheat Sheet (A+ / Net+ / Sec+)', status: 'Published', section: 'A+', type: 'cram', date: 'Jun 20' },
+      { title: 'Subnetting Without Tears: How CIDR Finally Clicked', status: 'Published', section: 'A+', type: 'concept', date: 'Jun 18' },
+      { title: 'Segmenting the Home Network with VLANs + pfSense', status: 'Draft', section: 'Network+', type: 'lab', date: '— ' },
+      { title: 'Standing Up Splunk Free: My First SIEM Dashboard', status: 'Published', section: 'Security+', type: 'lab', date: 'Jun 14' },
+      { title: 'No POST, No Beep: Walking the A+ Methodology', status: 'Published', section: 'A+', type: 'troubleshooting', date: 'Jun 12' },
+    ].map((r) => ({ ...r, statusStyle: pill(r.status) }));
+    return { desktop: !m, mobile: m, rows, filters: ['Status: All', 'Section: All', 'Type: All'], countLabel: rows.length + ' of 19 posts' };
+  }
+}
+</script>
+</body>
+</html>

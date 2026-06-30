@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: flex; width: 100%; min-height: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <dc-import name="AdminShell" active="dashboard" hint-size="224px,100%"></dc-import>
+  </sc-if>
+
+  <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;">
+
+    <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+      <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+          <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px;">admin</span>
+        </div>
+        <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      </header>
+    </sc-if>
+
+    <!-- PAGE HEADER -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 24px 18px; border-bottom: 1px solid var(--border);">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-bottom: 6px;">Admin</div>
+        <h1 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Dashboard</h1>
+      </div>
+      <a href="#" style="display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); font-size: 14px; font-weight: 500; text-decoration: none;" style-hover="opacity: 0.9"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>New post</a>
+    </div>
+
+    <div style="padding: 24px; display: flex; flex-direction: column; gap: 22px;">
+
+      <!-- STAT CARDS -->
+      <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+          <div style="flex: 1 1 200px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-foreground);">{{ s.label }}</span>
+              <span style="{{ s.iconStyle }}" data-ico="{{ s.icon }}"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="font-family: var(--font-mono); font-size: 30px; font-weight: 600; line-height: 1;">{{ s.value }}</span>
+              <span style="font-size: 12px; color: var(--muted-foreground);">{{ s.sub }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- TWO COLUMN -->
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+
+        <!-- RECENT POSTS -->
+        <div style="flex: 1 1 420px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border);">
+            <h2 style="font-size: 15px; font-weight: 600; margin: 0;">Recent posts</h2>
+            <a href="#" style="font-size: 13px; font-weight: 500; color: var(--brand); text-decoration: none;">All posts</a>
+          </div>
+          <sc-for list="{{ recent }}" as="r" hint-placeholder-count="5">
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border);">
+              <span style="{{ r.statusStyle }}">{{ r.status }}</span>
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-top: 2px;">{{ r.meta }}</div>
+              </div>
+              <a href="#" style="font-size: 13px; color: var(--muted-foreground); text-decoration: none; flex-shrink: 0;" style-hover="color: var(--brand)">Edit</a>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- COVERAGE GAPS -->
+        <div style="flex: 1 1 300px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+          <div style="padding: 14px 18px; border-bottom: 1px solid var(--border);">
+            <h2 style="font-size: 15px; font-weight: 600; margin: 0 0 3px;">Coverage gaps</h2>
+            <p style="font-size: 12px; color: var(--muted-foreground); margin: 0;">Domains with no published post — write next.</p>
+          </div>
+          <sc-for list="{{ gaps }}" as="g" hint-placeholder-count="4">
+            <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit;" style-hover="background: var(--accent)">
+              <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 999px; border: 1.5px solid var(--border); flex-shrink: 0;"></span>
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ g.domain }}</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); margin-top: 2px;">{{ g.cert }}</div>
+              </div>
+              <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--brand); flex-shrink: 0;">Write<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+            </a>
+          </sc-for>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 720}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const icons = {
+      draft: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>',
+      published: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+      week: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>',
+    };
+    this._icons = icons;
+    const stats = [
+      { label: 'Drafts', value: '2', sub: 'in progress', icon: 'draft' },
+      { label: 'Published', value: '17', sub: 'live posts', icon: 'published' },
+      { label: 'This week', value: '1', sub: 'post · 6 hrs logged', icon: 'week' },
+    ].map((s) => ({ ...s, iconStyle: { display: 'inline-flex', color: 'var(--muted-foreground)' } }));
+
+    const pill = (kind) => kind === 'published'
+      ? { flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '3px 8px', borderRadius: '999px', background: 'color-mix(in oklch, var(--brand) 14%, transparent)', color: 'var(--brand)' }
+      : { flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '3px 8px', borderRadius: '999px', background: 'var(--muted)', color: 'var(--muted-foreground)' };
+
+    const recent = [
+      { status: 'draft', title: 'Next-Gen Firewalls, Segmentation & Zero Trust', meta: 'Security+ · Security Architecture · edited 2h ago' },
+      { status: 'published', title: 'Vulnerability Management in My Home Lab', meta: 'project · Jun 25' },
+      { status: 'published', title: 'Week 6: 14 Hours In, First Core 1 Test at 81%', meta: 'journal · Jun 22' },
+      { status: 'draft', title: 'Segmenting the Home Network with VLANs + pfSense', meta: 'Network+ · Network Security · edited Jun 27' },
+      { status: 'published', title: 'Ports & Protocols Cheat Sheet', meta: 'cram · Jun 20' },
+    ].map((r) => ({ ...r, statusStyle: pill(r.status) }));
+
+    const gaps = [
+      { domain: 'Security Architecture', cert: 'Security+ · SY0-701' },
+      { domain: 'Security Program Management & Oversight', cert: 'Security+ · SY0-701' },
+      { domain: 'Networking Fundamentals', cert: 'Network+ · N10-009' },
+      { domain: 'Network Implementations', cert: 'Network+ · N10-009' },
+    ];
+
+    return { desktop: !m, mobile: m, stats, recent, gaps };
+  }
+  componentDidMount() { this._paint(); }
+  componentDidUpdate() { this._paint(); }
+  _paint() {
+    document.querySelectorAll('[data-ico]').forEach((el) => {
+      const k = el.getAttribute('data-ico');
+      if (this._icons && this._icons[k] && el.innerHTML.indexOf('svg') === -1) el.innerHTML = this._icons[k];
+    });
+  }
+}
+</script>
+</body>
+</html>

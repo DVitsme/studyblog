@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <!-- HEADER -->
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <nav style="display: flex; align-items: center; gap: 2px;">
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--brand); font-weight: 500; text-decoration: none; background: color-mix(in oklch, var(--brand) 10%, transparent);">A+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Security+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Network+</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Journey</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">Projects</a>
+        <a href="#" style="font-size: 14px; padding: 6px 10px; border-radius: calc(var(--radius) - 4px); color: var(--muted-foreground); text-decoration: none;">About</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <button aria-label="Toggle theme" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line></svg></button>
+      </div>
+    </header>
+  </sc-if>
+  <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+    <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button aria-label="Search" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--muted-foreground);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <button aria-label="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      </div>
+    </header>
+  </sc-if>
+
+  <div style="max-width: 1040px; margin: 0 auto; padding: 28px 20px 56px; display: flex; gap: 48px; align-items: flex-start;">
+
+    <!-- ARTICLE COLUMN -->
+    <article style="flex: 1 1 0; min-width: 0; max-width: 720px;">
+
+      <!-- ARTICLE HEADER -->
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;"><a href="#" style="color: var(--muted-foreground); text-decoration: none;">Home</a> / <a href="#" style="color: var(--muted-foreground); text-decoration: none;">A+</a> / <span style="color: var(--foreground);">Networking</span></div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">concept</span>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">Published Jun 18, 2026</span>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">·</span>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">7 min read</span>
+      </div>
+      <h1 style="font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; margin: 0 0 16px;">Subnetting Without Tears: How CIDR Finally Clicked</h1>
+      <p style="font-size: 19px; line-height: 1.6; color: var(--muted-foreground); margin: 0 0 24px;">I avoided subnetting for two weeks. Here's the mental model that made /26 and /27 stop being scary — and the 4-step method I now use on every practice question.</p>
+      <div style="aspect-ratio: 16 / 7; width: 100%; border-radius: var(--radius); border: 1px solid var(--border); background-color: var(--secondary); background-image: repeating-linear-gradient(135deg, color-mix(in oklch, var(--foreground) 6%, transparent) 0 1px, transparent 1px 11px); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">cover · 16:9 · next/image from R2 · alt required</span>
+      </div>
+
+      <!-- MOBILE INLINE TOC -->
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <details style="border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; margin: 16px 0 8px;">
+          <summary style="font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--muted-foreground); cursor: pointer;">On this page</summary>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+            <sc-for list="{{ toc }}" as="t" hint-placeholder-count="5">
+              <a href="{{ t.href }}" style="font-size: 14px; color: var(--muted-foreground); text-decoration: none;">{{ t.label }}</a>
+            </sc-for>
+          </div>
+        </details>
+      </sc-if>
+
+      <!-- ===== PROSE ===== -->
+      <div style="margin-top: 28px;">
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 20px;">For two weeks I treated subnetting like a locked door. Every practice question with a slash in it — <code style="font-family: var(--font-mono); font-size: 0.875em; background: var(--muted); padding: 2px 6px; border-radius: calc(var(--radius) - 6px);">192.168.1.0/26</code> — sent me straight to the next one. The breakthrough wasn't memorizing tables. It was one mental model plus a method I could run the same way every time.</p>
+
+        <h2 id="why" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#why" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>Why it kept not clicking</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 20px;">I was trying to do binary in my head under time pressure. That works for exactly nobody. The fix was to stop thinking in bits and start thinking in <strong style="font-weight: 600;">block sizes</strong> — the number of addresses each subnet owns. Once the block size is in hand, every other number falls out of it.</p>
+
+        <h2 id="model" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#model" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>The mental model that worked</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 20px;">A prefix like <code style="font-family: var(--font-mono); font-size: 0.875em; background: var(--muted); padding: 2px 6px; border-radius: calc(var(--radius) - 6px);">/26</code> means 26 network bits, so 6 host bits, so 2⁶ = 64 addresses per subnet. The <em>block size</em> is 64. Subnets start at multiples of the block size: 0, 64, 128, 192. That's the whole trick — find the block size, then count in jumps.</p>
+
+        <h2 id="method" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#method" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>The 4-step method</h2>
+        <ol style="font-size: 17px; line-height: 1.7; padding-left: 22px; margin: 0 0 22px;">
+          <li style="margin-bottom: 8px;">Find the block size: <code style="font-family: var(--font-mono); font-size: 0.875em; background: var(--muted); padding: 2px 6px; border-radius: calc(var(--radius) - 6px);">256 − the interesting octet</code> value.</li>
+          <li style="margin-bottom: 8px;">List the subnets in jumps of the block size.</li>
+          <li style="margin-bottom: 8px;">The broadcast is one below the next subnet.</li>
+          <li style="margin-bottom: 0;">Usable hosts are everything between network and broadcast.</li>
+        </ol>
+        <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 0 0 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">subnet-plan · /26</span>
+            <button style="display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); background: transparent; border: none; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copy</button>
+          </div>
+          <pre style="margin: 0; padding: 16px; overflow-x: auto; background: var(--secondary); font-family: var(--font-mono); font-size: 13.5px; line-height: 1.75;"><code><span style="color: var(--foreground);">192.168.1.0</span><span style="color: var(--brand);">/26</span>   <span style="color: var(--muted-foreground);">→ hosts .1–.62,   broadcast .63</span>
+<span style="color: var(--foreground);">192.168.1.64</span><span style="color: var(--brand);">/26</span>  <span style="color: var(--muted-foreground);">→ hosts .65–.126, broadcast .127</span>
+<span style="color: var(--foreground);">192.168.1.128</span><span style="color: var(--brand);">/26</span> <span style="color: var(--muted-foreground);">→ hosts .129–.190, broadcast .191</span></code></pre>
+        </div>
+
+        <h2 id="table" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#table" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>The reference table I memorized</h2>
+        <div style="overflow-x: auto; margin: 0 0 24px; border: 1px solid var(--border); border-radius: var(--radius);">
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <thead>
+              <tr style="background: var(--muted);">
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">CIDR</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Subnet mask</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Block</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Hosts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ cidrRows }}" as="r" hint-placeholder-count="4">
+                <tr style="border-top: 1px solid var(--border);">
+                  <td style="font-family: var(--font-mono); padding: 10px 14px; color: var(--brand);">{{ r.cidr }}</td>
+                  <td style="font-family: var(--font-mono); padding: 10px 14px;">{{ r.mask }}</td>
+                  <td style="font-family: var(--font-mono); padding: 10px 14px;">{{ r.block }}</td>
+                  <td style="font-family: var(--font-mono); padding: 10px 14px;">{{ r.hosts }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: flex-start; background: color-mix(in oklch, var(--brand) 7%, var(--card)); border: 1px solid color-mix(in oklch, var(--brand) 25%, var(--border)); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 24px;">
+          <span style="color: var(--brand); flex-shrink: 0; margin-top: 1px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path></svg></span>
+          <p style="font-size: 14.5px; line-height: 1.6; margin: 0;"><strong style="font-weight: 600;">Tip:</strong> the network ID is always even for /25 and larger — if your worked answer lands on an odd network number, you've slipped a block.</p>
+        </div>
+
+        <h2 id="recap" style="scroll-margin-top: 90px; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; margin: 40px 0 14px;"><a href="#recap" style="font-family: var(--font-mono); color: var(--muted-foreground); text-decoration: none; margin-right: 8px;" style-hover="color: var(--brand)">#</a>What I'd tell past me</h2>
+        <p style="font-size: 17px; line-height: 1.75; margin: 0 0 8px;">Stop doing binary. Find the block size, count in jumps, and the broadcast and host range fall out for free. Twenty practice questions later it's automatic — and the same method scales straight into the Network+ material.</p>
+      </div>
+
+      <!-- TAGS -->
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 32px 0 0; padding-top: 24px; border-top: 1px solid var(--border);">
+        <sc-for list="{{ tags }}" as="tag" hint-placeholder-count="3">
+          <a href="#" style="font-family: var(--font-mono); font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--secondary); color: var(--secondary-foreground); text-decoration: none;" style-hover="background: var(--accent); color: var(--brand)">#{{ tag }}</a>
+        </sc-for>
+      </div>
+
+      <!-- PREV / NEXT -->
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;">
+        <a href="#" style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: inherit;" style-hover="border-color: var(--brand)">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">← Previous in Networking</span>
+          <span style="font-size: 15px; font-weight: 600; line-height: 1.3;">Ports & Protocols Cheat Sheet (A+ / Net+ / Sec+)</span>
+        </a>
+        <a href="#" style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; text-align: right; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: inherit;" style-hover="border-color: var(--brand)">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">Next in Networking →</span>
+          <span style="font-size: 15px; font-weight: 600; line-height: 1.3;">DHCP, DNS & the Order Things Actually Happen</span>
+        </a>
+      </div>
+
+      <!-- RELATED -->
+      <div style="margin-top: 40px;">
+        <h2 style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 14px;">Related posts</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <sc-for list="{{ related }}" as="p" hint-placeholder-count="3">
+            <a href="#" style="flex: 1 1 200px; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: inherit;" style-hover="border-color: var(--brand)">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ p.type }}</span>
+              </div>
+              <h3 style="font-size: 15px; font-weight: 600; line-height: 1.3; margin: 0 0 8px; text-wrap: balance;">{{ p.title }}</h3>
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-top: auto;">{{ p.meta }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- STICKY TOC (desktop) -->
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <aside style="flex: 0 0 200px; position: sticky; top: 84px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 12px;">On this page</div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--border);">
+          <sc-for list="{{ toc }}" as="t" hint-placeholder-count="5">
+            <a href="{{ t.href }}" style="{{ t.style }}">{{ t.label }}</a>
+          </sc-for>
+        </nav>
+      </aside>
+    </sc-if>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="border-top: 1px solid var(--border); background: var(--card);">
+    <div style="max-width: 1040px; margin: 0 auto; padding: 24px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+      <div style="max-width: 48ch;">
+        <span style="font-family: var(--font-mono); font-weight: 600; font-size: 14px;">study<span style="color: var(--brand);">blog</span></span>
+        <p style="font-size: 13px; color: var(--muted-foreground); margin: 6px 0 0;">One person, documenting the road to A+, Network+ and Security+ in the open.</p>
+      </div>
+      <div style="display: flex; gap: 16px;">
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">GitHub</a>
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">LinkedIn</a>
+        <a href="#" style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); text-decoration: none;" style-hover="color: var(--brand)">RSS</a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1040, &quot;height&quot;: 1700}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const toc = [
+      { label: 'Why it kept not clicking', href: '#why', active: false },
+      { label: 'The mental model that worked', href: '#model', active: true },
+      { label: 'The 4-step method', href: '#method', active: false },
+      { label: 'The reference table', href: '#table', active: false },
+      { label: "What I'd tell past me", href: '#recap', active: false },
+    ].map((t) => ({
+      ...t,
+      style: {
+        fontSize: '13px', lineHeight: 1.4, textDecoration: 'none', padding: '5px 0 5px 14px',
+        marginLeft: '-1px', borderLeft: '2px solid ' + (t.active ? 'var(--brand)' : 'transparent'),
+        color: t.active ? 'var(--brand)' : 'var(--muted-foreground)', fontWeight: t.active ? 500 : 400,
+      },
+    }));
+    const cidrRows = [
+      { cidr: '/25', mask: '255.255.255.128', block: '128', hosts: '126' },
+      { cidr: '/26', mask: '255.255.255.192', block: '64', hosts: '62' },
+      { cidr: '/27', mask: '255.255.255.224', block: '32', hosts: '30' },
+      { cidr: '/28', mask: '255.255.255.240', block: '16', hosts: '14' },
+    ];
+    const tags = ['subnetting', 'tcp-ip', 'ipv4'];
+    const related = [
+      { type: 'cram', title: 'Ports & Protocols Cheat Sheet (A+ / Net+ / Sec+)', meta: 'Updated Jun 20 · reference' },
+      { type: 'troubleshooting', title: 'No POST, No Beep: Walking the A+ Methodology', meta: 'Jun 12 · 9 min' },
+      { type: 'journal', title: 'Week 6: 14 Hours In, First Core 1 Test at 81%', meta: 'Jun 22 · 3 min' },
+    ];
+    return { m, desktop: !m, mobile: m, toc, cidrRows, tags, related };
+  }
+}
+</script>
+</body>
+</html>

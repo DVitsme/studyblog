@@ -9,8 +9,9 @@ It was assembled from primary research: a teardown of the working reference proj
 CompTIA exam objectives, the Auth.js + Cloudflare Workers compatibility landscape, and the broader
 career plan in `/home/nero/Clients/Cousin`.
 
-> **Status:** Planning complete. No application code written yet. The current repo is a stock
-> `create-next-app` scaffold (Next 16.2.9 + React 19 + Tailwind v4).
+> **Status:** Phase 0 shipped (pnpm + OpenNext + D1, live on `*.workers.dev`). **Design handoff
+> delivered** — `plan/design/handoff/design/DESIGN-HANDOFF.md` is the UI source of truth; Phases 2–5
+> have been updated to build from it.
 
 ---
 
@@ -31,7 +32,7 @@ Several things differ from pre-16 muscle memory and from generic Node. Internali
 | Rule | Why |
 |------|-----|
 | **Read `node_modules/next/dist/docs/` before writing Next code.** Start with `01-app/02-guides/upgrading/version-16.md`. | `AGENTS.md` mandates it; v16 has breaking changes. |
-| **`middleware.ts` → `proxy.ts`** (root-level), and it is **Node-runtime only** (no `edge`). | v16 rename. Auth uses it for *optimistic* redirects only. |
+| **`middleware.ts` → `proxy.ts`** (Node-runtime only) — **but OpenNext 1.20.1 doesn't support Node middleware**, so ship **no `proxy.ts`**; enforce auth in the `/admin` layout + DAL. | v16 rename + OpenNext limitation (verified Phase 1). |
 | **`cookies()`, `headers()`, `params`, `searchParams` are async** — always `await`. | Sync shims removed in v16. |
 | **Never set `runtime = "edge"`.** OpenNext runs everything on the Node runtime. | Edge is unsupported on this target. |
 | **D1 / R2 / KV are object bindings** — read via `getCloudflareContext().env.*`, **not** `process.env`. | `process.env` only holds string vars/secrets. |
@@ -40,6 +41,8 @@ Several things differ from pre-16 muscle memory and from generic Node. Internali
 | **`pnpm run deploy`**, never `pnpm deploy`. | pnpm's built-in `deploy` shadows the script. |
 | **Tailwind v4 is CSS-first** (`@theme` in `globals.css`, no `tailwind.config.js`). | v4 model. `@source not` exclusions are load-bearing. |
 | **Re-verify auth + ownership inside every Server Action / Route Handler.** | They are public POST endpoints even if never imported. |
+| **The design handoff is the UI source of truth.** Build screens token-named + mapped to the file paths in `plan/design/handoff/design/DESIGN-HANDOFF.md`. | Designs are 1:1 with our tokens + shadcn; transcribe, don't reinterpret. |
+| **Content is D1 + Markdown, not files/MDX.** Coverage = the D1 `domains ⨝ posts` query; Prose renders `body_md`; search queries D1. | The handoff assumes a file model in places — reconcile to D1. |
 
 ## File index
 
@@ -58,12 +61,12 @@ Several things differ from pre-16 muscle memory and from generic Node. Internali
 ### Phases (the "how" and "when" — execution order)
 | Phase | File | Goal |
 |-------|------|------|
-| 0 | `phases/00-foundation.md` | Repo hygiene, npm→pnpm, Cloudflare/OpenNext/D1 wiring, "hello world" deploy. |
+| 0 ✅ | `phases/00-foundation.md` | npm→pnpm, Cloudflare/OpenNext/D1 wiring, "hello world" deploy. **Done — live on `*.workers.dev`.** |
 | 1 | `phases/01-data-and-auth.md` | D1 schema + Drizzle + migrations + seed; Auth.js single-user login; guarded `/admin`. |
-| 2 | `phases/02-content-crud.md` | Admin editor (CRUD/draft/publish), Markdown render pipeline, R2 image uploads, taxonomy management. |
-| 3 | `phases/03-public-site.md` | Public blog: home, cert hubs, category/tag/type archives, post page, coverage tracker, journey timeline, search. |
-| 4 | `phases/04-polish-seo-launch.md` | SEO (metadata/sitemap/robots/OG), RSS, design polish, performance, a11y, launch checklist. |
-| 5 | `phases/05-stretch.md` | Optional: flashcards/spaced repetition, practice-exam analytics, newsletter, comments. |
+| 2 | `phases/02-content-crud.md` | **UI Foundation & Admin CMS** — design system (theme, shadcn primitives, Prose) + the admin editor/dashboard/posts/media, built 1:1 from the design handoff. |
+| 3 | `phases/03-public-site.md` | Public site 1:1 from the design: home, cert hubs, post + project pages, archives, **All Posts**, journey, about, search, coverage tracker. |
+| 4 | `phases/04-polish-seo-launch.md` | SEO (metadata/sitemap/robots/OG), RSS, **error pages**, performance, a11y, security, launch. |
+| 5 | `phases/05-stretch.md` | **Practice-exam tracking (designed)**, flashcards/SRS, newsletter, comments, etc. |
 
 ## Current exam versions (factual baseline — verified mid-2026)
 

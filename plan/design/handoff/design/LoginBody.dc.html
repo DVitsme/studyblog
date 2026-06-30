@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; min-height: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 20px;">
+
+  <div style="width: 100%; max-width: 384px;">
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">study<span style="color: var(--brand);">blog</span></span>
+        <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px;">admin</span>
+      </div>
+      <p style="font-size: 14px; color: var(--muted-foreground); margin: 0;">Sign in to manage your study log.</p>
+    </div>
+
+    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.10);">
+
+      <!-- ERROR BANNER -->
+      <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; margin-bottom: 18px; border-radius: calc(var(--radius) - 2px); background: color-mix(in oklch, var(--destructive) 9%, var(--card)); border: 1px solid color-mix(in oklch, var(--destructive) 32%, var(--border));">
+          <span style="color: var(--destructive); flex-shrink: 0; margin-top: 1px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>
+          <span style="font-size: 13px; line-height: 1.45; color: var(--foreground);">Incorrect email or password. Please try again.</span>
+        </div>
+      </sc-if>
+
+      <form style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <label style="font-size: 13px; font-weight: 500;">Email</label>
+          <input type="email" value="author@studyblog.dev" style="{{ emailInputStyle }}">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between;">
+            <label style="font-size: 13px; font-weight: 500;">Password</label>
+            <a href="#" style="font-size: 12px; color: var(--brand); text-decoration: none;">Forgot?</a>
+          </div>
+          <div style="position: relative; display: flex; align-items: center;">
+            <input type="password" value="************" style="{{ pwInputStyle }}">
+            <button type="button" aria-label="Show password" style="position: absolute; right: 8px; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: none; background: transparent; color: var(--muted-foreground); cursor: pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+          </div>
+          <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size: 12px; color: var(--destructive);">Check your password and try again.</span>
+          </sc-if>
+        </div>
+        <button type="submit" style="display: inline-flex; align-items: center; justify-content: center; height: 38px; border: none; border-radius: calc(var(--radius) - 2px); background: var(--primary); color: var(--primary-foreground); font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 2px;" style-hover="opacity: 0.9">Sign in</button>
+      </form>
+    </div>
+
+    <p style="text-align: center; font-size: 12px; color: var(--muted-foreground); margin: 18px 0 0;">Single-owner blog · no public sign-up.</p>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 480, &quot;height&quot;: 560}, &quot;state&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;default&quot;, &quot;error&quot;], &quot;default&quot;: &quot;default&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const err = (this.props.state || 'default') === 'error';
+    const baseInput = { height: '38px', padding: '0 12px', borderRadius: 'calc(var(--radius) - 2px)', background: 'var(--background)', fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'var(--foreground)', outline: 'none', width: '100%' };
+    const okBorder = '1px solid var(--input)';
+    const errBorder = '1px solid var(--destructive)';
+    return {
+      isError: err,
+      emailInputStyle: { ...baseInput, border: okBorder },
+      pwInputStyle: { ...baseInput, paddingRight: '38px', border: err ? errBorder : okBorder, ...(err ? { boxShadow: '0 0 0 1px var(--destructive)' } : {}) },
+    };
+  }
+}
+</script>
+</body>
+</html>

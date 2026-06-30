@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <dc-import name="SiteHeader" active="" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;">Home / All posts</div>
+
+    <!-- INTRO -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px;">
+      <div>
+        <h1 style="font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px;">All posts</h1>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--muted-foreground); max-width: 64ch; margin: 0;">Everything I've written, newest first — concepts, labs, cram sheets, troubleshooting walk-throughs, projects, and journal entries across all three certs.</p>
+      </div>
+    </div>
+
+    <!-- FACET BAR -->
+    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 18px;">
+      <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); margin-bottom: 14px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground); flex-shrink: 0;"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input placeholder="Filter posts by title, tag, or domain…" style="flex: 1; border: none; outline: none; background: transparent; font-family: var(--font-sans); font-size: 14px; color: var(--foreground); min-width: 0;">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <sc-for list="{{ facetGroups }}" as="grp" hint-placeholder-count="3">
+          <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+            <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-foreground); flex: 0 0 56px;">{{ grp.label }}</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <sc-for list="{{ grp.options }}" as="opt" hint-placeholder-count="5">
+                <span style="{{ opt.style }}">{{ opt.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- COUNT + SORT -->
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--border);">
+      <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ countLabel }}</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 12px; color: var(--muted-foreground);">Sort</span>
+        <div style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border: 1px solid var(--input); border-radius: calc(var(--radius) - 2px); background: var(--background); font-size: 13px;">Newest first<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted-foreground);"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      </div>
+    </div>
+
+    <!-- RESULTS (reverse-chron, grouped by month) -->
+    <sc-if value="{{ isResults }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 12px;">{{ g.month }}</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{ g.posts }}" as="p" hint-placeholder-count="5">
+                <a href="#" style="display: flex; align-items: flex-start; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; text-decoration: none; color: inherit; transition: border-color 0.15s;" style-hover="border-color: var(--brand)">
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+                      <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">{{ p.type }}</span>
+                      <span style="font-size: 12px; color: var(--muted-foreground);">{{ p.crumb }}</span>
+                    </div>
+                    <h3 style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 5px; text-wrap: balance;">{{ p.title }}</h3>
+                    <p style="font-size: 13.5px; line-height: 1.55; color: var(--muted-foreground); margin: 0;">{{ p.excerpt }}</p>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap; flex-shrink: 0; padding-top: 1px;">{{ p.date }}</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; justify-content: center; margin-top: 28px;">
+        <button style="display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 18px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); background: var(--background); color: var(--foreground); font-size: 14px; font-weight: 500; cursor: pointer;" style-hover="background: var(--accent)">Load older posts<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      </div>
+    </sc-if>
+
+    <!-- EMPTY -->
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 56px 24px; border: 1px dashed var(--border); border-radius: var(--radius); background: var(--card);">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: var(--muted); color: var(--muted-foreground);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        <div style="font-size: 16px; font-weight: 600;">No posts match those filters</div>
+        <p style="font-size: 14px; color: var(--muted-foreground); max-width: 44ch; margin: 0;">Try removing a filter or two — or browse everything with the filters cleared.</p>
+        <a href="#" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 14px; font-weight: 500; color: var(--brand); text-decoration: none;">Clear all filters</a>
+      </div>
+    </sc-if>
+
+    <!-- LOADING -->
+    <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="6">
+          <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px;">
+            <div style="width: 90px; height: 16px; border-radius: 999px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 10px;"></div>
+            <div style="width: 62%; height: 15px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite; margin-bottom: 9px;"></div>
+            <div style="width: 100%; height: 12px; border-radius: 4px; background: var(--muted); animation: sbPulse 1.4s ease-in-out infinite;"></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 1100}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;state&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;results&quot;, &quot;empty&quot;, &quot;loading&quot;], &quot;default&quot;: &quot;results&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const state = this.props.state || 'results';
+
+    const chip = (on) => ({
+      fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500, padding: '3px 10px', borderRadius: '999px', cursor: 'pointer',
+      ...(on
+        ? { background: 'color-mix(in oklch, var(--brand) 12%, transparent)', color: 'var(--brand)', border: '1px solid color-mix(in oklch, var(--brand) 30%, var(--border))' }
+        : { background: 'var(--background)', color: 'var(--muted-foreground)', border: '1px solid var(--border)' }),
+    });
+    const facetGroups = [
+      { label: 'Section', options: [['All', true], ['A+', false], ['Security+', false], ['Network+', false]] },
+      { label: 'Type', options: [['concept', false], ['lab', false], ['project', false], ['journal', false], ['cram', false], ['study-guide', false], ['troubleshooting', false]] },
+      { label: 'Tag', options: [['subnetting', false], ['firewalls', false], ['siem', false], ['pki', false], ['raid', false]] },
+    ].map((g) => ({ ...g, options: g.options.map(([label, on]) => ({ label, style: chip(on) })) }));
+
+    const groups = [
+      { month: 'June 2026', posts: [
+        { type: 'project', crumb: 'Security+ · Security Operations', title: 'Vulnerability Management in My Home Lab: 47 Hosts, 12 Criticals → 3', excerpt: 'A credentialed-scan pipeline with OpenVAS — triage by CVSS, remediate, and re-scan to prove the deltas.', date: 'Jun 25' },
+        { type: 'journal', crumb: 'The Journey', title: 'Week 6: 14 Hours In, First Core 1 Practice Test at 81%', excerpt: "Hardware domain is solid, troubleshooting still shaky. Hours logged, wins, and what I'm fixing next.", date: 'Jun 22' },
+        { type: 'cram', crumb: 'A+ · Networking', title: 'Ports & Protocols Cheat Sheet (A+ / Net+ / Sec+)', excerpt: 'Every port number CompTIA expects you to know, grouped so they actually stick, with mnemonics.', date: 'Jun 20' },
+        { type: 'concept', crumb: 'Security+ · General Security Concepts', title: 'The CIA Triad, Explained With Things That Actually Broke', excerpt: 'Confidentiality, integrity, availability — anchored to real outages instead of textbook definitions.', date: 'Jun 19' },
+        { type: 'concept', crumb: 'A+ · Networking', title: 'Subnetting Without Tears: How CIDR Finally Clicked', excerpt: 'The mental model that made /26 and /27 stop being scary — and the 4-step method I use on every question.', date: 'Jun 18' },
+        { type: 'lab', crumb: 'Security+ · Security Operations', title: 'Standing Up Splunk Free: My First Real SIEM Dashboard', excerpt: 'Ingesting logs, writing correlation searches, and building a dashboard that would actually catch something.', date: 'Jun 14' },
+        { type: 'troubleshooting', crumb: 'A+ · HW & Network Troubleshooting', title: 'No POST, No Beep: Walking the A+ Methodology on a Dead PC', excerpt: "CompTIA's 6-step troubleshooting theory applied to a build that wouldn't power on — including the dumb cause.", date: 'Jun 12' },
+        { type: 'study-guide', crumb: 'Security+ · Threats & Mitigations', title: 'Malware Types SY0-701 Will Ask About (With Mnemonics)', excerpt: 'Virus, worm, trojan, ransomware, rootkit — sorted by how they spread and what they do.', date: 'Jun 9' },
+      ] },
+      { month: 'May 2026', posts: [
+        { type: 'lab', crumb: 'A+ · Hardware', title: 'RAID 0/1/5/10 on a Spare Box, Explained by Breaking It', excerpt: 'Configuring each RAID level, then pulling a disk to see what survives. The fastest way to remember them.', date: 'May 30' },
+        { type: 'concept', crumb: 'A+ · Hardware', title: 'Power Supplies, Wattage & Why My Build Kept Rebooting', excerpt: 'PSU fundamentals learned the hard way — rails, wattage headroom, and a debugging story.', date: 'May 24' },
+        { type: 'journal', crumb: 'The Journey', title: 'Week 3: Home Lab Up, First RAID Experiments', excerpt: 'Got the VirtualBox lab stable and broke some disks on purpose. Hands-on beats flashcards.', date: 'May 18' },
+      ] },
+    ];
+
+    return {
+      desktop: !m, mobile: m,
+      isResults: state === 'results', isEmpty: state === 'empty', isLoading: state === 'loading',
+      facetGroups, groups, skeletons: [0, 1, 2, 3, 4, 5],
+      countLabel: '19 posts · all certs',
+    };
+  }
+}
+</script>
+</body>
+</html>

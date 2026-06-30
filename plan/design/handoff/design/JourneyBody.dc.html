@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <dc-import name="SiteHeader" active="journey" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;">Home / Journey</div>
+    <div style="margin-bottom: 28px;">
+      <h1 style="font-size: 34px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 10px;">The journey</h1>
+      <p style="font-size: 17px; line-height: 1.6; color: var(--muted-foreground); max-width: 70ch; margin: 0;">A running log of the road from limited IT training to three CompTIA certs — exam passes, project ships, and the weekly grind in between. No skipped weeks, no rewritten history.</p>
+    </div>
+
+    <!-- NOW BLOCK -->
+    <section style="margin-bottom: 36px;">
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+          <span style="display: inline-flex; width: 8px; height: 8px; border-radius: 999px; background: var(--brand); box-shadow: 0 0 0 4px color-mix(in oklch, var(--brand) 18%, transparent);"></span>
+          <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand);">Now</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 22px 32px;">
+          <div style="flex: 1 1 240px;">
+            <h2 style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px;">Studying A+ Core 1, targeting the exam in 4 weeks</h2>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--muted-foreground); margin: 0;">Hardware and networking domains are solid; troubleshooting methodology is the current focus. Logging ~12 hours a week and writing up one concept post per week.</p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+            <sc-for list="{{ nowStats }}" as="n" hint-placeholder-count="3">
+              <div style="min-width: 92px;">
+                <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 600; color: var(--brand); line-height: 1;">{{ n.value }}</div>
+                <div style="font-size: 12px; color: var(--muted-foreground); margin-top: 5px;">{{ n.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 18px;">Milestones</h2>
+      <div style="position: relative; padding-left: 28px; border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 26px;">
+        <sc-for list="{{ milestones }}" as="mi" hint-placeholder-count="6">
+          <div style="position: relative;">
+            <span style="{{ mi.dotStyle }}"></span>
+            <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ mi.date }}</span>
+              <span style="{{ mi.tagStyle }}">{{ mi.tag }}</span>
+            </div>
+            <h3 style="{{ mi.titleStyle }}">{{ mi.title }}</h3>
+            <p style="font-size: 14px; line-height: 1.55; color: var(--muted-foreground); margin: 4px 0 0;">{{ mi.note }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- WEEKLY JOURNALS -->
+    <section>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px;">
+        <h2 style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 0;">Weekly journal</h2>
+        <a href="#" style="display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 500; color: var(--brand); text-decoration: none;">All entries<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <sc-for list="{{ journals }}" as="j" hint-placeholder-count="4">
+          <a href="#" style="display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; text-decoration: none; color: inherit; transition: border-color 0.15s;" style-hover="border-color: var(--brand)">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground);">journal</span>
+              <span style="font-size: 12px; color: var(--muted-foreground);">{{ j.week }}</span>
+              <span style="margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground);">{{ j.meta }}</span>
+            </div>
+            <h3 style="font-size: 17px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 6px; text-wrap: balance;">{{ j.title }}</h3>
+            <p style="font-size: 14px; line-height: 1.55; color: var(--muted-foreground); margin: 0;">{{ j.excerpt }}</p>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 1100}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const nowStats = [
+      { value: '12h', label: 'this week' },
+      { value: '81%', label: 'last practice test' },
+      { value: '19', label: 'posts published' },
+    ];
+    const dot = (filled) => ({
+      position: 'absolute', left: '-34px', top: '4px', width: '13px', height: '13px', borderRadius: '999px',
+      background: filled ? 'var(--brand)' : 'var(--background)',
+      border: filled ? '2px solid var(--brand)' : '2px solid var(--border)',
+      boxShadow: '0 0 0 4px var(--background)',
+    });
+    const tag = (kind) => {
+      const map = {
+        pass: { bg: 'color-mix(in oklch, var(--brand) 14%, transparent)', fg: 'var(--brand)' },
+        ship: { bg: 'color-mix(in oklch, var(--chart-2) 18%, transparent)', fg: 'oklch(0.5 0.1 184.704)' },
+        start: { bg: 'var(--muted)', fg: 'var(--muted-foreground)' },
+        target: { bg: 'transparent', fg: 'var(--muted-foreground)' },
+      }[kind];
+      return { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', padding: '2px 8px', borderRadius: '999px', background: map.bg, color: map.fg, ...(kind === 'target' ? { border: '1px dashed var(--border)' } : {}) };
+    };
+    const milestones = [
+      { date: 'In 4 weeks', tag: 'Target', tagKind: 'target', title: 'Sit CompTIA A+ Core 1 (220-1201)', note: 'Booked. Troubleshooting domain is the last thing standing between me and a confident pass.', filled: false, future: true },
+      { date: 'Jun 27, 2026', tag: 'Started', tagKind: 'start', title: 'Began Network+ (N10-009)', note: 'First reading pass through networking fundamentals. Documenting it from the very first post — 0% coverage, honestly.', filled: true },
+      { date: 'Jun 25, 2026', tag: 'Shipped', tagKind: 'ship', title: 'Vulnerability Management home-lab project', note: '47 hosts scanned, 12 criticals down to 3. My first end-to-end security write-up with a repo.', filled: true },
+      { date: 'Jun 18, 2026', tag: 'Milestone', tagKind: 'start', title: 'First Core 1 practice test at 81%', note: 'Above the 75% line for the first time. Hardware strong, troubleshooting shaky.', filled: true },
+      { date: 'May 2026', tag: 'Shipped', tagKind: 'ship', title: 'Built a reproducible VirtualBox home lab', note: 'The base lab every project since has been built on — snapshots, isolated networking, 20-minute rebuild.', filled: true },
+      { date: 'Apr 2026', tag: 'Started', tagKind: 'start', title: 'Started StudyBlog & the A+ journey', note: 'Day one. Limited formal IT training, a lot of resolve, and a commitment to study in the open.', filled: true },
+    ].map((mi) => ({
+      ...mi,
+      dotStyle: dot(mi.filled),
+      tagStyle: tag(mi.tagKind),
+      titleStyle: { fontSize: '17px', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.3, margin: 0, color: mi.future ? 'var(--muted-foreground)' : 'var(--foreground)' },
+    }));
+    const journals = [
+      { week: 'Week 6', meta: 'Jun 22 · 3 min', title: 'Week 6: 14 Hours In, First Core 1 Practice Test at 81%', excerpt: "Hardware domain is solid, troubleshooting still shaky. Hours logged, wins, and the three things I'm fixing next week." },
+      { week: 'Week 5', meta: 'Jun 15 · 4 min', title: 'Week 5: The Week Subnetting Finally Clicked', excerpt: 'Spent most of it on networking. The block-size method turned my worst topic into one I can do under time.' },
+      { week: 'Week 4', meta: 'Jun 8 · 3 min', title: 'Week 4: Burnout Check and a Lighter Schedule', excerpt: 'Pushed too hard in week 3 and paid for it. Reset the plan to something I can actually sustain for months.' },
+      { week: 'Week 3', meta: 'Jun 1 · 4 min', title: 'Week 3: Home Lab Up, First RAID Experiments', excerpt: 'Got the VirtualBox lab stable and broke some disks on purpose to understand RAID. Hands-on beats flashcards.' },
+    ];
+    return { desktop: !m, mobile: m, nowStats, milestones, journals };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; min-height: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans); display: flex; flex-direction: column;">
+
+  <dc-import name="SiteHeader" active="" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="flex: 1 1 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 72px 24px 80px;">
+
+    <!-- BIG MONO CODE -->
+    <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brand); margin-bottom: 18px;">{{ kicker }}</div>
+
+    <!-- GLYPH -->
+    <div style="position: relative; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 26px;">
+      <span style="font-family: var(--font-mono); font-size: 92px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--foreground);">{{ bigCode }}</span>
+    </div>
+
+    <h1 style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; margin: 0 0 14px;">{{ heading }}</h1>
+    <p style="font-size: 17px; line-height: 1.65; color: var(--muted-foreground); max-width: 52ch; margin: 0 0 28px;">{{ body }}</p>
+
+    <!-- ACTIONS -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-bottom: 36px;">
+      <a href="#" style="{{ primaryStyle }}">{{ primaryLabel }}</a>
+      <a href="#" style="display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border-radius: calc(var(--radius) - 2px); background: transparent; color: var(--foreground); font-size: 14px; font-weight: 500; text-decoration: none;" style-hover="background: var(--accent)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        {{ secondaryLabel }}
+      </a>
+    </div>
+
+    <!-- 404: helpful links / ERROR: detail -->
+    <sc-if value="{{ isNotFound }}" hint-placeholder-val="{{ true }}">
+      <div style="width: 100%; max-width: 460px; border-top: 1px solid var(--border); padding-top: 24px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 14px;">Try one of these</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+            <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); text-decoration: none; color: inherit; text-align: left;" style-hover="border-color: var(--brand)">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--brand); flex-shrink: 0;">{{ l.path }}</span>
+              <span style="font-size: 14px; color: var(--muted-foreground); min-width: 0;">{{ l.label }}</span>
+              <span style="margin-left: auto; color: var(--muted-foreground); flex-shrink: 0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+      <div style="width: 100%; max-width: 460px; border-top: 1px solid var(--border); padding-top: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--muted);">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">digest: 4f8c20a1e6 · /posts/[slug]</span>
+          <button style="display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); background: transparent; border: none; cursor: pointer; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copy</button>
+        </div>
+        <p style="font-size: 13px; color: var(--muted-foreground); margin: 12px 0 0;">If this keeps happening, that digest helps me track it down — feel free to <a href="#" style="color: var(--brand); text-decoration: none;">report it</a>.</p>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 760}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;variant&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;notFound&quot;, &quot;error&quot;], &quot;default&quot;: &quot;notFound&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const m = !!this.props.mobile;
+    const variant = this.props.variant || 'notFound';
+    const isNotFound = variant === 'notFound';
+
+    const primaryBase = { display: 'inline-flex', alignItems: 'center', gap: '7px', height: '40px', padding: '0 18px', borderRadius: 'calc(var(--radius) - 2px)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', cursor: 'pointer' };
+
+    const links = [
+      { path: '/', label: 'Home — the progress snapshot' },
+      { path: '/journey', label: 'The journey so far' },
+      { path: '/security-plus', label: 'Security+ — most documented' },
+      { path: '/search', label: 'Search every post' },
+    ];
+
+    return {
+      desktop: !m, mobile: m,
+      isNotFound, isError: !isNotFound,
+      kicker: isNotFound ? 'Page not found' : 'Something broke',
+      bigCode: isNotFound ? '404' : '500',
+      heading: isNotFound ? "This page wandered off the syllabus." : "That didn't go to plan.",
+      body: isNotFound
+        ? "The page you're after doesn't exist — maybe it moved, maybe it was never written. Either way, here's the way back."
+        : "An unexpected error hit this page. It's been logged on my end. Try again, and if it persists, the digest below helps me trace it.",
+      primaryStyle: { ...primaryBase, background: 'var(--primary)', color: 'var(--primary-foreground)' },
+      primaryLabel: isNotFound ? 'Back to home' : 'Try again',
+      secondaryLabel: isNotFound ? 'Browse the archive' : 'Back to home',
+      links,
+    };
+  }
+}
+</script>
+</body>
+</html>

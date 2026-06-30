@@ -37,7 +37,9 @@ Phase 0 complete. Read `03-data-model.md`, `04-auth.md`, and the Next docs:
 8. **`auth.ts`** — async config factory reading `getCloudflareContext({ async:true }).env`
    (`04-auth.md` §3): Credentials + JWT + `trustHost`, `authorize()` comparing email + `verifyPassword`.
 9. **`app/api/auth/[...nextauth]/route.ts`** — `export const { GET, POST } = handlers` (no edge runtime).
-10. **`proxy.ts`** — `export { auth as proxy }` + matcher `/admin/:path*` (optimistic only).
+10. **No `proxy.ts`** — `@opennextjs/cloudflare` 1.20.1 doesn't support Next 16 Node middleware (a
+    `proxy.ts` **breaks the Workers build**). Auth is enforced in `app/admin/layout.tsx` + the DAL +
+    every action (the secure boundary). See `04-auth.md` §5. *(Verified Phase 1.)*
 11. **`lib/auth/dal.ts`** — `requireOwner()` (`server-only`, `cache()`, redirect to `/login`).
 12. **`app/admin/layout.tsx`** — `await requireOwner()` gate + minimal admin chrome (header, sign-out
     action). **`app/admin/page.tsx`** — placeholder dashboard.

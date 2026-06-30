@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .sb-root {
+    --radius: 0.625rem;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --background: oklch(1 0 0); --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0); --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0); --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0); --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0); --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0); --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0); --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0); --input: oklch(0.922 0 0); --ring: oklch(0.708 0 0);
+    --brand: oklch(0.55 0.18 255); --brand-foreground: oklch(0.985 0 0);
+    --chart-1: oklch(0.646 0.222 41.116); --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392); --chart-4: oklch(0.828 0.189 84.429); --chart-5: oklch(0.769 0.188 70.08);
+  }
+  .sb-root.dark {
+    --background: oklch(0.145 0 0); --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0); --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0); --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0); --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0); --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0); --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0); --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%); --input: oklch(1 0 0 / 15%); --ring: oklch(0.556 0 0);
+    --brand: oklch(0.7 0.15 255); --brand-foreground: oklch(0.145 0 0);
+    --chart-1: oklch(0.488 0.243 264.376); --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08); --chart-4: oklch(0.627 0.265 303.9); --chart-5: oklch(0.645 0.246 16.439);
+  }
+  @keyframes sbGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</helmet>
+
+<div class="sb-root {{ themeClass }}" style="background: var(--background); color: var(--foreground); font-family: var(--font-sans); min-height: 100vh; transition: background 0.2s ease, color 0.2s ease;">
+
+  <!-- ARTIFACT TOP BAR -->
+  <div style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 24px; background: color-mix(in oklch, var(--background) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-family: var(--font-mono); font-weight: 600; font-size: 15px;">study<span style="color: var(--brand);">blog</span></span>
+      <span style="font-size: 13px; color: var(--muted-foreground);">Screens · Stage 1</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+        <button onClick="{{ showHomeFn }}" style="{{ homeTabStyle }}">Home /</button>
+        <button onClick="{{ showHubFn }}" style="{{ hubTabStyle }}">Security+ hub</button>
+      </div>
+      <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);">
+        <button onClick="{{ setLight }}" style="{{ lightBtnStyle }}">Light</button>
+        <button onClick="{{ setDark }}" style="{{ darkBtnStyle }}">Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width: 1240px; margin: 0 auto; padding: 32px 24px 80px;">
+
+    <!-- ===== HOME ===== -->
+    <sc-if value="{{ showHome }}" hint-placeholder-val="{{ true }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · 1280w · route /</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 360px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev</span>
+        </div>
+        <dc-import name="HomeBody" mobile="{{ false }}" hint-size="100%,1700px"></dc-import>
+      </div>
+
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · 390w · route /</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background);">
+          <div style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 8px 22px 4px; background: var(--background);">
+            <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 600;">9:41</span>
+            <span style="position: absolute; left: 50%; top: 7px; transform: translateX(-50%); width: 96px; height: 22px; background: oklch(0.22 0 0); border-radius: 999px;"></span>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">5G ·  82%</span>
+          </div>
+          <dc-import name="HomeBody" mobile="{{ true }}" hint-size="394px,1900px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== SECURITY+ HUB ===== -->
+    <sc-if value="{{ showHub }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Desktop · 1280w · route /security-plus</div>
+      <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12); margin-bottom: 44px;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--muted); border-bottom: 1px solid var(--border);">
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.7 0.18 25);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.82 0.16 85);"></span>
+          <span style="width: 11px; height: 11px; border-radius: 999px; background: oklch(0.75 0.17 145);"></span>
+          <span style="margin-left: 12px; flex: 1; max-width: 360px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); background: var(--background); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;">studyblog.dev/security-plus</span>
+        </div>
+        <dc-import name="SecurityHubBody" mobile="{{ false }}" hint-size="100%,1600px"></dc-import>
+      </div>
+
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 10px;">Mobile · 390w · route /security-plus</div>
+      <div style="width: 414px; max-width: 100%; margin: 0 auto; padding: 10px; background: oklch(0.22 0 0); border-radius: 44px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 18px 40px -14px rgb(0 0 0 / 0.18);">
+        <div style="position: relative; border-radius: 34px; overflow: hidden; background: var(--background);">
+          <div style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 8px 22px 4px; background: var(--background);">
+            <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 600;">9:41</span>
+            <span style="position: absolute; left: 50%; top: 7px; transform: translateX(-50%); width: 96px; height: 22px; background: oklch(0.22 0 0); border-radius: 999px;"></span>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">5G ·  82%</span>
+          </div>
+          <dc-import name="SecurityHubBody" mobile="{{ true }}" hint-size="394px,2400px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { dark: false, screen: 'home' };
+  renderVals() {
+    const dark = this.state.dark;
+    const screen = this.state.screen;
+    const seg = (active) => ({
+      fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, padding: '6px 14px',
+      border: 'none', borderRadius: 'calc(var(--radius) - 4px)', cursor: 'pointer',
+      ...(active
+        ? { background: 'var(--background)', color: 'var(--foreground)', boxShadow: '0 1px 2px rgb(0 0 0 / 0.08)' }
+        : { background: 'transparent', color: 'var(--muted-foreground)' }),
+    });
+    return {
+      themeClass: dark ? 'dark' : '',
+      showHome: screen === 'home',
+      showHub: screen === 'hub',
+      showHomeFn: () => this.setState({ screen: 'home' }),
+      showHubFn: () => this.setState({ screen: 'hub' }),
+      setLight: () => this.setState({ dark: false }),
+      setDark: () => this.setState({ dark: true }),
+      homeTabStyle: seg(screen === 'home'),
+      hubTabStyle: seg(screen === 'hub'),
+      lightBtnStyle: seg(!dark),
+      darkBtnStyle: seg(dark),
+    };
+  }
+}
+</script>
+</body>
+</html>

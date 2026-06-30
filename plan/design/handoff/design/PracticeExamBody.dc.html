@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<main style="width: 100%; background: var(--background); color: var(--foreground); font-family: var(--font-sans);">
+
+  <dc-import name="SiteHeader" active="journey" mobile="{{ mobile }}" hint-size="100%,58px"></dc-import>
+
+  <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px;">
+
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); margin-bottom: 18px;">Home / Journey / Practice scores</div>
+    <div style="margin-bottom: 22px;">
+      <h1 style="font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 10px;">Practice exam scores</h1>
+      <p style="font-size: 16px; line-height: 1.6; color: var(--muted-foreground); max-width: 70ch; margin: 0;">Every timed practice test I've taken, plotted against the real passing line. Honest readiness signal — the trend matters more than any single score.</p>
+    </div>
+
+    <!-- CERT TABS -->
+    <div style="display: inline-flex; gap: 2px; padding: 3px; background: var(--muted); border-radius: calc(var(--radius) - 2px); margin-bottom: 22px;">
+      <button onClick="{{ setAplus }}" style="{{ aplusTab }}">CompTIA A+</button>
+      <button onClick="{{ setSec }}" style="{{ secTab }}">Security+</button>
+      <button onClick="{{ setNet }}" style="{{ netTab }}">Network+</button>
+    </div>
+
+    <!-- HAS DATA -->
+    <sc-if value="{{ hasData }}" hint-placeholder-val="{{ true }}">
+
+      <!-- STAT CARDS -->
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="flex: 1 1 160px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px;">
+            <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-foreground); margin-bottom: 10px;">{{ s.label }}</div>
+            <div style="display: flex; align-items: baseline; gap: 7px;">
+              <span style="font-family: var(--font-mono); font-size: 26px; font-weight: 600; line-height: 1; color: {{ s.color }};">{{ s.value }}</span>
+              <span style="font-size: 12px; color: var(--muted-foreground);">{{ s.sub }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- CHART -->
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 20px 16px; margin-bottom: 18px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;">
+          <h2 style="font-size: 15px; font-weight: 600; margin: 0;">Score trend</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center;">
+            <sc-for list="{{ legend }}" as="lg" hint-placeholder-count="2">
+              <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted-foreground);"><span style="width: 14px; height: 3px; border-radius: 2px; background: {{ lg.color }};"></span>{{ lg.label }}</span>
+            </sc-for>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted-foreground);"><span style="width: 14px; height: 0; border-top: 2px dashed var(--muted-foreground);"></span>Pass line {{ passLabel }}</span>
+          </div>
+        </div>
+        <svg viewBox="0 0 680 260" style="width: 100%; height: auto; display: block; overflow: visible;">
+          <!-- gridlines -->
+          <sc-for list="{{ gridLines }}" as="g" hint-placeholder-count="6">
+            <line x1="46" x2="660" y1="{{ g.y }}" y2="{{ g.y }}" stroke="var(--border)" stroke-width="1"></line>
+            <text x="38" y="{{ g.ty }}" text-anchor="end" font-family="var(--font-mono)" font-size="10" fill="var(--muted-foreground)">{{ g.label }}</text>
+          </sc-for>
+          <!-- pass line -->
+          <sc-for list="{{ passLines }}" as="pl" hint-placeholder-count="1">
+            <line x1="46" x2="660" y1="{{ pl.y }}" y2="{{ pl.y }}" stroke="var(--muted-foreground)" stroke-width="1.5" stroke-dasharray="5 4"></line>
+          </sc-for>
+          <!-- x labels -->
+          <sc-for list="{{ xLabels }}" as="xl" hint-placeholder-count="4">
+            <text x="{{ xl.x }}" y="252" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--muted-foreground)">{{ xl.label }}</text>
+          </sc-for>
+          <!-- series lines -->
+          <sc-for list="{{ chartLines }}" as="ln" hint-placeholder-count="2">
+            <polyline points="{{ ln.pointsStr }}" fill="none" stroke="{{ ln.color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          </sc-for>
+          <!-- dots -->
+          <sc-for list="{{ chartDots }}" as="d" hint-placeholder-count="6">
+            <circle cx="{{ d.cx }}" cy="{{ d.cy }}" r="4" fill="var(--card)" stroke="{{ d.color }}" stroke-width="2.5"></circle>
+          </sc-for>
+        </svg>
+      </div>
+
+      <!-- TABLE -->
+      <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 640px;">
+            <thead>
+              <tr style="background: var(--muted);">
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Date</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Practice test</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Exam</th>
+                <th style="text-align: right; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Score</th>
+                <th style="text-align: right; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Δ</th>
+                <th style="text-align: left; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-foreground); font-weight: 500; padding: 10px 14px;">Weakest domain</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+                <tr style="border-top: 1px solid var(--border);">
+                  <td style="padding: 11px 14px; font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); white-space: nowrap;">{{ r.date }}</td>
+                  <td style="padding: 11px 14px;"><div style="font-size: 14px; font-weight: 500;">{{ r.test }}</div><div style="font-size: 11px; color: var(--muted-foreground);">{{ r.provider }}</div></td>
+                  <td style="padding: 11px 14px;"><span style="font-family: var(--font-mono); font-size: 11px; padding: 2px 7px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); color: var(--muted-foreground); white-space: nowrap;">{{ r.exam }}</span></td>
+                  <td style="padding: 11px 14px; text-align: right;"><span style="{{ r.scoreStyle }}">{{ r.score }}</span><div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">{{ r.scaled }}</div></td>
+                  <td style="padding: 11px 14px; text-align: right;"><span style="{{ r.deltaStyle }}">{{ r.delta }}</span></td>
+                  <td style="padding: 11px 14px; font-size: 13px; color: var(--muted-foreground);">{{ r.weakest }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p style="font-size: 12px; color: var(--muted-foreground); margin: 12px 2px 0;">Score = scaled result on a 100–900 CompTIA scale, shown as a percentage. The pass line is the real exam cut score ({{ passLabel }}).</p>
+
+    </sc-if>
+
+    <!-- EMPTY (cert just started) -->
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 56px 24px; border: 1px dashed var(--border); border-radius: var(--radius); background: var(--card);">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: var(--muted); color: var(--muted-foreground);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
+        <div style="font-size: 16px; font-weight: 600;">No practice tests logged yet</div>
+        <p style="font-size: 14px; color: var(--muted-foreground); max-width: 46ch; margin: 0;">Network+ is brand new — the first diagnostic will land here soon, and the trend builds from there. Honest from attempt one.</p>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <dc-import name="SiteFooter" hint-size="100%,120px"></dc-import>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1080, &quot;height&quot;: 1100}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { cert: 'a-plus' };
+
+  renderVals() {
+    const m = !!this.props.mobile;
+    const cert = this.state.cert;
+
+    // ---- DATA SHAPE: one row per practice-exam attempt ----
+    const DB = {
+      'a-plus': {
+        passPct: 75, passLabel: '675 / 900 (75%)',
+        exams: { 'core-1': { label: 'Core 1 (220-1201)', color: 'var(--chart-1)' }, 'core-2': { label: 'Core 2 (220-1202)', color: 'var(--chart-2)' } },
+        attempts: [
+          { date: '2026-06-05', d: 'Jun 5', exam: 'core-1', test: 'Dion Practice Test 1', provider: 'Jason Dion · Udemy', score: 68, scaled: '612/900', weakest: 'Networking', notes: 'Subnetting hurt.' },
+          { date: '2026-06-12', d: 'Jun 12', exam: 'core-1', test: 'Dion Practice Test 2', provider: 'Jason Dion · Udemy', score: 74, scaled: '666/900', weakest: 'Networking', notes: '' },
+          { date: '2026-06-18', d: 'Jun 18', exam: 'core-1', test: 'Pop Quiz Set A', provider: 'Professor Messer', score: 81, scaled: '729/900', weakest: 'Hardware', notes: 'First time over the line.' },
+          { date: '2026-06-20', d: 'Jun 20', exam: 'core-2', test: 'Dion Practice Test 1', provider: 'Jason Dion · Udemy', score: 71, scaled: '639/900', weakest: 'Operating Systems', notes: '' },
+          { date: '2026-06-26', d: 'Jun 26', exam: 'core-1', test: 'Dion Practice Test 3', provider: 'Jason Dion · Udemy', score: 85, scaled: '765/900', weakest: 'Troubleshooting', notes: 'Ready-ish.' },
+          { date: '2026-06-27', d: 'Jun 27', exam: 'core-2', test: 'CertMaster Practice', provider: 'CompTIA CertMaster', score: 78, scaled: '702/900', weakest: 'Security', notes: '' },
+        ],
+      },
+      'security-plus': {
+        passPct: 83, passLabel: '750 / 900 (83%)',
+        exams: { 'sec': { label: 'SY0-701', color: 'var(--chart-3)' } },
+        attempts: [
+          { date: '2026-05-28', d: 'May 28', exam: 'sec', test: 'Dion Practice Test 1', provider: 'Jason Dion · Udemy', score: 70, scaled: '630/900', weakest: 'Security Architecture', notes: 'Diagnostic.' },
+          { date: '2026-06-10', d: 'Jun 10', exam: 'sec', test: 'Pop Quiz Set B', provider: 'Professor Messer', score: 76, scaled: '684/900', weakest: 'Security Architecture', notes: '' },
+          { date: '2026-06-24', d: 'Jun 24', exam: 'sec', test: 'Dion Practice Test 2', provider: 'Jason Dion · Udemy', score: 82, scaled: '738/900', weakest: 'Program Management', notes: 'Almost at the line.' },
+        ],
+      },
+      'network-plus': { passPct: 80, passLabel: '720 / 900 (80%)', exams: { 'net': { label: 'N10-009', color: 'var(--chart-4)' } }, attempts: [] },
+    };
+
+    const data = DB[cert];
+    const attempts = data.attempts;
+    const hasData = attempts.length > 0;
+
+    // ---- chart geometry ----
+    const padL = 46, padR = 20, padT = 16, padB = 34, W = 680, H = 260;
+    const plotW = W - padL - padR, plotH = H - padT - padB, yMin = 50, yMax = 100;
+    const fy = (s) => padT + plotH * (yMax - s) / (yMax - yMin);
+    const dates = [...new Set(attempts.map((a) => a.d))];
+    const fx = (di) => padL + (dates.length <= 1 ? plotW / 2 : plotW * di / (dates.length - 1));
+
+    const gridLines = [50, 60, 70, 80, 90, 100].map((v) => ({ y: fy(v), ty: fy(v) + 3, label: v + '%' }));
+    const passLines = [{ y: fy(data.passPct) }];
+    const xLabels = dates.map((d, i) => ({ x: fx(i), label: d }));
+
+    const chartLines = [];
+    const chartDots = [];
+    Object.keys(data.exams).forEach((code) => {
+      const ex = data.exams[code];
+      const pts = attempts.filter((a) => a.exam === code).map((a) => ({ di: dates.indexOf(a.d), score: a.score }));
+      if (!pts.length) return;
+      chartLines.push({ color: ex.color, pointsStr: pts.map((p) => fx(p.di) + ',' + fy(p.score)).join(' ') });
+      pts.forEach((p) => chartDots.push({ cx: fx(p.di), cy: fy(p.score), color: ex.color }));
+    });
+
+    const legend = Object.keys(data.exams).map((c) => ({ color: data.exams[c].color, label: data.exams[c].label }));
+
+    // ---- stat cards ----
+    const scores = attempts.map((a) => a.score);
+    const latest = attempts[attempts.length - 1];
+    const best = Math.max(...scores, 0);
+    const first = attempts[0];
+    const trend = hasData ? latest.score - first.score : 0;
+    const firstColor = Object.values(data.exams)[0].color;
+    const stats = hasData ? [
+      { label: 'Latest score', value: latest.score + '%', sub: latest.d, color: 'var(--foreground)' },
+      { label: 'Best score', value: best + '%', sub: best >= data.passPct ? 'above pass line' : 'below pass line', color: best >= data.passPct ? 'var(--chart-2)' : 'var(--foreground)' },
+      { label: 'Attempts', value: String(attempts.length), sub: 'logged', color: 'var(--brand)' },
+      { label: 'Trend', value: (trend >= 0 ? '+' : '') + trend + ' pts', sub: 'since first', color: trend >= 0 ? 'var(--chart-2)' : 'var(--destructive)' },
+    ] : [];
+
+    // ---- table rows (delta vs previous same-exam attempt) ----
+    const lastByExam = {};
+    const rows = attempts.map((a) => {
+      const prev = lastByExam[a.exam];
+      lastByExam[a.exam] = a.score;
+      const dv = prev == null ? null : a.score - prev;
+      const passed = a.score >= data.passPct;
+      return {
+        date: a.d, test: a.test, provider: a.provider, exam: data.exams[a.exam].label,
+        score: a.score + '%', scaled: a.scaled, weakest: a.weakest,
+        scoreStyle: { fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 600, color: passed ? 'var(--chart-2)' : 'var(--foreground)' },
+        delta: dv == null ? '—' : (dv >= 0 ? '+' + dv : String(dv)),
+        deltaStyle: { fontFamily: 'var(--font-mono)', fontSize: '13px', color: dv == null ? 'var(--muted-foreground)' : dv >= 0 ? 'var(--chart-2)' : 'var(--destructive)' },
+      };
+    }).reverse();
+
+    const seg = (on) => ({ fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, padding: '6px 14px', border: 'none', borderRadius: 'calc(var(--radius) - 4px)', cursor: 'pointer', ...(on ? { background: 'var(--background)', color: 'var(--foreground)', boxShadow: '0 1px 2px rgb(0 0 0 / 0.08)' } : { background: 'transparent', color: 'var(--muted-foreground)' }) });
+
+    return {
+      desktop: !m, mobile: m,
+      hasData, isEmpty: !hasData,
+      setAplus: () => this.setState({ cert: 'a-plus' }), setSec: () => this.setState({ cert: 'security-plus' }), setNet: () => this.setState({ cert: 'network-plus' }),
+      aplusTab: seg(cert === 'a-plus'), secTab: seg(cert === 'security-plus'), netTab: seg(cert === 'network-plus'),
+      stats, gridLines, passLines, xLabels, chartLines, chartDots, legend, rows,
+      passLabel: data.passLabel, firstColor,
+    };
+  }
+}
+</script>
+</body>
+</html>
