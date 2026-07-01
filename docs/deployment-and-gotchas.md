@@ -41,8 +41,8 @@ verifying runtime behavior, deploying + curling prod is more reliable), `pnpm cf
 - **Secrets** = Worker secrets (`wrangler secret put NAME`, piped from a file — never echoed) + a
   gitignored `.dev.vars` for local dev. Never commit secrets; `.env*` and `.dev.vars` are gitignored.
 - **Bindings** (in `wrangler.jsonc`): `DB` (D1), `ASSETS` (static), `IMAGES` (Cloudflare Images),
-  `WORKER_SELF_REFERENCE`, and `AUTH_RATE_LIMITER` (see [auth.md](./auth.md)). R2 `MEDIA_BUCKET` is
-  planned but not yet added (media feature deferred).
+  `WORKER_SELF_REFERENCE`, `AUTH_RATE_LIMITER` (see [auth.md](./auth.md)), and `MEDIA_BUCKET` (R2, for
+  media uploads — bucket `studyblog-media`). A 2nd R2 bucket for the incremental cache comes in Phase 4.
 
 ### Deploying from a non-interactive shell (CI, or an agent's Bash tool)
 
@@ -73,6 +73,8 @@ Each of these cost real debugging time. Skim before you start.
 | 13 | **`getCloudflareContext()` throws in the auth factory** (no request during static gen) | Use the `{ async: true }` form in `auth.ts`; sync form elsewhere; never singleton a binding client |
 | 14 | **`NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` regenerated per build** invalidates in-flight actions | Pin it in `.env.local` (build-time); set the same value in CI |
 | 15 | **zod v4 API** differs from v3 | `z.flattenError(err).fieldErrors`, `{ error: "…" }` messages (not `.flatten()`/`invalid_type_error`) |
+| 16 | **`next/image` optimizer self-fetch fails** on Workers with `global_fetch_strictly_public` (`"upstream response is invalid"`) | Use `unoptimized` for same-origin R2 images, or transform via the `IMAGES` binding in the serve route (Phase 3) |
+| 17 | **Uploads >1 MB fail via Server Actions** (default `bodySizeLimit`) | Use a Route Handler for file uploads — no body limit; Workers allow 100 MB |
 
 See also **[../plan/](../plan/)** for the original phased plan, and the memory notes for the running
 list of deferred follow-ups (login rate-limit tuning, `posts.updated_at` index, Phase-3 public

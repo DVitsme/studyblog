@@ -15,6 +15,7 @@
       "migrations_dir": "migrations"
     }
   ],
+  "r2_buckets": [{ "binding": "MEDIA_BUCKET", "bucket_name": "studyblog-media" }],
   "observability": { "enabled": true },
   // Login CPU-exhaustion guard: throttle Credentials authorize() per client IP before scrypt runs.
   // Native Workers Rate Limiting (GA); namespace_id is an arbitrary id — no resource to provision.

@@ -91,8 +91,27 @@ export async function savePost(id, values): Promise<ActionResult> {
 - **lucide-react 1.x** uses new icon names (`CircleCheck`, `EllipsisVertical`, `CircleAlert`,
   `ChartColumn`, …) — verify against `node_modules/lucide-react` before importing.
 
-## Deferred: Media / cover images
+## Media (R2)
 
-`/admin/media` and the MetadataPanel cover field need the **R2 `MEDIA_BUCKET` binding** (not yet
-scoped). The cover field shows a "coming soon" placeholder; wire it up per
-`plan/phases/02-content-crud.md` §11 once R2 is granted.
+Built on the `MEDIA_BUCKET` R2 binding (`wrangler.jsonc`, bucket `studyblog-media`). The owner uploads
+images (≤5 MB, image types); they're stored in R2 and tracked in the D1 `media` table.
+
+- **Upload** — `POST /api/admin/media/upload` is a **Route Handler, not a Server Action** (Server
+  Actions cap the body at 1 MB, which would block a 5 MB image; Route Handlers don't, and Workers allow
+  100 MB). Owner-gated; validates type/size; the browser reads dimensions (`naturalWidth/Height`) and
+  posts them alongside the file; then `MEDIA_BUCKET.put(key, bytes, { httpMetadata })` + a `media` row.
+  Keys are `uploads/<uuid>.<ext>`.
+- **Serve** — `GET /media/[...key]` (public) streams the *private* R2 object with its stored
+  Content-Type + immutable `Cache-Control`, honoring conditional (304) and Range (206) requests. The
+  bucket has no public URL — this Worker route is the only reader; unguessable UUID keys make public
+  serving safe (covers are public anyway).
+- **UI** — `MediaPicker` (drag-drop + XHR upload progress; `panel` variant on `/admin/media`, `compact`
+  for the editor cover), `MediaGrid` (tiles + Copy-URL + delete-with-confirm), `MediaManager`.
+  `deleteMedia` guards against removing an image still used as a post cover.
+- **Cover** — the MetadataPanel cover field uploads via the compact picker → sets `post.cover_image_key`.
+
+> **`next/image` caveat:** admin images use `unoptimized` (raw R2 bytes). OpenNext's optimizer
+> self-fetch of `/media/<key>` fails under the `global_fetch_strictly_public` flag (`"url parameter is
+> valid but upstream response is invalid"`). Fine for low-traffic admin thumbnails; **Phase 3** will
+> properly optimize public post covers — fix the optimizer config, transform via the `IMAGES` binding
+> in the serve route, or fall back to CSS `object-fit`.

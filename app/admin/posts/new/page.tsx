@@ -27,6 +27,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
         type: "",
         status: "draft",
         tags: [],
+        coverImageKey: null,
         publishedAt: "",
       }}
       sections={sections.map((s) => ({ slug: s.slug, name: s.name, examCodes: s.examCodes }))}

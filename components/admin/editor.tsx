@@ -52,6 +52,7 @@ export function PostEditor({
     type: initial.type,
     status: initial.status,
     tags: initial.tags,
+    coverImageKey: initial.coverImageKey,
     publishedAt: initial.publishedAt,
     slugEdited: initial.slug !== "",
   });
@@ -117,6 +118,7 @@ export function PostEditor({
       domainId: form.domainId,
       status,
       tags: form.tags,
+      coverImageKey: form.coverImageKey,
       publishedAt: form.publishedAt || null,
     };
     const res = await savePost(id, values);

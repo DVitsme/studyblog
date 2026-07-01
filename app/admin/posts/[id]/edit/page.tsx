@@ -30,6 +30,7 @@ export default async function EditPostPage({ params }: { params: Promise<{ id: s
         type: post.type,
         status: post.status,
         tags: post.tags,
+        coverImageKey: post.coverImageKey,
         publishedAt: post.publishedAt ? post.publishedAt.toISOString().slice(0, 10) : "",
       }}
       sections={sections.map((s) => ({ slug: s.slug, name: s.name, examCodes: s.examCodes }))}

@@ -24,6 +24,7 @@ const PostInput = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { error: "Use lowercase letters, numbers, and hyphens" }),
   bodyMd: z.string().default(""),
   excerpt: z.preprocess(emptyToNull, z.string().trim().max(400).nullable().default(null)),
+  coverImageKey: z.preprocess(emptyToNull, z.string().max(300).nullable().default(null)),
   type: z.enum(POST_TYPES, { error: "Choose a type" }),
   sectionSlug: z.string().trim().min(1, { error: "Choose a section" }),
   domainId: z.preprocess(
@@ -108,6 +109,7 @@ export async function savePost(id: number | null, values: PostFormValues): Promi
     slug: data.slug,
     bodyMd: data.bodyMd,
     excerpt: data.excerpt,
+    coverImageKey: data.coverImageKey,
     type: data.type,
     sectionSlug: data.sectionSlug,
     domainId: data.domainId,

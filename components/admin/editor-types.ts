@@ -14,6 +14,7 @@ export type EditorInitial = {
   type: PostType | "";
   status: PostStatus;
   tags: string[];
+  coverImageKey: string | null;
   publishedAt: string; // yyyy-mm-dd for the date input, or ""
 };
 

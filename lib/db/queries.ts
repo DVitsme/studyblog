@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "./index";
-import { domains, posts, postTags, sections, tags } from "./schema";
+import { domains, media, posts, postTags, sections, tags } from "./schema";
 import type { PostStatus, PostType } from "../taxonomy";
 
 export async function listSections() {
@@ -35,6 +35,11 @@ export async function listAllDomains() {
 export async function listTags() {
   const db = getDb();
   return db.select({ name: tags.name, slug: tags.slug }).from(tags).orderBy(asc(tags.name));
+}
+
+export async function listMedia() {
+  const db = getDb();
+  return db.select().from(media).orderBy(desc(media.createdAt));
 }
 
 export async function countPosts(): Promise<number> {
