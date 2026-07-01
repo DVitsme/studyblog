@@ -208,14 +208,14 @@
   .prose-content pre code {
     @apply bg-transparent p-0 text-inherit;
   }
-  /* Shiki dual-theme: light by default, dark under .dark (keepBackground:false → bg from above) */
-  .prose-content code[data-theme*=" "],
-  .prose-content code[data-theme*=" "] span {
+  /* Shiki dual-theme via @shikijs/rehype (defaultColor:false → colors from CSS vars; bg from pre) */
+  .prose-content .shiki,
+  .prose-content .shiki span {
     color: var(--shiki-light);
   }
-  html.dark .prose-content code[data-theme*=" "],
-  html.dark .prose-content code[data-theme*=" "] span {
-    color: var(--shiki-dark) !important;
+  html.dark .prose-content .shiki,
+  html.dark .prose-content .shiki span {
+    color: var(--shiki-dark);
   }
   /* GFM tables */
   .prose-content table {

@@ -11,7 +11,16 @@ importers:
       '@opennextjs/cloudflare':
         specifier: ^1.20.1
         version: 1.20.1(next@16.2.9(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(wrangler@4.105.0)
+      '@shikijs/core':
+        specifier: ^4.3.0
+        version: 4.3.0
+      '@shikijs/engine-javascript':
+        specifier: ^4.3.0
+        version: 4.3.0
       '@shikijs/langs':
+        specifier: ^4.3.0
+        version: 4.3.0
+      '@shikijs/rehype':
         specifier: ^4.3.0
         version: 4.3.0
       '@shikijs/themes':
@@ -32,6 +41,9 @@ importers:
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2
+      hast-util-to-string:
+        specifier: ^3.0.1
+        version: 3.0.1
       lucide-react:
         specifier: ^1.22.0
         version: 1.22.0(react@19.2.4)
@@ -95,6 +107,9 @@ importers:
       unified:
         specifier: ^11.0.5
         version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.1.0
+        version: 5.1.0
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -102,6 +117,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.2
+      '@types/hast':
+        specifier: ^3.0.4
+        version: 3.0.4
       '@types/node':
         specifier: ^20
         version: 20.19.43
@@ -2082,6 +2100,10 @@ packages:
 
   '@shikijs/primitive@4.3.0':
     resolution: {integrity: sha512-CPkz64PTa5diRW1ggzMZH9VM/du4RNChYgVtgqrFcgruvIybmCvySv8GkiHSczUHXYuuR8TdKEwFx+UnZMpgdg==}
+    engines: {node: '>=20'}
+
+  '@shikijs/rehype@4.3.0':
+    resolution: {integrity: sha512-1kk1N9scCNHeAtJICq0Me5rUxawKN+aGIlm8PZZ68zr4unYPnD3goHZ+HyPwSwbsRkT/OXkcY1JifKBH/FG88g==}
     engines: {node: '>=20'}
 
   '@shikijs/themes@4.3.0':
@@ -7099,6 +7121,15 @@ snapshots:
       '@shikijs/types': 4.3.0
       '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.4
+
+  '@shikijs/rehype@4.3.0':
+    dependencies:
+      '@shikijs/types': 4.3.0
+      '@types/hast': 3.0.4
+      hast-util-to-string: 3.0.1
+      shiki: 4.3.0
+      unified: 11.0.5
+      unist-util-visit: 5.1.0
 
   '@shikijs/themes@4.3.0':
     dependencies:
