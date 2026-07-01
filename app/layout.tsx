@@ -39,9 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to content
           </a>
-          <main id="main" tabIndex={-1}>
-            {children}
-          </main>
+          {/* Each route group provides its own <main id="main"> (public shell, AdminShell, login),
+              so header/footer sit outside the main landmark and the skip link lands correctly. */}
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

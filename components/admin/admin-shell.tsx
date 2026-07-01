@@ -171,7 +171,9 @@ export function AdminShell({
           </div>
         </header>
 
-        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">{children}</main>
+        <main id="main" tabIndex={-1} className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+          {children}
+        </main>
       </div>
     </div>
   );

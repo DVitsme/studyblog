@@ -18,6 +18,28 @@ export const IDENTITY = {
   rss: "/rss.xml",
 } as const;
 
+export type IdentityIcon = "github" | "linkedin" | "rss";
+export type IdentityLink = { label: string; href: string; icon: IdentityIcon; external: boolean };
+
+// The rendered identity links (footer + About). Empty handles are dropped so we never link to a
+// dead profile; RSS is added in Phase 4 when the feed actually ships. Populate IDENTITY to reveal them.
+export const IDENTITY_LINKS: IdentityLink[] = [
+  { label: "GitHub", href: IDENTITY.github, icon: "github", external: true },
+  ...(IDENTITY.linkedin
+    ? [{ label: "LinkedIn", href: IDENTITY.linkedin, icon: "linkedin" as const, external: true }]
+    : []),
+];
+
+// Full public nav (single source for SiteHeader + mobile sheet). Cert sections first, then narrative.
+export const PUBLIC_NAV = [
+  { href: "/a-plus", label: "A+" },
+  { href: "/security-plus", label: "Security+" },
+  { href: "/network-plus", label: "Network+" },
+  { href: "/journey", label: "Journey" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+] as const;
+
 // Cert sections in nav order (labels). Slugs mirror lib/taxonomy SECTION_SLUGS.
 export const NAV_SECTIONS = [
   { slug: "a-plus", label: "A+" },

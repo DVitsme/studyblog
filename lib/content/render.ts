@@ -6,6 +6,9 @@ import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
+import { visit } from "unist-util-visit";
+import { toString as hastToString } from "hast-util-to-string";
+import type { Root } from "hast";
 import { rehypeShikiVendored } from "./rehype-shiki";
 
 // Render Markdown (from D1) to SANITIZED HTML on Cloudflare Workers.
@@ -32,6 +35,39 @@ export async function renderMarkdown(md: string): Promise<string> {
     .use(rehypeStringify)
     .process(md);
   return String(file);
+}
+
+export type TocItem = { depth: 2 | 3; id: string; text: string };
+
+// Same pipeline as renderMarkdown, but also collects h2/h3 headings for the post-page TOC. The
+// collector runs AFTER rehypeSlug (so the ids match the anchors the reader scrolls to) and BEFORE
+// autolink (so the extracted text is clean, not wrapped in the anchor). Used by /posts/[slug].
+export async function renderMarkdownWithToc(md: string): Promise<{ html: string; toc: TocItem[] }> {
+  const toc: TocItem[] = [];
+  const collectHeadings = () => (tree: Root) => {
+    visit(tree, "element", (node) => {
+      if ((node.tagName === "h2" || node.tagName === "h3") && node.properties?.id) {
+        toc.push({
+          depth: node.tagName === "h2" ? 2 : 3,
+          id: String(node.properties.id),
+          text: hastToString(node),
+        });
+      }
+    });
+  };
+
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypeSanitize)
+    .use(rehypeSlug)
+    .use(collectHeadings)
+    .use(rehypeAutolinkHeadings, { behavior: "wrap" })
+    .use(rehypeShikiVendored)
+    .use(rehypeStringify)
+    .process(md);
+  return { html: String(file), toc };
 }
 
 export { readingMinutes } from "./reading";

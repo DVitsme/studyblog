@@ -154,9 +154,16 @@ export async function savePost(id: number | null, values: PostFormValues): Promi
     throw e;
   }
 
+  // Admin surfaces.
   revalidatePath("/admin");
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${postId}/edit`);
+  // Public surfaces — no-op while pages render dynamically; invalidates the ISR cache once the
+  // incremental cache is enabled (see plan/phases/03-public-site.md caching decision).
+  revalidatePath("/");
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${data.slug}`);
+  revalidatePath(`/${data.sectionSlug}`);
   return { ok: true, id: postId, slug: data.slug };
 }
 
@@ -165,9 +172,20 @@ export async function deletePost(id: number): Promise<{ ok: boolean }> {
   const pid = z.number().int().positive().safeParse(id);
   if (!pid.success) return { ok: false };
   const db = getDb();
+  const [row] = await db
+    .select({ slug: posts.slug, sectionSlug: posts.sectionSlug })
+    .from(posts)
+    .where(eq(posts.id, pid.data))
+    .limit(1);
   await db.delete(posts).where(eq(posts.id, pid.data)); // post_tags cascade
   revalidatePath("/admin");
   revalidatePath("/admin/posts");
+  revalidatePath("/");
+  revalidatePath("/posts");
+  if (row) {
+    revalidatePath(`/posts/${row.slug}`);
+    revalidatePath(`/${row.sectionSlug}`);
+  }
   return { ok: true };
 }
 
