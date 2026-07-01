@@ -147,7 +147,7 @@ export async function duplicatePost(id: number): Promise<ActionResult> {
   if (!src) return { ok: false, error: "Post not found." };
 
   // Unique slug for the copy.
-  let base = `${src.slug}-copy`;
+  const base = `${src.slug}-copy`;
   let slug = base;
   for (let n = 2; ; n++) {
     const [exists] = await db.select({ id: posts.id }).from(posts).where(eq(posts.slug, slug)).limit(1);

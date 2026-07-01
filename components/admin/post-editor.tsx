@@ -17,39 +17,34 @@ export function MarkdownEditor({
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
-  function wrap(before: string, after: string) {
-    const ta = ref.current;
-    if (!ta) return;
+  // Pure helpers — the textarea is passed in (ref.current is read only in the click handler, per
+  // react-hooks/refs: refs must not be accessed during render).
+  function applyWrap(ta: HTMLTextAreaElement, before: string, after: string) {
     const { selectionStart: s, selectionEnd: e, value } = ta;
-    const next = value.slice(0, s) + before + value.slice(s, e) + after + value.slice(e);
-    onBodyChange(next);
+    onBodyChange(value.slice(0, s) + before + value.slice(s, e) + after + value.slice(e));
     requestAnimationFrame(() => {
       ta.focus();
       ta.selectionStart = s + before.length;
       ta.selectionEnd = e + before.length;
     });
   }
-
-  function linePrefix(prefix: string) {
-    const ta = ref.current;
-    if (!ta) return;
+  function applyLinePrefix(ta: HTMLTextAreaElement, prefix: string) {
     const { selectionStart: s, value } = ta;
     const lineStart = value.lastIndexOf("\n", s - 1) + 1;
-    const next = value.slice(0, lineStart) + prefix + value.slice(lineStart);
-    onBodyChange(next);
+    onBodyChange(value.slice(0, lineStart) + prefix + value.slice(lineStart));
     requestAnimationFrame(() => {
       ta.focus();
       ta.selectionStart = ta.selectionEnd = s + prefix.length;
     });
   }
 
-  const tools = [
-    { label: "Heading", icon: Heading, run: () => linePrefix("## ") },
-    { label: "Bold", icon: Bold, run: () => wrap("**", "**") },
-    { label: "Italic", icon: Italic, run: () => wrap("_", "_") },
-    { label: "Link", icon: LinkIcon, run: () => wrap("[", "](url)") },
-    { label: "Inline code", icon: Code, run: () => wrap("`", "`") },
-    { label: "List", icon: List, run: () => linePrefix("- ") },
+  const tools: { label: string; icon: typeof Bold; run: (ta: HTMLTextAreaElement) => void }[] = [
+    { label: "Heading", icon: Heading, run: (ta) => applyLinePrefix(ta, "## ") },
+    { label: "Bold", icon: Bold, run: (ta) => applyWrap(ta, "**", "**") },
+    { label: "Italic", icon: Italic, run: (ta) => applyWrap(ta, "_", "_") },
+    { label: "Link", icon: LinkIcon, run: (ta) => applyWrap(ta, "[", "](url)") },
+    { label: "Inline code", icon: Code, run: (ta) => applyWrap(ta, "`", "`") },
+    { label: "List", icon: List, run: (ta) => applyLinePrefix(ta, "- ") },
   ];
 
   return (
@@ -68,7 +63,10 @@ export function MarkdownEditor({
             <button
               key={t.label}
               type="button"
-              onClick={t.run}
+              onClick={() => {
+                const ta = ref.current;
+                if (ta) t.run(ta);
+              }}
               aria-label={t.label}
               title={t.label}
               className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
