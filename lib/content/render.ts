@@ -1,0 +1,38 @@
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeSanitize from "rehype-sanitize";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeStringify from "rehype-stringify";
+import { prettyCodeOptions } from "./pretty-code-options";
+
+// Render Markdown (from D1) to SANITIZED HTML. Plugin order is load-bearing: sanitize runs
+// right after remark-rehype (on UNTRUSTED content), BEFORE slug/autolink/pretty-code (trusted,
+// machine-generated). This keeps Shiki styles + heading anchors intact and never allows `style`.
+// `allowDangerousHtml` stays false → raw HTML is dropped, so the default sanitize schema suffices.
+// See plan/02-architecture.md §4.1 + the Phase-2 research.
+//
+// NOTE: callers cache this. The public post page wraps it in `use cache` (Phase 3, once
+// cacheComponents is enabled); the admin live-preview calls it directly.
+export async function renderMarkdown(md: string): Promise<string> {
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypeSanitize)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, { behavior: "wrap" })
+    .use(rehypePrettyCode, prettyCodeOptions)
+    .use(rehypeStringify)
+    .process(md);
+  return String(file);
+}
+
+const WORDS_PER_MINUTE = 220;
+export function readingMinutes(md: string): number {
+  const words = md.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
