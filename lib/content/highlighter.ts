@@ -33,7 +33,7 @@ export function getCodeHighlighter(): Promise<HighlighterCore> {
   highlighterPromise ??= createHighlighterCore({
     themes: [githubLight, githubDark] as unknown as ThemeInput[],
     langs: [shellscript, typescript, tsx, javascript, json, python, powershell, sql, yaml, diff] as unknown as LanguageInput[],
-    engine: createJavaScriptRegexEngine(),
+    engine: createJavaScriptRegexEngine({ forgiving: true }), // don't throw on a rare unconvertible regex
   });
   return highlighterPromise;
 }

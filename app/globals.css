@@ -119,6 +119,9 @@
 
   --brand: oklch(0.7 0.15 255);
   --brand-foreground: oklch(0.145 0 0);
+  /* Re-resolve the derived tints against the DARK brand (custom props don't re-compute otherwise). */
+  --brand-subtle: color-mix(in oklch, var(--brand) 10%, transparent);
+  --brand-border: color-mix(in oklch, var(--brand) 28%, transparent);
 
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -208,7 +211,7 @@
   .prose-content pre code {
     @apply bg-transparent p-0 text-inherit;
   }
-  /* Shiki dual-theme via @shikijs/rehype (defaultColor:false → colors from CSS vars; bg from pre) */
+  /* Shiki dual-theme (custom rehype-shiki transformer, defaultColor:false → colors from CSS vars) */
   .prose-content .shiki,
   .prose-content .shiki span {
     color: var(--shiki-light);
@@ -222,7 +225,11 @@
     @apply my-6 block w-full overflow-x-auto border-collapse text-sm;
   }
   .prose-content th {
-    @apply border border-border bg-muted px-3 py-2 text-left font-mono text-xs font-semibold tracking-wide uppercase;
+    @apply border border-border bg-muted px-3 py-2 font-mono text-xs font-semibold tracking-wide uppercase;
+  }
+  /* Left by default, but let GFM column alignment (:--:) — emitted as an [align] attr — govern. */
+  .prose-content th:not([align]) {
+    text-align: left;
   }
   .prose-content td {
     @apply border border-border px-3 py-2;
