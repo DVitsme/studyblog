@@ -87,9 +87,10 @@ export function PostRowActions({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-destructive focus:text-destructive"
-            onSelect={(e) => {
-              e.preventDefault();
-              setConfirmOpen(true);
+            onSelect={() => {
+              // Defer so the menu fully closes before the dialog opens — prevents the Radix
+              // DismissableLayer pointer-events:none freeze (radix-ui/primitives#3317).
+              setTimeout(() => setConfirmOpen(true), 0);
             }}
           >
             Delete

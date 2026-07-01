@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, like, sql } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "./index";
 import { domains, posts, postTags, sections, tags } from "./schema";
 import type { PostStatus, PostType } from "../taxonomy";
@@ -165,7 +165,11 @@ export async function listPostsAdmin(filter: PostFilter = {}): Promise<AdminPost
   if (filter.status) conds.push(eq(posts.status, filter.status));
   if (filter.section) conds.push(eq(posts.sectionSlug, filter.section));
   if (filter.type) conds.push(eq(posts.type, filter.type));
-  if (filter.q) conds.push(like(posts.title, `%${filter.q}%`));
+  if (filter.q) {
+    // Escape LIKE metacharacters so a literal "100%" search doesn't match everything.
+    const esc = filter.q.replace(/[\\%_]/g, (c) => `\\${c}`);
+    conds.push(sql`${posts.title} like ${`%${esc}%`} escape '\\'`);
+  }
   return db
     .select(adminPostColumns)
     .from(posts)

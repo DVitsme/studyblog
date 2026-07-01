@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, FileText, Image as ImageIcon, LogOut, ExternalLink, Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { logout } from "@/app/admin/actions";
@@ -129,6 +136,7 @@ export function AdminShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <div className="flex h-dvh overflow-hidden">
       <aside className="hidden h-full shrink-0 basis-56 overflow-y-auto border-r border-border bg-card md:block">
@@ -140,7 +148,7 @@ export function AdminShell({
           <Wordmark />
           <div className="flex items-center gap-1">
             <ModeToggle />
-            <Sheet>
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" aria-label="Open navigation">
                   <Menu className="size-5" />
@@ -148,6 +156,7 @@ export function AdminShell({
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0">
                 <SheetTitle className="sr-only">Admin navigation</SheetTitle>
+                <SheetDescription className="sr-only">Site sections and account</SheetDescription>
                 <div className="px-4 pt-4">
                   <Wordmark />
                 </div>
@@ -155,6 +164,7 @@ export function AdminShell({
                   pathname={pathname}
                   userEmail={userEmail}
                   postCount={postCount}
+                  onNavigate={() => setMobileOpen(false)}
                 />
               </SheetContent>
             </Sheet>

@@ -33,7 +33,10 @@ export function PublishBar({
           </Link>
         </Button>
         <StatusPill status={status} />
-        <span className="hidden truncate font-mono text-xs text-muted-foreground sm:inline">
+        <span
+          aria-live="polite"
+          className="hidden truncate font-mono text-xs text-muted-foreground sm:inline"
+        >
           {saving ? "Saving…" : dirty ? "Unsaved changes" : savedLabel}
         </span>
       </div>

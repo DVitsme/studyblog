@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import {
   Select,
   SelectContent,
@@ -59,6 +60,7 @@ export function MetadataPanel({
   tagSuggestions: string[];
   errors: Record<string, string[]>;
 }) {
+  const uid = useId(); // unique per instance — this panel mounts twice (desktop pane + mobile tab)
   const categories = domains.filter((d) => d.sectionSlug === form.sectionSlug);
   const exam = form.domainId
     ? (domains.find((d) => d.id === form.domainId)?.exam ?? "")
@@ -133,9 +135,9 @@ export function MetadataPanel({
         </div>
       </Field>
 
-      <Field label="Excerpt" htmlFor="excerpt" error={err("excerpt")}>
+      <Field label="Excerpt" htmlFor={`${uid}-excerpt`} error={err("excerpt")}>
         <Textarea
-          id="excerpt"
+          id={`${uid}-excerpt`}
           value={form.excerpt}
           onChange={(e) => patch({ excerpt: e.target.value })}
           rows={3}
@@ -150,18 +152,18 @@ export function MetadataPanel({
         </div>
       </Field>
 
-      <Field label="Slug" htmlFor="slug" error={err("slug")} hint="Auto from title — editable">
+      <Field label="Slug" htmlFor={`${uid}-slug`} error={err("slug")} hint="Auto from title — editable">
         <Input
-          id="slug"
+          id={`${uid}-slug`}
           value={form.slug}
           onChange={(e) => patch({ slug: e.target.value, slugEdited: true })}
           className="h-[34px] font-mono text-xs"
         />
       </Field>
 
-      <Field label="Publish date" htmlFor="publishedAt">
+      <Field label="Publish date" htmlFor={`${uid}-publishedAt`}>
         <Input
-          id="publishedAt"
+          id={`${uid}-publishedAt`}
           type="date"
           value={form.publishedAt}
           onChange={(e) => patch({ publishedAt: e.target.value })}

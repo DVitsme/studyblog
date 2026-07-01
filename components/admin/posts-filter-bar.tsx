@@ -55,7 +55,9 @@ export function PostsFilterBar({
   const [q, setQ] = useState(params.get("q") ?? "");
 
   function setParam(key: string, value: string) {
-    const next = new URLSearchParams(params.toString());
+    // Read the freshest URL (not a captured `params` snapshot) so a debounced search write
+    // can't clobber a filter changed within the debounce window.
+    const next = new URLSearchParams(window.location.search);
     if (value && value !== "all") next.set(key, value);
     else next.delete(key);
     const qs = next.toString();

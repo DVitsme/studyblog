@@ -13,6 +13,11 @@ export async function POST(req: Request): Promise<Response> {
   const session = await auth();
   if (!session?.user) return new Response("Unauthorized", { status: 401 });
 
+  // Reject oversized bodies before buffering (defense-in-depth; owner-only anyway).
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_MARKDOWN * 2) {
+    return new Response("Payload too large", { status: 413 });
+  }
+
   let payload: unknown;
   try {
     payload = await req.json();
