@@ -45,6 +45,19 @@ that cost real time to solve.
 5. **[deployment-and-gotchas.md](./deployment-and-gotchas.md)** — how to build/deploy to Workers
    (the `--no-autoconfig` fix), secrets/bindings, and the catalogue of hard-won gotchas.
 
+## Build history (per phase — what landed vs. the plan)
+
+The docs above are organized by *topic*; these are organized by *build phase* — a chronological
+narrative that reconciles the original `plan/` against what actually shipped (drift flagged). Useful
+for understanding build order, or lifting one phase into a new project.
+
+- **[phase-0-foundation.md](./phase-0-foundation.md)** — the deployable skeleton: toolchain, pnpm,
+  OpenNext + D1 wiring, Tailwind/shadcn tokens (commit `14aabe6`).
+- **[phase-1-data-and-auth.md](./phase-1-data-and-auth.md)** — D1 schema + migrations + seed, and
+  single-owner Auth.js (commit `db218a5`).
+- **Phase 2** (UI foundation + admin CMS) is documented by *topic* above (auth / data-and-content /
+  admin-cms) rather than a separate phase doc.
+
 ## The 5 things most likely to bite you (full list in the gotchas doc)
 
 1. **Deploy silently no-ops** unless you run `wrangler deploy --no-autoconfig` (wrangler ≥4.101
