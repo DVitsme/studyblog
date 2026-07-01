@@ -17,12 +17,16 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
     // signIn throws NEXT_REDIRECT on success — NOT an AuthError — so it falls through to
     // `throw error` and the redirect propagates. Only credential errors are surfaced.
     if (error instanceof AuthError) {
-      return {
-        error:
-          error.type === "CredentialsSignin"
-            ? "Invalid email or password."
-            : "Something went wrong. Please try again.",
-      };
+      if (error.type === "CredentialsSignin") {
+        const code = (error as { code?: string }).code;
+        return {
+          error:
+            code === "rate_limited"
+              ? "Too many attempts. Please wait a minute and try again."
+              : "Invalid email or password.",
+        };
+      }
+      return { error: "Something went wrong. Please try again." };
     }
     throw error;
   }

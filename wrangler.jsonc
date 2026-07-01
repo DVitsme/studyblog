@@ -15,7 +15,12 @@
       "migrations_dir": "migrations"
     }
   ],
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // Login CPU-exhaustion guard: throttle Credentials authorize() per client IP before scrypt runs.
+  // Native Workers Rate Limiting (GA); namespace_id is an arbitrary id — no resource to provision.
+  "ratelimits": [
+    { "name": "AUTH_RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } }
+  ]
   // Added in Phase 2/3 once R2 scope is granted (see plan/06-deployment.md §1):
   //  - r2_buckets: NEXT_INC_CACHE_R2_BUCKET (incremental cache) + MEDIA_BUCKET (uploads)
   //  - d1_databases: NEXT_TAG_CACHE_D1 (can reuse the same DB)
