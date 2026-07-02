@@ -5,6 +5,11 @@ The interview-facing surface: home, cert hubs, article pages, archives, discover
 frontmatter). Read `docs/architecture.md` and `docs/data-and-content.md` first for the foundation this
 builds on.
 
+> **Status (2026-07-01):** built + committed, adversarially stress-tested (5 agents; all findings
+> fixed, no Critical/High), prod D1 **migrated + seeded**, and `SITE_URL` set to the workers.dev domain
+> (`docs/deployment-and-gotchas.md`). Ships **dynamic** (`cacheComponents` OFF — see §1); the cached-ISR
+> flip is deferred. Run `pnpm deploy` to push the Worker live.
+
 ## Routes (all under the `app/(public)/` route group)
 
 | Route | File | Rendering | Notes |

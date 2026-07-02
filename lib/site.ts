@@ -1,11 +1,12 @@
 // Site identity — the single source for URLs, nav, and identity links (consumed by the header,
-// footer, About page, and error pages). NEXT_PUBLIC_* are inlined at build; set per environment
-// (wrangler.jsonc "vars" / CI build variables). See plan/06-deployment.md §4.
+// footer, About page, and error pages). NEXT_PUBLIC_* are inlined at BUILD time, so the DEFAULT below
+// is the production workers.dev domain — that way canonical/OG URLs are correct even when the build
+// env doesn't set NEXT_PUBLIC_SITE_URL. Override NEXT_PUBLIC_SITE_URL to point at a custom domain
+// later. See plan/06-deployment.md §4 + docs/deployment-and-gotchas.md.
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(
-  /\/+$/,
-  "",
-);
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://studyblog.derrick-2fd.workers.dev"
+).replace(/\/+$/, "");
 export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "StudyBlog";
 export const SITE_DESCRIPTION =
   "Documenting the road from limited IT training to CompTIA A+, Network+, and Security+ — study notes, hands-on labs, and security project write-ups.";

@@ -20,6 +20,28 @@ Other build/deploy commands: `pnpm build` (next build only, fast type/compile ch
 verifying runtime behavior, deploying + curling prod is more reliable), `pnpm cf-typegen`
 (regenerate binding types after changing `wrangler.jsonc`).
 
+### Site URL (canonical / OG metadata)
+
+`lib/site.ts`'s `SITE_URL` **defaults to the production `https://studyblog.derrick-2fd.workers.dev`**
+(the workers.dev domain for this account). `NEXT_PUBLIC_*` is inlined at **build** time, so baking the
+domain into the default keeps canonical + Open Graph URLs correct even when the build env doesn't set
+`NEXT_PUBLIC_SITE_URL` (otherwise they silently fall back to `localhost`). To move to a custom domain,
+set `NEXT_PUBLIC_SITE_URL` at build **and** add a `routes` / `custom_domain` entry in `wrangler.jsonc`,
+then redeploy. When cloning as a template, change the default to the new project's domain.
+
+### Phase 3 (public site) production setup
+
+The public reading site ([phase-3-public-site.md](./phase-3-public-site.md)) needs two one-time prod
+steps beyond `pnpm deploy` (both already run against prod for this project; idempotent to re-run):
+- **`pnpm db:migrate`** — applies `migrations/0002_fts_search.sql`, the D1 **FTS5** search index +
+  sync triggers (search is server-side over D1, not a client index).
+- **`pnpm db:seed:posts`** — seeds `db/seed-posts.sql` sample content (11 posts; coverage 4/9 · 3/5 ·
+  0/5, matching the mockups). `INSERT OR IGNORE`, so safe to re-run; the owner replaces it with real posts.
+
+Phase 3 ships **runtime-first (dynamic rendering, `cacheComponents` OFF)** and was hardened by a
+5-agent adversarial review (SQL / caching / FTS / a11y / security — no Critical/High). Turning on
+cached ISR is deferred; the runbook + gotchas are in [phase-3-public-site.md](./phase-3-public-site.md) §1.
+
 ### First-run setup for a cloned project
 
 1. `pnpm install`.
