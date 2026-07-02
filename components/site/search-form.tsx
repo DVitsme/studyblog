@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent, KeyboardEvent, ReactNode } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
@@ -24,6 +24,9 @@ export function SearchForm({
   const pathname = usePathname();
   const params = useSearchParams();
   const [q, setQ] = useState(params.get("q") ?? "");
+
+  // Re-sync the field with the URL (e.g. Back/Forward navigation).
+  useEffect(() => setQ(params.get("q") ?? ""), [params]);
 
   function push(next: URLSearchParams) {
     const qs = next.toString();
@@ -109,7 +112,7 @@ export function SearchForm({
 
 function FacetGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div>
+    <div role="group" aria-label={label}>
       <div className="mb-2.5 font-mono text-[11px] uppercase tracking-[0.06em] text-muted-foreground">
         {label}
       </div>

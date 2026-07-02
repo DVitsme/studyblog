@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { httpUrl } from "@/lib/project";
 import type { TocItem } from "@/lib/content/render";
 
 // Library §1.3 TOC. Desktop = sticky aside with scroll-spy (IntersectionObserver tracks the topmost
@@ -32,6 +33,7 @@ export function Toc({ items, repoUrl }: { items: TocItem[]; repoUrl?: string | n
   }, [items]);
 
   if (items.length === 0) return null;
+  const repo = httpUrl(repoUrl);
 
   return (
     <aside className="sticky top-[84px] hidden basis-[200px] shrink-0 lg:block">
@@ -59,9 +61,9 @@ export function Toc({ items, repoUrl }: { items: TocItem[]; repoUrl?: string | n
           );
         })}
       </nav>
-      {repoUrl && (
+      {repo && (
         <a
-          href={repoUrl}
+          href={repo}
           target="_blank"
           rel="noreferrer"
           className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand no-underline"

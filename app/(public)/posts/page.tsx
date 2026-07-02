@@ -82,7 +82,7 @@ export default async function AllPostsPage({ searchParams }: { searchParams: Pro
       <FacetBar sections={sections} types={types} tags={tags} />
 
       <div className="mb-[18px] flex items-center justify-between gap-3 border-b border-border pb-3.5">
-        <span className="font-mono text-xs text-muted-foreground">
+        <span aria-live="polite" className="font-mono text-xs text-muted-foreground">
           {total} {total === 1 ? "post" : "posts"}
           {hasFilters ? " · filtered" : " · all certs"}
         </span>
@@ -115,9 +115,9 @@ export default async function AllPostsPage({ searchParams }: { searchParams: Pro
         <div className="flex flex-col gap-[26px]">
           {groups.map((g) => (
             <div key={g.label}>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.06em] text-muted-foreground">
+              <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.06em] text-muted-foreground">
                 {g.label}
-              </div>
+              </h2>
               <div className="flex flex-col gap-2.5">
                 {g.posts.map((p) => (
                   <PostRow key={p.slug} post={p} />

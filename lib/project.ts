@@ -11,7 +11,15 @@ export function parseMetric(s: string): Metric {
     : { value: s.slice(0, i).trim(), label: s.slice(i + 1).trim() };
 }
 
-// "Shipped" status drives the chart-2 (success) dot; anything else reads as in-progress (muted).
+// "Shipped" status drives the success dot; anything else reads as in-progress (muted).
 export function isShipped(status?: string | null): boolean {
   return !!status && /ship/i.test(status);
+}
+
+// Only http(s) URLs are safe to render as an href — React does NOT block `javascript:` URLs, so a
+// stored repo/demo URL must be scheme-checked before it becomes a clickable link. Null → don't render.
+export function httpUrl(u?: string | null): string | null {
+  if (!u) return null;
+  const t = u.trim();
+  return /^https?:\/\//i.test(t) ? t : null;
 }

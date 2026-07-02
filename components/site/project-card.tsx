@@ -32,7 +32,7 @@ export function ProjectCard({ project, className }: { project: ProjectCardData; 
           <span
             className={cn(
               "ml-auto inline-flex items-center gap-1.5 text-xs font-semibold",
-              shipped ? "text-chart-2" : "text-muted-foreground",
+              shipped ? "text-success" : "text-muted-foreground",
             )}
           >
             <span className={cn("size-1.5 rounded-full", shipped ? "bg-chart-2" : "bg-muted-foreground")} />

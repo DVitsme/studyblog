@@ -40,6 +40,7 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-subtle: var(--brand-subtle);
   --color-brand-border: var(--brand-border);
+  --color-success: var(--success);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -89,6 +90,8 @@
   /* Derived brand tints (active nav, selected facets, prose callouts) — resolve per mode. */
   --brand-subtle: color-mix(in oklch, var(--brand) 10%, transparent);
   --brand-border: color-mix(in oklch, var(--brand) 28%, transparent);
+  /* Success/shipped: dark enough for small text on the light card (WCAG AA); --chart-2 is fill-only. */
+  --success: oklch(0.47 0.1 185);
 
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -122,6 +125,7 @@
   /* Re-resolve the derived tints against the DARK brand (custom props don't re-compute otherwise). */
   --brand-subtle: color-mix(in oklch, var(--brand) 10%, transparent);
   --brand-border: color-mix(in oklch, var(--brand) 28%, transparent);
+  --success: oklch(0.7 0.15 162);
 
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);

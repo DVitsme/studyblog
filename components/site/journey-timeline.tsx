@@ -14,8 +14,8 @@ export type Milestone = {
 const TAG_STYLES: Record<MilestoneKind, string> = {
   target: "border border-dashed border-border text-muted-foreground",
   start: "bg-muted text-muted-foreground",
-  ship: "bg-chart-2/20 text-chart-2",
-  pass: "bg-brand/15 text-brand",
+  ship: "bg-chart-2/20 text-success",
+  pass: "bg-brand/10 text-brand",
 };
 
 // Library §1.3 JourneyTimeline — a vertical rail of milestones. Filled dot = a pass/ship/start that

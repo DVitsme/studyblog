@@ -1,7 +1,7 @@
 import { Play } from "lucide-react";
 import { GithubIcon } from "@/components/site/icons";
 import { Button } from "@/components/ui/button";
-import { isShipped, parseMetric } from "@/lib/project";
+import { httpUrl, isShipped, parseMetric } from "@/lib/project";
 import { cn } from "@/lib/utils";
 import type { ProjectMeta } from "@/lib/db/schema";
 
@@ -20,6 +20,8 @@ export function AtAGlanceCard({
   const shipped = isShipped(meta.status);
   const metrics = (meta.metrics ?? []).map(parseMetric);
   const stack = meta.stack?.length ? meta.stack.join(", ") : null;
+  const repo = httpUrl(repoUrl);
+  const demo = httpUrl(demoUrl);
 
   return (
     <section
@@ -34,7 +36,7 @@ export function AtAGlanceCard({
           <span
             className={cn(
               "inline-flex items-center gap-1.5 text-xs font-semibold",
-              shipped ? "text-chart-2" : "text-muted-foreground",
+              shipped ? "text-success" : "text-muted-foreground",
             )}
           >
             <span className={cn("size-[7px] rounded-full", shipped ? "bg-chart-2" : "bg-muted-foreground")} />
@@ -61,19 +63,19 @@ export function AtAGlanceCard({
         {meta.duration && <MetaRow k="Duration" v={meta.duration} />}
       </div>
 
-      {(repoUrl || demoUrl) && (
+      {(repo || demo) && (
         <div className="flex flex-wrap gap-2.5">
-          {repoUrl && (
+          {repo && (
             <Button asChild>
-              <a href={repoUrl} target="_blank" rel="noreferrer">
+              <a href={repo} target="_blank" rel="noreferrer">
                 <GithubIcon size={15} />
                 GitHub repo
               </a>
             </Button>
           )}
-          {demoUrl && (
+          {demo && (
             <Button asChild variant="secondary">
-              <a href={demoUrl} target="_blank" rel="noreferrer">
+              <a href={demo} target="_blank" rel="noreferrer">
                 <Play size={15} aria-hidden />
                 Demo video
               </a>

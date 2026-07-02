@@ -115,7 +115,7 @@ export default async function PostPage({ params }: Params) {
           <div className="relative mb-3 aspect-[16/7] w-full overflow-hidden rounded-lg border border-border">
             <Image
               src={`/media/${post.coverImageKey}`}
-              alt={post.title}
+              alt=""
               fill
               unoptimized
               sizes="(max-width: 768px) 100vw, 720px"

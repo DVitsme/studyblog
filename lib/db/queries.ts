@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { and, asc, desc, eq, gt, inArray, lt, ne, sql } from "drizzle-orm";
 import { getDb } from "./index";
 import { domains, media, posts, postTags, sections, tags } from "./schema";
@@ -287,14 +288,23 @@ export async function listPublishedPosts(f: PublicPostFilter = {}): Promise<Post
     .orderBy(order, desc(posts.id))
     .$dynamic();
   if (f.limit != null) q = q.limit(f.limit);
-  if (f.offset != null) q = q.offset(f.offset);
+  if (f.offset != null) {
+    // SQLite requires a LIMIT for OFFSET; -1 = unbounded when only an offset is supplied.
+    if (f.limit == null) q = q.limit(-1);
+    q = q.offset(f.offset);
+  }
   return q;
 }
 
 /** Count matching the same filter — drives "Load older" pagination. */
 export async function countPublishedPosts(f: PublicPostFilter = {}): Promise<number> {
   const db = getDb();
-  const [row] = await db.select({ n: sql<number>`count(*)` }).from(posts).where(and(...publicConds(f)));
+  // Mirror the list's inner join so list + count stay consistent under the same filter.
+  const [row] = await db
+    .select({ n: sql<number>`count(*)` })
+    .from(posts)
+    .innerJoin(sections, eq(sections.slug, posts.sectionSlug))
+    .where(and(...publicConds(f)));
   return Number(row?.n ?? 0);
 }
 
@@ -312,8 +322,9 @@ export type PublicPost = Post & {
   tags: { name: string; slug: string }[];
 };
 
-/** A single published post + section/domain names + tags, for /posts/[slug]. Null if not published. */
-export async function getPublishedPostBySlug(slug: string): Promise<PublicPost | null> {
+/** A single published post + section/domain names + tags, for /posts/[slug]. Null if not published.
+ *  Wrapped in React cache() so generateMetadata + the page render share one round-trip per request. */
+export const getPublishedPostBySlug = cache(async (slug: string): Promise<PublicPost | null> => {
   const db = getDb();
   const [row] = await db
     .select({
@@ -341,7 +352,7 @@ export async function getPublishedPostBySlug(slug: string): Promise<PublicPost |
     domainRef: row.domainRef,
     tags: tagRows,
   };
-}
+});
 
 export type PostLink = { slug: string; title: string };
 
@@ -443,7 +454,7 @@ export type DomainCoverage = {
 export type SectionCoverage = { covered: number; total: number; domains: DomainCoverage[] };
 
 /** Per-domain published-post coverage for a section — feeds CoverageChecklist + the hub's overall bar. */
-export async function sectionCoverage(sectionSlug: string): Promise<SectionCoverage> {
+export const sectionCoverage = cache(async (sectionSlug: string): Promise<SectionCoverage> => {
   const db = getDb();
   const publishedCount = sql<number>`count(case when ${posts.status} = 'published' then 1 end)`;
   const rows = await db
@@ -464,7 +475,7 @@ export async function sectionCoverage(sectionSlug: string): Promise<SectionCover
     return { ...r, postCount, done: postCount > 0 };
   });
   return { total: cov.length, covered: cov.filter((d) => d.done).length, domains: cov };
-}
+});
 
 export type CertCardData = {
   slug: string;
@@ -476,9 +487,9 @@ export type CertCardData = {
 };
 
 /** Home/hub cert cards: covered-vs-total domains + published post count, per cert section. */
-export async function certCards(
+export const certCards = cache(async (
   slugs: readonly string[] = ["a-plus", "security-plus", "network-plus"],
-): Promise<CertCardData[]> {
+): Promise<CertCardData[]> => {
   const db = getDb();
   const [secRows, totals, covered, counts] = await Promise.all([
     db.select({ slug: sections.slug, name: sections.name, examCodes: sections.examCodes }).from(sections),
@@ -502,7 +513,7 @@ export async function certCards(
     total: totalBy.get(slug) ?? 0,
     postCount: countBy.get(slug) ?? 0,
   }));
-}
+});
 
 // ---- Facets (shared by /posts FacetBar + /search) ----
 export type Facet = { value: string; label: string; count: number };
@@ -579,7 +590,8 @@ type RawSearchRow = {
 function toFtsMatch(input: string): string | null {
   const tokens = input.toLowerCase().match(/[\p{L}\p{N}]+/gu);
   if (!tokens || tokens.length === 0) return null;
-  return tokens.map((t) => `"${t}"*`).join(" ");
+  // Cap terms so an unauthenticated /search can't force an arbitrarily large multi-term query.
+  return tokens.slice(0, 16).map((t) => `"${t}"*`).join(" ");
 }
 
 /**
@@ -614,7 +626,7 @@ export async function searchPosts(
       AND (${tagSlug} IS NULL OR EXISTS (
         SELECT 1 FROM post_tags pt JOIN tags t ON t.id = pt.tag_id
         WHERE pt.post_id = p.id AND t.slug = ${tagSlug}))
-    ORDER BY bm25(posts_fts, 10.0, 5.0, 1.0)
+    ORDER BY bm25(posts_fts, 10.0, 5.0, 1.0), p.published_at DESC
     LIMIT ${limit}
   `)) as RawSearchRow[];
 

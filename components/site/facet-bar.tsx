@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
@@ -23,6 +23,9 @@ export function FacetBar({
   const params = useSearchParams();
   const [q, setQ] = useState(params.get("q") ?? "");
 
+  // Re-sync the field with the URL (e.g. when the user presses Back/Forward).
+  useEffect(() => setQ(params.get("q") ?? ""), [params]);
+
   function setParam(key: string, value: string | null) {
     const next = new URLSearchParams(params.toString());
     if (value === null || next.get(key) === value) next.delete(key);
@@ -43,7 +46,10 @@ export function FacetBar({
 
   return (
     <div className="mb-[18px] rounded-lg border border-border bg-card px-4 py-3.5">
-      <form onSubmit={submitQ} className="mb-3.5 flex h-9 items-center gap-2 rounded-md border border-input bg-background px-3">
+      <form
+        onSubmit={submitQ}
+        className="mb-3.5 flex h-9 items-center gap-2 rounded-md border border-input bg-background px-3 focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2 focus-within:ring-offset-background"
+      >
         <Search size={15} className="shrink-0 text-muted-foreground" aria-hidden />
         <input
           value={q}
@@ -88,7 +94,7 @@ export function FacetBar({
 
 function Group({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-baseline gap-3">
+    <div role="group" aria-label={label} className="flex flex-wrap items-baseline gap-3">
       <span className="flex-[0_0_56px] font-mono text-[11px] uppercase tracking-[0.05em] text-muted-foreground">
         {label}
       </span>

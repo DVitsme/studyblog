@@ -11,7 +11,13 @@ export async function GET(
   { params }: { params: Promise<{ key: string[] }> },
 ): Promise<Response> {
   const { key: segments } = await params;
-  const key = segments.map(decodeURIComponent).join("/");
+  let key: string;
+  try {
+    key = segments.map(decodeURIComponent).join("/");
+  } catch {
+    // Malformed percent-encoding (e.g. /media/%) — treat as a miss, not an uncaught 500.
+    return new Response("Not Found", { status: 404 });
+  }
 
   const { env } = getCloudflareContext();
   const object = await env.MEDIA_BUCKET.get(key, {
@@ -24,6 +30,7 @@ export async function GET(
   object.writeHttpMetadata(headers); // content-type + cache-control from the PUT
   headers.set("etag", object.httpEtag);
   headers.set("accept-ranges", "bytes");
+  headers.set("x-content-type-options", "nosniff"); // never sniff away from the stored (image) type
 
   // Precondition failed → no body. A conditional GET means "not modified".
   if (!("body" in object)) {

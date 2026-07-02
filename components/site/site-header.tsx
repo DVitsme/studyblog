@@ -22,7 +22,7 @@ function Wordmark({ onClick }: { onClick?: () => void }) {
     <Link
       href="/"
       onClick={onClick}
-      className="font-mono text-[15px] font-semibold tracking-tight focus-visible:outline-none"
+      className="rounded-sm font-mono text-[15px] font-semibold tracking-tight"
     >
       study<span className="text-brand">blog</span>
     </Link>
