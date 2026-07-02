@@ -3,8 +3,12 @@
 ## Deploy
 
 ```bash
-pnpm deploy        # = opennextjs-cloudflare build && wrangler deploy --no-autoconfig
+pnpm run deploy    # = opennextjs-cloudflare build && wrangler deploy --no-autoconfig
 ```
+
+**Run it as `pnpm run deploy`, NOT `pnpm deploy`** — the bare form collides with pnpm's built-in
+`deploy` command (`ERR_PNPM_CANNOT_DEPLOY: A deploy is only possible from inside a workspace`); the
+`run` is required to invoke the package.json script.
 
 **`--no-autoconfig` is mandatory, not optional.** Since **wrangler 4.101** the `--autoconfig` flag
 defaults to `true`, and its "OpenNext project detected → call opennextjs-cloudflare deploy"
